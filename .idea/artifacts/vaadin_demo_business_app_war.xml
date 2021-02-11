@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="vaadin-demo-business-app:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>vaadin-demo-business-app</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="vaadin-demo-business-app-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="vaadin-demo-business-app:war exploded" />
+    </root>
+  </artifact>
+</component>

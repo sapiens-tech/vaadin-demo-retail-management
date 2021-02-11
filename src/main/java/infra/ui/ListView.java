@@ -1,6 +1,6 @@
 package infra.ui;
 
-import com.kiroule.vaadin.businessapp.ui.views.ViewFrame;
+import io.sapiens.retail.ui.views.ViewFrame;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.data.provider.ListDataProvider;
 
