@@ -52,17 +52,17 @@ public abstract class CrudView<T> extends SplitViewFrame {
 
   @Getter @Setter private String detailTitle;
 
-  public CrudView(Collection<T> data) {
+  public CrudView() {
     beanType =
         (Class<T>)
             ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 
-    dataProvider = DataProvider.ofCollection(data);
   }
 
   @Override
   protected void onAttach(AttachEvent attachEvent) {
     super.onAttach(attachEvent);
+    dataProvider = DataProvider.ofCollection(getDataSet());
     setViewContent(createContent());
     setViewDetails(createDetailsDrawer());
     filter();

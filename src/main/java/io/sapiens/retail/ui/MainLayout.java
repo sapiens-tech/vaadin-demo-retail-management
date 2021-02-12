@@ -12,7 +12,7 @@ import io.sapiens.retail.ui.util.css.FlexDirection;
 import io.sapiens.retail.ui.util.css.Overflow;
 import io.sapiens.retail.ui.views.Home;
 import io.sapiens.retail.ui.views.Orders;
-import io.sapiens.retail.ui.views.personnel.Customers;
+import io.sapiens.retail.ui.views.personnel.CustomerView;
 import io.sapiens.retail.ui.views.personnel.Staff;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasElement;
@@ -123,12 +123,12 @@ public class MainLayout extends FlexBoxLayout implements RouterLayout, AfterNavi
     menu.addNaviItem(VaadinIcon.HOME, "Home", Home.class);
 
     NaviItem personnel = menu.addNaviItem(VaadinIcon.USERS, "User", null);
-    menu.addNaviItem(personnel, "Customers", Customers.class);
+    menu.addNaviItem(personnel, "Customers", CustomerView.class);
     menu.addNaviItem(personnel, "Staffs", Staff.class);
 
     NaviItem product = menu.addNaviItem(VaadinIcon.ARCHIVES, "Inventories", null);
-    menu.addNaviItem(product, "Categories", Customers.class);
-    menu.addNaviItem(product, "Sizes", Customers.class);
+    menu.addNaviItem(product, "Categories", CustomerView.class);
+    menu.addNaviItem(product, "Sizes", CustomerView.class);
     menu.addNaviItem(product, "Products", Staff.class);
 
     NaviItem order = menu.addNaviItem(VaadinIcon.CREDIT_CARD, "Transactions", null);

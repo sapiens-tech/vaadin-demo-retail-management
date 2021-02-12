@@ -3,16 +3,20 @@ package io.sapiens.retail.ui.views.personnel;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import infra.ui.views.CrudView;
-import io.sapiens.retail.backend.DummyData;
 import io.sapiens.retail.backend.enums.Role;
+import io.sapiens.retail.backend.services.CustomerService;
 import io.sapiens.retail.ui.MainLayout;
 import io.sapiens.retail.ui.models.Person;
 
 @Route(value = "customers", layout = MainLayout.class)
 @PageTitle("Customers")
-public class Customers extends CrudView<Person> {
-  public Customers() {
-    super(DummyData.getPersons());
+public class CustomerView extends CrudView<Person> {
+
+  private CustomerService customerService = new CustomerService();
+
+  public CustomerView() {
+    super();
+    setDataSet(customerService.retrieve());
     setDetailTitle("Customer Details");
   }
 
