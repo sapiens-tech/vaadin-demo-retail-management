@@ -1,4 +1,4 @@
-package io.sapiens.retail.ui.views.personnel;
+package io.sapiens.retail.ui.views.user;
 
 import io.sapiens.retail.backend.DummyData;
 import io.sapiens.retail.ui.models.Person;
