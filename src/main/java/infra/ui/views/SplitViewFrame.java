@@ -1,4 +1,4 @@
-package io.sapiens.retail.ui.views;
+package infra.ui.views;
 
 import io.sapiens.retail.ui.MainLayout;
 import io.sapiens.retail.ui.components.FlexBoxLayout;

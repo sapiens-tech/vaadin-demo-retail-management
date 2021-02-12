@@ -1,5 +1,6 @@
 package io.sapiens.retail.ui.views;
 
+import infra.ui.views.SplitViewFrame;
 import io.sapiens.retail.backend.DummyData;
 import io.sapiens.retail.backend.Payment;
 import io.sapiens.retail.ui.MainLayout;
