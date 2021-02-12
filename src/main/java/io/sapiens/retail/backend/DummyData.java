@@ -1,9 +1,9 @@
 package io.sapiens.retail.backend;
 
-import io.sapiens.retail.ui.models.Person;
-import io.sapiens.retail.backend.enums.Role;
-import io.sapiens.retail.ui.util.UIUtils;
 import com.vaadin.flow.component.html.Image;
+import io.sapiens.retail.backend.enums.Role;
+import io.sapiens.retail.ui.models.Person;
+import io.sapiens.retail.ui.util.UIUtils;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -544,17 +544,17 @@ public class DummyData {
     for (i = 0; i < 100; i++) {
       String firstName = getFirstName();
       String lastName = getLastName();
-      PERSONS.put(
-          i,
-          new Person(
-              i,
-              firstName,
-              lastName,
-              getRole(),
-              firstName.toLowerCase() + "." + lastName.toLowerCase() + "@email.com",
-              random.nextBoolean(),
-              random.nextInt(500000),
-              getDate()));
+      Person person = new Person();
+      person.setFirstName(firstName);
+      person.setLastName(lastName);
+      person.setEmail(firstName.toLowerCase() + "." + lastName.toLowerCase() + "@email.com");
+      person.setRole(getRole());
+      person.setLastModified(getDate());
+      person.setRandomBoolean(random.nextBoolean());
+      person.setRandomInteger(random.nextInt());
+      person.setDateOfBirth(getDate());
+
+      PERSONS.put(i, person);
     }
 
     /* === TRANSACTIONS ==== */

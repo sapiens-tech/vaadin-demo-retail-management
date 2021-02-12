@@ -12,10 +12,9 @@ import io.sapiens.retail.ui.models.Person;
 @PageTitle("Customers")
 public class CustomerView extends CrudView<Person> {
 
-  private CustomerService customerService = new CustomerService();
-
   public CustomerView() {
     super();
+    CustomerService customerService = new CustomerService();
     setDataSet(customerService.retrieve());
     setDetailTitle("Customer Details");
   }
