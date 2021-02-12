@@ -1,5 +1,7 @@
 package io.sapiens.retail.backend;
 
+import io.sapiens.retail.backend.dto.Person;
+import io.sapiens.retail.backend.enums.Role;
 import io.sapiens.retail.ui.util.UIUtils;
 import com.vaadin.flow.component.html.Image;
 
@@ -861,8 +863,8 @@ public class DummyData {
     return PERSONS.get(new ArrayList<>(PERSONS.keySet()).get(random.nextInt(PERSONS.size())));
   }
 
-  private static Person.Role getRole() {
-    return Person.Role.values()[random.nextInt(Person.Role.values().length)];
+  private static Role getRole() {
+    return Role.values()[random.nextInt(Role.values().length)];
   }
 
   /* === TRANSACTION === */

@@ -1,17 +1,10 @@
-package io.sapiens.retail.backend;
+package io.sapiens.retail.backend.dto;
+
+import io.sapiens.retail.backend.enums.Role;
 
 import java.time.LocalDate;
 
 public class Person {
-
-  public enum Role {
-    DESIGNER,
-    DEVELOPER,
-    MANAGER,
-    TRADER,
-    PAYMENT_HANDLER,
-    ACCOUNTANT
-  }
 
   private Long id;
   private String firstName;

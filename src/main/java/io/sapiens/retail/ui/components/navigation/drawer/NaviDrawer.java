@@ -19,7 +19,7 @@ import elemental.json.JsonObject;
 @JsModule("./swipe-away.js")
 public class NaviDrawer extends Div implements AfterNavigationObserver {
 
-  public static final String BRAND_EXPRESSION = "Retail Management";
+  public static final String BRAND_EXPRESSION = "The Company";
   private String CLASS_NAME = "navi-drawer";
   private String RAIL = "rail";
   private String OPEN = "open";

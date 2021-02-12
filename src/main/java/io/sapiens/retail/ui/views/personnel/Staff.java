@@ -1,7 +1,8 @@
 package io.sapiens.retail.ui.views.personnel;
 
 import io.sapiens.retail.backend.DummyData;
-import io.sapiens.retail.backend.Person;
+import io.sapiens.retail.backend.dto.Person;
+import io.sapiens.retail.backend.enums.Role;
 import io.sapiens.retail.ui.MainLayout;
 import io.sapiens.retail.ui.components.FlexBoxLayout;
 import io.sapiens.retail.ui.components.Initials;
@@ -167,6 +168,6 @@ public class Staff extends ViewFrame {
   }
 
   private void filter() {
-    dataProvider.setFilterByValue(Person::getRole, Person.Role.MANAGER);
+    dataProvider.setFilterByValue(Person::getRole, Role.MANAGER);
   }
 }

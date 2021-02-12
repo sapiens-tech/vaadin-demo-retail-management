@@ -1,7 +1,8 @@
 package io.sapiens.retail.ui.views.personnel;
 
 import io.sapiens.retail.backend.DummyData;
-import io.sapiens.retail.backend.Person;
+import io.sapiens.retail.backend.dto.Person;
+import io.sapiens.retail.backend.enums.Role;
 import io.sapiens.retail.ui.MainLayout;
 import io.sapiens.retail.ui.components.FlexBoxLayout;
 import io.sapiens.retail.ui.components.Initials;
@@ -146,7 +147,7 @@ public class Customers extends SplitViewFrame {
   }
 
   private void filter() {
-    dataProvider.setFilterByValue(Person::getRole, Person.Role.ACCOUNTANT);
+    dataProvider.setFilterByValue(Person::getRole, Role.ACCOUNTANT);
   }
 
   static class CustomerForm extends FormLayout {
