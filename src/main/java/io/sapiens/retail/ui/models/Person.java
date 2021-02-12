@@ -1,6 +1,8 @@
 package io.sapiens.retail.ui.models;
 
+import infra.ui.views.FormField;
 import infra.ui.views.GridColumn;
+import infra.ui.views.enums.FormFieldType;
 import io.sapiens.retail.backend.enums.Role;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,12 +16,24 @@ public class Person {
   @GridColumn(header = "ID")
   private Long id;
 
+  @FormField(type = FormFieldType.TextField, label = "First name")
   private String firstName;
 
+  @FormField(type = FormFieldType.TextField, label = "Last name")
   private String lastName;
 
   @GridColumn(header = "Email", flexGrow = 1)
+  @FormField(type = FormFieldType.TextField, label = "Email")
   private String email;
+
+  @FormField(type = FormFieldType.DateField, label = "Date of birth")
+  private LocalDate dateOfBirth;
+
+  @FormField(type = FormFieldType.PhoneField, label = "Phone")
+  private String phone;
+
+  @FormField(type = FormFieldType.FileField, label = "Avatar")
+  private String avatar;
 
   @GridColumn(header = "Role")
   private Role role;

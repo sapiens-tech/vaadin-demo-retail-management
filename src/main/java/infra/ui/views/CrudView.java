@@ -2,16 +2,27 @@ package infra.ui.views;
 
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.provider.ListDataProvider;
+import io.sapiens.retail.backend.services.CustomerService;
 import io.sapiens.retail.ui.components.FlexBoxLayout;
 import io.sapiens.retail.ui.components.detailsdrawer.DetailsDrawer;
 import io.sapiens.retail.ui.components.detailsdrawer.DetailsDrawerHeader;
 import io.sapiens.retail.ui.layout.size.Horizontal;
 import io.sapiens.retail.ui.layout.size.Top;
+import io.sapiens.retail.ui.models.Person;
+import io.sapiens.retail.ui.util.LumoStyles;
+import io.sapiens.retail.ui.util.UIUtils;
 import io.sapiens.retail.ui.util.css.BoxSizing;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +33,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public abstract class CrudView<T> extends SplitViewFrame {
 
@@ -38,8 +51,6 @@ public abstract class CrudView<T> extends SplitViewFrame {
   @Getter @Setter private FormLayout createOrUpdateForm;
 
   @Getter @Setter private String detailTitle;
-
-
 
   public CrudView(Collection<T> data) {
     beanType =
@@ -80,12 +91,13 @@ public abstract class CrudView<T> extends SplitViewFrame {
     detailsDrawer.show();
   }
 
-  private FormLayout createEditor(T entity) {
-    return createOrUpdateForm;
-  }
-
   private Component createDetails(T entity) {
     return createEditor(entity);
+  }
+
+  private FormLayout createEditor(T entity) {
+
+    return new Form<>(entity);
   }
 
   public Object invokeGetter(Object obj, String variableName) {
@@ -134,4 +146,68 @@ public abstract class CrudView<T> extends SplitViewFrame {
   public abstract void onCancel();
 
   public abstract void filter();
+
+  static class Form<T> extends FormLayout {
+    @Getter @Setter private T entity;
+
+    public Form(T entity) {
+      super();
+      this.entity = entity;
+
+      addClassNames(
+          LumoStyles.Padding.Bottom.L, LumoStyles.Padding.Horizontal.L, LumoStyles.Padding.Top.S);
+      setResponsiveSteps(
+          new FormLayout.ResponsiveStep("0", 1, FormLayout.ResponsiveStep.LabelsPosition.TOP),
+          new FormLayout.ResponsiveStep("21em", 2, FormLayout.ResponsiveStep.LabelsPosition.TOP));
+
+      List<FormItem> items = new ArrayList<>();
+      for (Field field : getEntity().getClass().getDeclaredFields()) {
+        if (field.isAnnotationPresent(FormField.class)) {
+          FormField annotation = field.getAnnotation(FormField.class);
+
+          switch (annotation.type()) {
+            case DateField:
+              DatePicker dateField = new DatePicker();
+              dateField.setWidthFull();
+              FormLayout.FormItem dateFieldItem = addFormItem(dateField, annotation.label());
+              items.add(dateFieldItem);
+              break;
+            case PhoneField:
+              FlexLayout phone = UIUtils.createPhoneLayout();
+              FormLayout.FormItem phoneItem = addFormItem(phone, annotation.label());
+              items.add(phoneItem);
+              break;
+            case FileField:
+              FormLayout.FormItem uploadItem = addFormItem(new Upload(), annotation.label());
+              items.add(uploadItem);
+              break;
+            default:
+              TextField textField = new TextField();
+              FormLayout.FormItem textFieldItem = addFormItem(textField, annotation.label());
+              textField.setWidthFull();
+              items.add(textFieldItem);
+          }
+        }
+      }
+
+      Button save = new Button("Save");
+      save.addClickListener(
+          buttonClickEvent -> {
+            CustomerService customerService = new CustomerService();
+            customerService.save(new Person());
+          });
+
+      Button delete = new Button("Delete");
+
+      HorizontalLayout buttons = new HorizontalLayout(save, delete);
+      buttons.setHeight("200");
+      buttons.setMargin(true);
+      save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+      UIUtils.setColSpan(2, items.toArray(new Component[0]));
+      UIUtils.setColSpan(2, buttons);
+
+      add(buttons);
+    }
+  }
 }
