@@ -1,8 +1,9 @@
 package io.sapiens.retail.ui.views.personnel;
 
 import io.sapiens.retail.backend.DummyData;
-import io.sapiens.retail.backend.dto.Person;
+import io.sapiens.retail.ui.models.Person;
 import io.sapiens.retail.backend.enums.Role;
+import io.sapiens.retail.backend.services.CustomerService;
 import io.sapiens.retail.ui.MainLayout;
 import io.sapiens.retail.ui.components.FlexBoxLayout;
 import io.sapiens.retail.ui.components.Initials;
@@ -130,7 +131,7 @@ public class Customers extends SplitViewFrame {
 
   private Component createActive(Person person) {
     Icon icon;
-    if (person.getRandomBoolean()) {
+    if (person.isRandomBoolean()) {
       icon = UIUtils.createPrimaryIcon(VaadinIcon.CHECK);
     } else {
       icon = UIUtils.createDisabledIcon(VaadinIcon.CLOSE);
@@ -193,6 +194,11 @@ public class Customers extends SplitViewFrame {
       FormLayout.FormItem uploadItem = addFormItem(new Upload(), "Image");
 
       Button save = new Button("Save");
+      save.addClickListener(buttonClickEvent -> {
+        CustomerService customerService = new CustomerService();
+        customerService.save(new Person());
+      });
+
       Button delete = new Button("Delete");
 
       HorizontalLayout buttons = new HorizontalLayout(save, delete);

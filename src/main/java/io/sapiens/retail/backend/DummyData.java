@@ -1,6 +1,6 @@
 package io.sapiens.retail.backend;
 
-import io.sapiens.retail.backend.dto.Person;
+import io.sapiens.retail.ui.models.Person;
 import io.sapiens.retail.backend.enums.Role;
 import io.sapiens.retail.ui.util.UIUtils;
 import com.vaadin.flow.component.html.Image;

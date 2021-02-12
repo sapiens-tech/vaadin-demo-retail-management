@@ -1,7 +1,7 @@
 package io.sapiens.retail.ui.views.personnel;
 
 import io.sapiens.retail.backend.DummyData;
-import io.sapiens.retail.backend.dto.Person;
+import io.sapiens.retail.ui.models.Person;
 import io.sapiens.retail.backend.enums.Role;
 import io.sapiens.retail.ui.MainLayout;
 import io.sapiens.retail.ui.components.FlexBoxLayout;
@@ -91,7 +91,7 @@ public class Staff extends ViewFrame {
 
   private Component createActive(Person person) {
     Icon icon;
-    if (person.getRandomBoolean()) {
+    if (person.isRandomBoolean()) {
       icon = UIUtils.createPrimaryIcon(VaadinIcon.CHECK);
     } else {
       icon = UIUtils.createDisabledIcon(VaadinIcon.CLOSE);
@@ -135,8 +135,8 @@ public class Staff extends ViewFrame {
     status.setItems("Active", "Inactive");
     binder.bind(
         status,
-        (person) -> person.getRandomBoolean() ? "Active" : "Inactive",
-        (person, value) -> person.setRandomBoolean(value == "Active" ? true : false));
+        (person) -> person.isRandomBoolean() ? "Active" : "Inactive",
+        (person, value) -> person.setRandomBoolean(value.equals("Active")));
 
     FlexLayout phone = UIUtils.createPhoneLayout();
 

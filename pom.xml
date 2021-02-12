@@ -1,4 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.kiroule.vaadin.businessapp</groupId>
     <artifactId>vaadin-demo-business-app</artifactId>
@@ -101,6 +103,14 @@
             <version>3.1.0</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.16</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -174,7 +184,8 @@
                             <trimStackTrace>false</trimStackTrace>
                             <systemPropertyVariables>
                                 <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
-                                <com.vaadin.testbench.Parameters.runLocally>chrome</com.vaadin.testbench.Parameters.runLocally>
+                                <com.vaadin.testbench.Parameters.runLocally>chrome
+                                </com.vaadin.testbench.Parameters.runLocally>
                             </systemPropertyVariables>
                         </configuration>
                     </plugin>
@@ -284,7 +295,9 @@
                                 <sauce.user>${sauce.user}</sauce.user>
                                 <sauce.sauceAccessKey>${sauce.sauceAccessKey}</sauce.sauceAccessKey>
                                 <sauce.options>${sauce.options}</sauce.options>
-                                <com.vaadin.testbench.Parameters.gridBrowsers>${com.vaadin.testbench.Parameters.gridBrowsers}</com.vaadin.testbench.Parameters.gridBrowsers>
+                                <com.vaadin.testbench.Parameters.gridBrowsers>
+                                    ${com.vaadin.testbench.Parameters.gridBrowsers}
+                                </com.vaadin.testbench.Parameters.gridBrowsers>
                             </systemPropertyVariables>
                         </configuration>
                     </plugin>
