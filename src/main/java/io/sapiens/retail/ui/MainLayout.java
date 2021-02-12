@@ -127,8 +127,8 @@ public class MainLayout extends FlexBoxLayout implements RouterLayout, AfterNavi
     menu.addNaviItem(personnel, "Staffs", Staff.class);
 
     NaviItem product = menu.addNaviItem(VaadinIcon.ARCHIVES, "Inventories", null);
-    menu.addNaviItem(product, "Product Categories", Customers.class);
-    menu.addNaviItem(product, "Product Sizes", Customers.class);
+    menu.addNaviItem(product, "Categories", Customers.class);
+    menu.addNaviItem(product, "Sizes", Customers.class);
     menu.addNaviItem(product, "Products", Staff.class);
 
     NaviItem order = menu.addNaviItem(VaadinIcon.CREDIT_CARD, "Transactions", null);
