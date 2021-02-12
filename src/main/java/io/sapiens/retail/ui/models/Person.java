@@ -27,9 +27,11 @@ public class Person {
   private String email;
 
   @FormField(type = FormFieldType.DateField, label = "Date of birth")
+  @GridColumn(header = "Date of birth")
   private LocalDate dateOfBirth;
 
   @FormField(type = FormFieldType.PhoneField, label = "Phone")
+  @GridColumn(header = "Phone")
   private String phone;
 
   @FormField(type = FormFieldType.FileField, label = "Avatar")
