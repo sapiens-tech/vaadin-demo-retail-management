@@ -6,8 +6,8 @@ import com.vaadin.flow.server.AppShellSettings;
 import com.vaadin.flow.server.PWA;
 
 @PWA(
-    name = "Vaadin Demo Business App",
-    shortName = "Vaadin Demo Business App",
+    name = "Sapiens App",
+    shortName = "Sapiens App",
     iconPath = "images/logo-18.png",
     backgroundColor = "#233348",
     themeColor = "#233348")

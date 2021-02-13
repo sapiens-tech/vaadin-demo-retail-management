@@ -1,12 +1,12 @@
 package io.sapiens.retail.ui.views;
 
 import io.sapiens.retail.ui.MainLayout;
-import io.sapiens.retail.ui.components.FlexBoxLayout;
-import io.sapiens.retail.ui.components.ListItem;
-import io.sapiens.retail.ui.util.IconSize;
-import io.sapiens.retail.ui.util.LumoStyles;
-import io.sapiens.retail.ui.util.TextColor;
-import io.sapiens.retail.ui.util.UIUtils;
+import io.sapiens.awesome.ui.components.FlexBoxLayout;
+import io.sapiens.awesome.ui.components.ListItem;
+import io.sapiens.awesome.ui.util.IconSize;
+import io.sapiens.awesome.ui.util.LumoStyles;
+import io.sapiens.awesome.ui.util.TextColor;
+import io.sapiens.awesome.ui.util.UIUtils;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.board.Row;
 import com.vaadin.flow.component.button.Button;
@@ -18,8 +18,8 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import io.sapiens.retail.ui.layout.size.*;
-import io.sapiens.retail.ui.util.css.*;
+import io.sapiens.awesome.ui.layout.size.*;
+import io.sapiens.awesome.ui.util.css.*;
 
 @CssImport("./styles/views/statistics.css")
 @PageTitle("Welcome")

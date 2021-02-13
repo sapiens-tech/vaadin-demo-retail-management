@@ -3,7 +3,7 @@ package io.sapiens.retail.backend;
 import com.vaadin.flow.component.html.Image;
 import io.sapiens.retail.backend.enums.Role;
 import io.sapiens.retail.ui.models.Person;
-import io.sapiens.retail.ui.util.UIUtils;
+import io.sapiens.awesome.ui.util.UIUtils;
 
 import java.time.LocalDate;
 import java.util.*;

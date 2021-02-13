@@ -62,10 +62,10 @@
     }
 
     .details-drawer[position="right"] {
-        width: calc(var(--details-drawer-width) * 2);
+        width: calc(var(--details-drawer-width) * 1.8);
     }
 
     .details-drawer:not([open])[position="right"] {
-        margin-right: calc(var(--details-drawer-width) * -2);
+        margin-right: calc(var(--details-drawer-width) * -1.8);
     }
 }

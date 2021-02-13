@@ -17,6 +17,8 @@
 
         <vaadin.version>15.0.4</vaadin.version>
         <jetty.version>9.4.15.v20190215</jetty.version>
+        <lombok.version>1.18.16</lombok.version>
+        <javax.servlet.version>3.1.0</javax.servlet.version>
     </properties>
 
     <repositories>
@@ -100,14 +102,14 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
+            <version>${javax.servlet.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.16</version>
+            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
 

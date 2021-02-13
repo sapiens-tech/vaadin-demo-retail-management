@@ -1,15 +1,15 @@
 package io.sapiens.retail.ui;
 
-import io.sapiens.retail.ui.components.FlexBoxLayout;
-import io.sapiens.retail.ui.components.navigation.bar.AppBar;
-import io.sapiens.retail.ui.components.navigation.bar.TabBar;
-import io.sapiens.retail.ui.components.navigation.drawer.NaviDrawer;
-import io.sapiens.retail.ui.components.navigation.drawer.NaviItem;
-import io.sapiens.retail.ui.components.navigation.drawer.NaviMenu;
-import io.sapiens.retail.ui.util.UIUtils;
-import io.sapiens.retail.ui.util.css.Display;
-import io.sapiens.retail.ui.util.css.FlexDirection;
-import io.sapiens.retail.ui.util.css.Overflow;
+import io.sapiens.awesome.ui.components.FlexBoxLayout;
+import io.sapiens.awesome.ui.components.navigation.bar.AppBar;
+import io.sapiens.awesome.ui.components.navigation.bar.TabBar;
+import io.sapiens.awesome.ui.components.navigation.drawer.NaviDrawer;
+import io.sapiens.awesome.ui.components.navigation.drawer.NaviItem;
+import io.sapiens.awesome.ui.components.navigation.drawer.NaviMenu;
+import io.sapiens.awesome.ui.util.UIUtils;
+import io.sapiens.awesome.ui.util.css.Display;
+import io.sapiens.awesome.ui.util.css.FlexDirection;
+import io.sapiens.awesome.ui.util.css.Overflow;
 import io.sapiens.retail.ui.views.Home;
 import io.sapiens.retail.ui.views.Orders;
 import io.sapiens.retail.ui.views.user.CustomerView;

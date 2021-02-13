@@ -1,6 +1,6 @@
 package io.sapiens.retail.backend;
 
-import io.sapiens.retail.ui.util.css.lumo.BadgeColor;
+import io.sapiens.awesome.ui.util.css.lumo.BadgeColor;
 
 import java.time.LocalDate;
 import java.util.Collection;

@@ -1,7 +1,7 @@
 package io.sapiens.retail.backend;
 
-import io.sapiens.retail.ui.util.UIUtils;
-import io.sapiens.retail.ui.util.css.lumo.BadgeColor;
+import io.sapiens.awesome.ui.util.UIUtils;
+import io.sapiens.awesome.ui.util.css.lumo.BadgeColor;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 

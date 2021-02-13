@@ -1,8 +1,8 @@
 package io.sapiens.retail.ui.models;
 
-import infra.ui.views.FormField;
-import infra.ui.views.GridColumn;
-import infra.ui.views.enums.FormFieldType;
+import io.sapiens.awesome.ui.annotations.FormField;
+import io.sapiens.awesome.ui.annotations.GridColumn;
+import io.sapiens.awesome.ui.enums.FormFieldType;
 import io.sapiens.retail.backend.enums.Role;
 import lombok.Getter;
 import lombok.Setter;
