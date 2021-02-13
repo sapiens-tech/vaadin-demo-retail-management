@@ -11,9 +11,9 @@ import io.sapiens.awesome.ui.util.css.Display;
 import io.sapiens.awesome.ui.util.css.FlexDirection;
 import io.sapiens.awesome.ui.util.css.Overflow;
 import io.sapiens.retail.ui.views.Home;
-import io.sapiens.retail.ui.views.Orders;
-import io.sapiens.retail.ui.views.user.CustomerView;
-import io.sapiens.retail.ui.views.user.Staff;
+import io.sapiens.retail.ui.views.transactions.OrderView;
+import io.sapiens.retail.ui.views.users.CustomerView;
+import io.sapiens.retail.ui.views.users.Staff;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.UI;
@@ -132,7 +132,7 @@ public class MainLayout extends FlexBoxLayout implements RouterLayout, AfterNavi
     menu.addNaviItem(product, "Products", Staff.class);
 
     NaviItem order = menu.addNaviItem(VaadinIcon.CREDIT_CARD, "Transactions", null);
-    menu.addNaviItem(order, "Orders", Orders.class);
+    menu.addNaviItem(order, "Orders", OrderView.class);
   }
 
   /** Configure the app's inner and outer headers and footers. */

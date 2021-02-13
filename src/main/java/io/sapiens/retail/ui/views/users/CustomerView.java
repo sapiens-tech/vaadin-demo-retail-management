@@ -1,4 +1,4 @@
-package io.sapiens.retail.ui.views.user;
+package io.sapiens.retail.ui.views.users;
 
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;

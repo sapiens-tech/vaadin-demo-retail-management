@@ -1,5 +1,6 @@
 package io.sapiens.retail.ui.views;
 
+import io.sapiens.awesome.ui.views.ViewFrame;
 import io.sapiens.retail.ui.MainLayout;
 import io.sapiens.awesome.ui.components.FlexBoxLayout;
 import io.sapiens.awesome.ui.components.ListItem;

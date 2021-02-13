@@ -1,4 +1,4 @@
-package io.sapiens.retail.ui.views.user;
+package io.sapiens.retail.ui.views.users;
 
 import io.sapiens.retail.backend.DummyData;
 import io.sapiens.retail.ui.models.Person;
@@ -14,7 +14,7 @@ import io.sapiens.awesome.ui.layout.size.Vertical;
 import io.sapiens.awesome.ui.util.LumoStyles;
 import io.sapiens.awesome.ui.util.UIUtils;
 import io.sapiens.awesome.ui.util.css.BoxSizing;
-import io.sapiens.retail.ui.views.ViewFrame;
+import io.sapiens.awesome.ui.views.ViewFrame;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.crud.BinderCrudEditor;

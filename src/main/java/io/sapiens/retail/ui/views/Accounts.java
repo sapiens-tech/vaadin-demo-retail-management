@@ -1,5 +1,6 @@
 package io.sapiens.retail.ui.views;
 
+import io.sapiens.awesome.ui.views.ViewFrame;
 import io.sapiens.retail.backend.BankAccount;
 import io.sapiens.retail.backend.DummyData;
 import io.sapiens.retail.ui.MainLayout;

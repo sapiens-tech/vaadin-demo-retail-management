@@ -1,4 +1,4 @@
-package io.sapiens.retail.ui.views;
+package io.sapiens.awesome.ui.views;
 
 import io.sapiens.retail.ui.MainLayout;
 import com.vaadin.flow.component.AttachEvent;

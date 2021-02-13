@@ -1,4 +1,4 @@
-package io.sapiens.retail.ui.views;
+package io.sapiens.retail.ui.views.transactions;
 
 import io.sapiens.awesome.ui.views.SplitViewFrame;
 import io.sapiens.retail.backend.DummyData;
@@ -40,7 +40,7 @@ import com.vaadin.flow.router.Route;
 
 @PageTitle("Orders")
 @Route(value = "orders", layout = MainLayout.class)
-public class Orders extends SplitViewFrame {
+public class OrderView extends SplitViewFrame {
 
   private Grid<Payment> grid;
   private ListDataProvider<Payment> dataProvider;
