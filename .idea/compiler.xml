@@ -11,7 +11,12 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="vaadin-demo-business-app" target="1.8" />
+      <module name="vaadin-demo-business-app" target="11" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="vaadin-demo-business-app" options="-parameters" />
+    </option>
   </component>
 </project>

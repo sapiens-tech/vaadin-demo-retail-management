@@ -1,8 +1,8 @@
 package io.sapiens.awesome.ui.views;
 
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import io.sapiens.retail.ui.MainLayout;
 import io.sapiens.awesome.ui.components.FlexBoxLayout;
-import io.sapiens.awesome.ui.util.css.FlexDirection;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
@@ -80,10 +80,10 @@ public class SplitViewFrame extends Composite<Div> implements HasStyle {
 
   public void setViewDetailsPosition(Position position) {
     if (position.equals(Position.RIGHT)) {
-      wrapper.setFlexDirection(FlexDirection.ROW);
+      wrapper.setFlexDirection(FlexLayout.FlexDirection.ROW);
 
     } else if (position.equals(Position.BOTTOM)) {
-      wrapper.setFlexDirection(FlexDirection.COLUMN);
+      wrapper.setFlexDirection(FlexLayout.FlexDirection.COLUMN);
     }
   }
 

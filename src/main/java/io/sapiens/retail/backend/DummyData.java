@@ -864,7 +864,7 @@ public class DummyData {
     return PERSONS.get(new ArrayList<>(PERSONS.keySet()).get(random.nextInt(PERSONS.size())));
   }
 
-  private static Role getRole() {
+  public static Role getRole() {
     return Role.values()[random.nextInt(Role.values().length)];
   }
 

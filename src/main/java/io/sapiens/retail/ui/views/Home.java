@@ -1,5 +1,6 @@
 package io.sapiens.retail.ui.views;
 
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import io.sapiens.awesome.ui.views.ViewFrame;
 import io.sapiens.retail.ui.MainLayout;
 import io.sapiens.awesome.ui.components.FlexBoxLayout;
@@ -41,7 +42,7 @@ public class Home extends ViewFrame {
 
     FlexBoxLayout content = new FlexBoxLayout(payments, transactions, docs);
     content.setAlignItems(FlexComponent.Alignment.CENTER);
-    content.setFlexDirection(FlexDirection.COLUMN);
+    content.setFlexDirection(FlexLayout.FlexDirection.COLUMN);
 
     return content;
   }
@@ -123,7 +124,7 @@ public class Home extends ViewFrame {
 
     FlexBoxLayout reports = new FlexBoxLayout(header, card);
     reports.addClassName(CLASS_NAME + "__reports");
-    reports.setFlexDirection(FlexDirection.COLUMN);
+    reports.setFlexDirection(FlexLayout.FlexDirection.COLUMN);
     reports.setPadding(Bottom.XL, Left.RESPONSIVE_L);
     return reports;
   }
@@ -157,7 +158,7 @@ public class Home extends ViewFrame {
 
     FlexBoxLayout logs = new FlexBoxLayout(header, card);
     logs.addClassName(CLASS_NAME + "__logs");
-    logs.setFlexDirection(FlexDirection.COLUMN);
+    logs.setFlexDirection(FlexLayout.FlexDirection.COLUMN);
     logs.setPadding(Bottom.XL, Right.RESPONSIVE_L);
     return logs;
   }

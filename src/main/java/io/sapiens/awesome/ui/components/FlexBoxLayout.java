@@ -1,9 +1,9 @@
 package io.sapiens.awesome.ui.components;
 
-import io.sapiens.awesome.ui.layout.size.Size;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.theme.lumo.Lumo;
+import io.sapiens.awesome.ui.layout.size.Size;
 import io.sapiens.awesome.ui.util.css.*;
 
 import java.util.ArrayList;
@@ -78,7 +78,22 @@ public class FlexBoxLayout extends FlexLayout {
   }
 
   public void setFlexDirection(FlexDirection direction) {
-    getStyle().set(FLEX_DIRECTION, direction.getValue());
+    String value;
+    switch (direction) {
+      case COLUMN:
+        value = "column";
+        break;
+      case COLUMN_REVERSE:
+        value = "column-reverse";
+        break;
+      case ROW_REVERSE:
+        value = "row-reverse";
+        break;
+      case ROW:
+      default:
+        value = "row";
+    }
+    getStyle().set(FLEX_DIRECTION, value);
   }
 
   public void removeFlexDirection() {
@@ -92,7 +107,20 @@ public class FlexBoxLayout extends FlexLayout {
   }
 
   public void setFlexWrap(FlexWrap wrap) {
-    getStyle().set(FLEX_WRAP, wrap.getValue());
+  String value ;
+    switch (wrap)  {
+      case NOWRAP:
+        value = "norwrap";
+        break;
+      case WRAP_REVERSE:
+        value = "wrap-reverse";
+        break;
+      case WRAP:
+      default:
+        value = "wrap";
+    }
+
+    getStyle().set(FLEX_WRAP, value);
   }
 
   public void removeFlexWrap() {
