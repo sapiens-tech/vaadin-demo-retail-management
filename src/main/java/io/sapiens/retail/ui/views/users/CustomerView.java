@@ -7,9 +7,11 @@ import io.sapiens.retail.backend.enums.Role;
 import io.sapiens.retail.backend.services.CustomerService;
 import io.sapiens.retail.ui.MainLayout;
 import io.sapiens.retail.ui.models.Person;
+import org.springframework.stereotype.Component;
 
 @Route(value = "customers", layout = MainLayout.class)
 @PageTitle("Customers")
+@Component
 public class CustomerView extends CrudView<Person> {
 
   public CustomerView() {

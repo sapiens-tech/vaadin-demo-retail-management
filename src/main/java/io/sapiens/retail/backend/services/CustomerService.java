@@ -2,12 +2,14 @@ package io.sapiens.retail.backend.services;
 
 import io.sapiens.retail.backend.DummyData;
 import io.sapiens.retail.ui.models.Person;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
+@Service
 public class CustomerService {
   private static final Random random = new Random(1);
   String[][] meta = {
