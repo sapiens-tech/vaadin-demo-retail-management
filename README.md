@@ -1,6 +1,6 @@
 ## Running the Project in Development Mode
 
-`mvn jetty:run`
+`mvn spring-boot:run`
 
 Wait for the application to start
 
@@ -8,7 +8,7 @@ Open http://localhost:8080/ to view the application.
 
 ## Running the Project in Production Mode
 
-`mvn jetty:run-exploded -Dvaadin.productionMode`
+`mvn spring-boot:run-exploded -Dvaadin.productionMode`
 
 The default mode when the application is built or started is 'development'. The 'production' mode is turned on by setting the `vaadin.productionMode` system property when building or starting the app.
 
