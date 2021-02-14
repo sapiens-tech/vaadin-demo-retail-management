@@ -84,7 +84,7 @@ public abstract class CrudView<T> extends SplitViewFrame {
     FlexBoxLayout content = new FlexBoxLayout(createGrid());
     content.setBoxSizing(BoxSizing.BORDER_BOX);
     content.setHeightFull();
-    content.setPadding(Horizontal.RESPONSIVE_X, Top.RESPONSIVE_X, Bottom.RESPONSIVE_X);
+    content.setPadding(Horizontal.RESPONSIVE_X, Top.RESPONSIVE_X, Bottom.M);
     return content;
   }
 
