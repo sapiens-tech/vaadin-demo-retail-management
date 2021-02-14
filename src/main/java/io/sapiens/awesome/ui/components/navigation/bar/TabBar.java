@@ -1,6 +1,6 @@
 package io.sapiens.awesome.ui.components.navigation.bar;
 
-import io.sapiens.retail.ui.MainLayout;
+import io.sapiens.retail.ui.SidebarLayout;
 import io.sapiens.awesome.ui.components.FlexBoxLayout;
 import io.sapiens.awesome.ui.components.navigation.tab.NaviTabs;
 import io.sapiens.awesome.ui.util.LumoStyles;
@@ -34,7 +34,7 @@ public class TabBar extends FlexBoxLayout {
 
     menuIcon = UIUtils.createTertiaryInlineButton(VaadinIcon.MENU);
     menuIcon.addClassName(CLASS_NAME + "__navi-icon");
-    menuIcon.addClickListener(e -> MainLayout.get().getNaviDrawer().toggle());
+    menuIcon.addClickListener(e -> SidebarLayout.get().getNaviDrawer().toggle());
 
     avatar = new Image();
     avatar.setClassName(CLASS_NAME + "__avatar");

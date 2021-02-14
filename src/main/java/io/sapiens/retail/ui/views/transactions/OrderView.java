@@ -3,7 +3,7 @@ package io.sapiens.retail.ui.views.transactions;
 import io.sapiens.awesome.ui.views.SplitViewFrame;
 import io.sapiens.retail.backend.DummyData;
 import io.sapiens.retail.backend.Payment;
-import io.sapiens.retail.ui.MainLayout;
+import io.sapiens.retail.ui.SidebarLayout;
 import io.sapiens.awesome.ui.components.Badge;
 import io.sapiens.awesome.ui.components.FlexBoxLayout;
 import io.sapiens.awesome.ui.components.ListItem;
@@ -39,7 +39,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @PageTitle("Orders")
-@Route(value = "orders", layout = MainLayout.class)
+@Route(value = "orders", layout = SidebarLayout.class)
 public class OrderView extends SplitViewFrame {
 
   private Grid<Payment> grid;
@@ -56,7 +56,7 @@ public class OrderView extends SplitViewFrame {
   }
 
   private void initAppBar() {
-    AppBar appBar = MainLayout.get().getAppBar();
+    AppBar appBar = SidebarLayout.get().getAppBar();
     for (Payment.Status status : Payment.Status.values()) {
       appBar.addTab(status.getName());
     }
@@ -220,7 +220,7 @@ public class OrderView extends SplitViewFrame {
   }
 
   private void filter() {
-    Tab selectedTab = MainLayout.get().getAppBar().getSelectedTab();
+    Tab selectedTab = SidebarLayout.get().getAppBar().getSelectedTab();
     if (selectedTab != null)
       dataProvider.setFilterByValue(
           Payment::getStatus, Payment.Status.valueOf(selectedTab.getLabel().toUpperCase()));

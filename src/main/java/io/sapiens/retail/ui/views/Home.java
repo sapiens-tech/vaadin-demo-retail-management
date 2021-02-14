@@ -2,7 +2,7 @@ package io.sapiens.retail.ui.views;
 
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import io.sapiens.awesome.ui.views.ViewFrame;
-import io.sapiens.retail.ui.MainLayout;
+import io.sapiens.retail.ui.SidebarLayout;
 import io.sapiens.awesome.ui.components.FlexBoxLayout;
 import io.sapiens.awesome.ui.components.ListItem;
 import io.sapiens.awesome.ui.util.IconSize;
@@ -25,7 +25,7 @@ import io.sapiens.awesome.ui.util.css.*;
 
 @CssImport("./styles/views/statistics.css")
 @PageTitle("Welcome")
-@Route(value = "", layout = MainLayout.class)
+@Route(value = "", layout = SidebarLayout.class)
 public class Home extends ViewFrame {
   private static final String CLASS_NAME = "statistics";
   public static final String MAX_WIDTH = "1024px";

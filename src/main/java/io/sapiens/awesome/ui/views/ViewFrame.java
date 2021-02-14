@@ -1,6 +1,6 @@
 package io.sapiens.awesome.ui.views;
 
-import io.sapiens.retail.ui.MainLayout;
+import io.sapiens.retail.ui.SidebarLayout;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
@@ -62,6 +62,6 @@ public class ViewFrame extends Composite<Div> implements HasStyle {
   @Override
   protected void onAttach(AttachEvent attachEvent) {
     super.onAttach(attachEvent);
-    MainLayout.get().getAppBar().reset();
+    SidebarLayout.get().getAppBar().reset();
   }
 }

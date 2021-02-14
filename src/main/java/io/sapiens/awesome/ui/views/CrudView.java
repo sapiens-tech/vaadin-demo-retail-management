@@ -55,7 +55,7 @@ public abstract class CrudView<T> extends SplitViewFrame {
   @Getter @Setter private String detailTitle;
 
   public CrudView() {
-    beanType =
+    this.beanType =
         (Class<T>)
             ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
   }
@@ -119,7 +119,7 @@ public abstract class CrudView<T> extends SplitViewFrame {
   private Grid<T> createGrid() {
     grid = new Grid<>();
     grid.setSelectionMode(Grid.SelectionMode.SINGLE);
-    grid.setDataProvider(dataProvider);
+    grid.setItems(dataProvider);
     grid.setHeightFull();
     grid.setWidthFull();
     grid.addSelectionListener(event -> event.getFirstSelectedItem().ifPresent(this::showDetails));

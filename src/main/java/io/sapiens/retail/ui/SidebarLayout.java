@@ -8,9 +8,7 @@ import io.sapiens.awesome.ui.components.navigation.drawer.NaviItem;
 import io.sapiens.awesome.ui.components.navigation.drawer.NaviMenu;
 import io.sapiens.awesome.ui.util.UIUtils;
 import io.sapiens.awesome.ui.util.css.Display;
-import io.sapiens.awesome.ui.util.css.FlexDirection;
 import io.sapiens.awesome.ui.util.css.Overflow;
-import io.sapiens.retail.ui.models.ProductCategory;
 import io.sapiens.retail.ui.views.Home;
 import io.sapiens.retail.ui.views.inventories.ProductCategoryView;
 import io.sapiens.retail.ui.views.inventories.ProductSizeView;
@@ -52,9 +50,9 @@ import org.slf4j.LoggerFactory;
 @CssImport("./styles/misc/box-shadow-borders.css")
 @CssImport(value = "./styles/styles.css", include = "lumo-badge")
 @JsModule("@vaadin/vaadin-lumo-styles/badge")
-public class MainLayout extends FlexBoxLayout implements RouterLayout, AfterNavigationObserver {
+public class SidebarLayout extends FlexBoxLayout implements RouterLayout, AfterNavigationObserver {
 
-  private static final Logger log = LoggerFactory.getLogger(MainLayout.class);
+  private static final Logger log = LoggerFactory.getLogger(SidebarLayout.class);
   private static final String CLASS_NAME = "root";
 
   private Div appHeaderOuter;
@@ -73,7 +71,7 @@ public class MainLayout extends FlexBoxLayout implements RouterLayout, AfterNavi
   private final boolean navigationTabs = false;
   private AppBar appBar;
 
-  public MainLayout() {
+  public SidebarLayout() {
     VaadinSession.getCurrent()
         .setErrorHandler(
             (ErrorHandler)
@@ -228,11 +226,11 @@ public class MainLayout extends FlexBoxLayout implements RouterLayout, AfterNavi
     return naviDrawer;
   }
 
-  public static MainLayout get() {
-    return (MainLayout)
+  public static SidebarLayout get() {
+    return (SidebarLayout)
         UI.getCurrent()
             .getChildren()
-            .filter(component -> component.getClass() == MainLayout.class)
+            .filter(component -> component.getClass() == SidebarLayout.class)
             .findFirst()
             .get();
   }

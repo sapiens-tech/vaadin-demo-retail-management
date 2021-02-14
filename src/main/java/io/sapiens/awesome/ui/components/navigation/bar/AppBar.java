@@ -1,6 +1,6 @@
 package io.sapiens.awesome.ui.components.navigation.bar;
 
-import io.sapiens.retail.ui.MainLayout;
+import io.sapiens.retail.ui.SidebarLayout;
 import io.sapiens.awesome.ui.components.FlexBoxLayout;
 import io.sapiens.awesome.ui.components.navigation.tab.NaviTab;
 import io.sapiens.awesome.ui.components.navigation.tab.NaviTabs;
@@ -84,7 +84,7 @@ public class AppBar extends Header {
   private void initMenuIcon() {
     menuIcon = UIUtils.createTertiaryInlineButton(VaadinIcon.MENU);
     menuIcon.addClassName(CLASS_NAME + "__navi-icon");
-    menuIcon.addClickListener(e -> MainLayout.get().getNaviDrawer().toggle());
+    menuIcon.addClickListener(e -> SidebarLayout.get().getNaviDrawer().toggle());
     UIUtils.setAriaLabel("Menu", menuIcon);
     UIUtils.setLineHeight("1", menuIcon);
   }

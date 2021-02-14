@@ -3,7 +3,7 @@ package io.sapiens.retail.ui.views.users;
 import io.sapiens.retail.backend.DummyData;
 import io.sapiens.retail.ui.models.Person;
 import io.sapiens.retail.backend.enums.Role;
-import io.sapiens.retail.ui.MainLayout;
+import io.sapiens.retail.ui.SidebarLayout;
 import io.sapiens.awesome.ui.components.FlexBoxLayout;
 import io.sapiens.awesome.ui.components.Initials;
 import io.sapiens.awesome.ui.components.ListItem;
@@ -35,7 +35,7 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@Route(value = "staffs", layout = MainLayout.class)
+@Route(value = "staffs", layout = SidebarLayout.class)
 @PageTitle("Staffs")
 public class Staff extends ViewFrame {
 
