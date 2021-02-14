@@ -10,8 +10,8 @@ import lombok.Setter;
 @Getter
 public class ProductSize {
 
-  @GridColumn(header = "Product Sku")
-  @FormField(type = FormFieldType.TextField, label = "Product Sku")
+  @GridColumn(header = "Code")
+  @FormField(type = FormFieldType.TextField, label = "Code")
   private String code;
 
   @GridColumn(header = "Name")
