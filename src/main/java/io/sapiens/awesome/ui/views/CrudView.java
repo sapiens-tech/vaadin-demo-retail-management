@@ -19,6 +19,7 @@ import io.sapiens.awesome.ui.annotations.GridColumn;
 import io.sapiens.awesome.ui.components.FlexBoxLayout;
 import io.sapiens.awesome.ui.components.detailsdrawer.DetailsDrawer;
 import io.sapiens.awesome.ui.components.detailsdrawer.DetailsDrawerHeader;
+import io.sapiens.awesome.ui.layout.size.Bottom;
 import io.sapiens.awesome.ui.layout.size.Horizontal;
 import io.sapiens.awesome.ui.layout.size.Top;
 import io.sapiens.awesome.ui.util.LumoStyles;
@@ -83,7 +84,7 @@ public abstract class CrudView<T> extends SplitViewFrame {
     FlexBoxLayout content = new FlexBoxLayout(createGrid());
     content.setBoxSizing(BoxSizing.BORDER_BOX);
     content.setHeightFull();
-    content.setPadding(Horizontal.RESPONSIVE_X, Top.RESPONSIVE_X);
+    content.setPadding(Horizontal.RESPONSIVE_X, Top.RESPONSIVE_X, Bottom.RESPONSIVE_X);
     return content;
   }
 

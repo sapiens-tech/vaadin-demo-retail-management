@@ -141,7 +141,8 @@ public class NaviDrawer extends Div implements AfterNavigationObserver {
 
   private void close() {
     getElement().setAttribute(OPEN, false);
-    applyIOS122Workaround();
+    // Thai: This will cause the page crash sometimes, thus remove it for now
+    // applyIOS122Workaround();
   }
 
   private void applyIOS122Workaround() {

@@ -72,7 +72,7 @@ public class OrderView extends SplitViewFrame {
     FlexBoxLayout content = new FlexBoxLayout(createGrid());
     content.setBoxSizing(BoxSizing.BORDER_BOX);
     content.setHeightFull();
-    content.setPadding(Horizontal.RESPONSIVE_X, Top.RESPONSIVE_X);
+    content.setPadding(Horizontal.RESPONSIVE_X, Top.RESPONSIVE_X, Bottom.RESPONSIVE_X);
     return content;
   }
 
@@ -81,7 +81,7 @@ public class OrderView extends SplitViewFrame {
 
     grid = new Grid<>();
     grid.addSelectionListener(event -> event.getFirstSelectedItem().ifPresent(this::showDetails));
-    grid.setDataProvider(dataProvider);
+    grid.setItems(dataProvider);
     grid.setHeightFull();
 
     ComponentRenderer<Badge, Payment> badgeRenderer =
