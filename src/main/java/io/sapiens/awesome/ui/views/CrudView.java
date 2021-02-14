@@ -16,16 +16,16 @@ import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import io.sapiens.awesome.ui.annotations.FormField;
 import io.sapiens.awesome.ui.annotations.GridColumn;
-import io.sapiens.retail.backend.services.CustomerService;
 import io.sapiens.awesome.ui.components.FlexBoxLayout;
 import io.sapiens.awesome.ui.components.detailsdrawer.DetailsDrawer;
 import io.sapiens.awesome.ui.components.detailsdrawer.DetailsDrawerHeader;
 import io.sapiens.awesome.ui.layout.size.Horizontal;
 import io.sapiens.awesome.ui.layout.size.Top;
-import io.sapiens.retail.ui.models.Person;
 import io.sapiens.awesome.ui.util.LumoStyles;
 import io.sapiens.awesome.ui.util.UIUtils;
 import io.sapiens.awesome.ui.util.css.BoxSizing;
+import io.sapiens.retail.backend.services.CustomerService;
+import io.sapiens.retail.ui.models.Person;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -46,7 +46,7 @@ public abstract class CrudView<T> extends SplitViewFrame {
   @Getter @Setter private ListDataProvider<T> dataProvider;
   private DetailsDrawer detailsDrawer;
 
-  @Getter @Setter private Collection<T> dataSet;
+  @Getter @Setter private Collection<T> dataSet = new ArrayList<>();
 
   @Getter @Setter private Grid<T> grid;
 
@@ -58,7 +58,6 @@ public abstract class CrudView<T> extends SplitViewFrame {
     beanType =
         (Class<T>)
             ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-
   }
 
   @Override

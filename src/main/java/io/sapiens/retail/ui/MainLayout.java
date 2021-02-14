@@ -10,7 +10,11 @@ import io.sapiens.awesome.ui.util.UIUtils;
 import io.sapiens.awesome.ui.util.css.Display;
 import io.sapiens.awesome.ui.util.css.FlexDirection;
 import io.sapiens.awesome.ui.util.css.Overflow;
+import io.sapiens.retail.ui.models.ProductCategory;
 import io.sapiens.retail.ui.views.Home;
+import io.sapiens.retail.ui.views.inventories.ProductCategoryView;
+import io.sapiens.retail.ui.views.inventories.ProductSizeView;
+import io.sapiens.retail.ui.views.inventories.ProductView;
 import io.sapiens.retail.ui.views.transactions.OrderView;
 import io.sapiens.retail.ui.views.users.CustomerView;
 import io.sapiens.retail.ui.views.users.Staff;
@@ -127,9 +131,9 @@ public class MainLayout extends FlexBoxLayout implements RouterLayout, AfterNavi
     menu.addNaviItem(personnel, "Staffs", Staff.class);
 
     NaviItem product = menu.addNaviItem(VaadinIcon.ARCHIVES, "Inventories", null);
-    menu.addNaviItem(product, "Categories", CustomerView.class);
-    menu.addNaviItem(product, "Sizes", CustomerView.class);
-    menu.addNaviItem(product, "Products", Staff.class);
+    menu.addNaviItem(product, "Categories", ProductCategoryView.class);
+    menu.addNaviItem(product, "Sizes", ProductSizeView.class);
+    menu.addNaviItem(product, "Products", ProductView.class);
 
     NaviItem order = menu.addNaviItem(VaadinIcon.CREDIT_CARD, "Transactions", null);
     menu.addNaviItem(order, "Orders", OrderView.class);
