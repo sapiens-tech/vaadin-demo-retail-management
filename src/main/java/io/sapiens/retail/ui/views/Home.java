@@ -1,14 +1,5 @@
 package io.sapiens.retail.ui.views;
 
-import com.vaadin.flow.component.orderedlayout.FlexLayout;
-import io.sapiens.awesome.ui.views.ViewFrame;
-import io.sapiens.retail.ui.SidebarLayout;
-import io.sapiens.awesome.ui.components.FlexBoxLayout;
-import io.sapiens.awesome.ui.components.ListItem;
-import io.sapiens.awesome.ui.util.IconSize;
-import io.sapiens.awesome.ui.util.LumoStyles;
-import io.sapiens.awesome.ui.util.TextColor;
-import io.sapiens.awesome.ui.util.UIUtils;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.board.Row;
 import com.vaadin.flow.component.button.Button;
@@ -16,16 +7,28 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import io.sapiens.awesome.ui.components.FlexBoxLayout;
+import io.sapiens.awesome.ui.components.ListItem;
 import io.sapiens.awesome.ui.layout.size.*;
-import io.sapiens.awesome.ui.util.css.*;
+import io.sapiens.awesome.ui.util.IconSize;
+import io.sapiens.awesome.ui.util.LumoStyles;
+import io.sapiens.awesome.ui.util.TextColor;
+import io.sapiens.awesome.ui.util.UIUtils;
+import io.sapiens.awesome.ui.util.css.BorderRadius;
+import io.sapiens.awesome.ui.util.css.BoxSizing;
+import io.sapiens.awesome.ui.util.css.Display;
+import io.sapiens.awesome.ui.util.css.Shadow;
+import io.sapiens.awesome.ui.views.ViewFrame;
+import io.sapiens.retail.ui.BaseLayout;
 
 @CssImport("./styles/views/statistics.css")
 @PageTitle("Welcome")
-@Route(value = "", layout = SidebarLayout.class)
+@Route(value = "", layout = BaseLayout.class)
 public class Home extends ViewFrame {
   private static final String CLASS_NAME = "statistics";
   public static final String MAX_WIDTH = "1024px";
@@ -49,18 +52,16 @@ public class Home extends ViewFrame {
 
   private FlexBoxLayout createHeader(VaadinIcon icon, String title) {
     FlexBoxLayout header =
-            new FlexBoxLayout(
-                    UIUtils.createIcon(IconSize.M, TextColor.TERTIARY, icon), UIUtils.createH3Label(title));
+        new FlexBoxLayout(
+            UIUtils.createIcon(IconSize.M, TextColor.TERTIARY, icon), UIUtils.createH3Label(title));
     header.setAlignItems(FlexComponent.Alignment.CENTER);
     header.setMargin(Bottom.L, Horizontal.RESPONSIVE_L);
     header.setSpacing(Right.L);
     return header;
   }
 
-  private Component createContainer(String title, VaadinIcon icon ) {
-    FlexBoxLayout transactions =
-            new FlexBoxLayout(
-                    createHeader(icon, title), createAreaChart());
+  private Component createContainer(String title, VaadinIcon icon) {
+    FlexBoxLayout transactions = new FlexBoxLayout(createHeader(icon, title), createAreaChart());
     transactions.setBoxSizing(BoxSizing.BORDER_BOX);
     transactions.setDisplay(Display.BLOCK);
     transactions.setMargin(Top.XL);
@@ -69,8 +70,6 @@ public class Home extends ViewFrame {
     transactions.setWidthFull();
     return transactions;
   }
-
-
 
   private Component createAreaChart() {
     FlexBoxLayout card = new FlexBoxLayout();
@@ -104,17 +103,17 @@ public class Home extends ViewFrame {
     }
 
     Div items =
-            new Div(
-                    new ListItem(
-                            UIUtils.createIcon(IconSize.M, TextColor.TERTIARY, VaadinIcon.CHART),
-                            "Weekly Report",
-                            "Generated Oct 5, 2018",
-                            createInfoButton()),
-                    new ListItem(
-                            UIUtils.createIcon(IconSize.M, TextColor.TERTIARY, VaadinIcon.SITEMAP),
-                            "Payment Workflows",
-                            "Last modified Oct 24, 2018",
-                            createInfoButton()));
+        new Div(
+            new ListItem(
+                UIUtils.createIcon(IconSize.M, TextColor.TERTIARY, VaadinIcon.CHART),
+                "Weekly Report",
+                "Generated Oct 5, 2018",
+                createInfoButton()),
+            new ListItem(
+                UIUtils.createIcon(IconSize.M, TextColor.TERTIARY, VaadinIcon.SITEMAP),
+                "Payment Workflows",
+                "Last modified Oct 24, 2018",
+                createInfoButton()));
     items.addClassNames(LumoStyles.Padding.Vertical.S);
 
     Div card = new Div(tabs, items);
@@ -138,17 +137,17 @@ public class Home extends ViewFrame {
     }
 
     Div items =
-            new Div(
-                    new ListItem(
-                            UIUtils.createIcon(IconSize.M, TextColor.TERTIARY, VaadinIcon.EXCHANGE),
-                            "Transfers (October)",
-                            "Generated Oct 31, 2018",
-                            createInfoButton()),
-                    new ListItem(
-                            UIUtils.createIcon(IconSize.M, TextColor.TERTIARY, VaadinIcon.SHIELD),
-                            "Security Log",
-                            "Updated 16:31 CET",
-                            createInfoButton()));
+        new Div(
+            new ListItem(
+                UIUtils.createIcon(IconSize.M, TextColor.TERTIARY, VaadinIcon.EXCHANGE),
+                "Transfers (October)",
+                "Generated Oct 31, 2018",
+                createInfoButton()),
+            new ListItem(
+                UIUtils.createIcon(IconSize.M, TextColor.TERTIARY, VaadinIcon.SHIELD),
+                "Security Log",
+                "Updated 16:31 CET",
+                createInfoButton()));
     items.addClassNames(LumoStyles.Padding.Vertical.S);
 
     Div card = new Div(tabs, items);

@@ -6,12 +6,12 @@ import com.vaadin.flow.router.Route;
 import io.sapiens.awesome.ui.views.CrudView;
 import io.sapiens.retail.backend.enums.Role;
 import io.sapiens.retail.backend.services.CustomerService;
-import io.sapiens.retail.ui.SidebarLayout;
+import io.sapiens.retail.ui.BaseLayout;
 import io.sapiens.retail.ui.models.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Route(value = "customers", layout = SidebarLayout.class)
+@Route(value = "customers", layout = BaseLayout.class)
 @PageTitle("Customers")
 @Component
 public class CustomerView extends CrudView<Person> {

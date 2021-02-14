@@ -1,7 +1,7 @@
 package io.sapiens.awesome.ui.views;
 
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
-import io.sapiens.retail.ui.SidebarLayout;
+import io.sapiens.awesome.ui.layout.SidebarLayout;
 import io.sapiens.awesome.ui.components.FlexBoxLayout;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;

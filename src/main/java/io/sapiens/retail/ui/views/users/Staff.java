@@ -1,20 +1,5 @@
 package io.sapiens.retail.ui.views.users;
 
-import io.sapiens.retail.backend.DummyData;
-import io.sapiens.retail.ui.models.Person;
-import io.sapiens.retail.backend.enums.Role;
-import io.sapiens.retail.ui.SidebarLayout;
-import io.sapiens.awesome.ui.components.FlexBoxLayout;
-import io.sapiens.awesome.ui.components.Initials;
-import io.sapiens.awesome.ui.components.ListItem;
-import io.sapiens.awesome.ui.layout.size.Horizontal;
-import io.sapiens.awesome.ui.layout.size.Right;
-import io.sapiens.awesome.ui.layout.size.Top;
-import io.sapiens.awesome.ui.layout.size.Vertical;
-import io.sapiens.awesome.ui.util.LumoStyles;
-import io.sapiens.awesome.ui.util.UIUtils;
-import io.sapiens.awesome.ui.util.css.BoxSizing;
-import io.sapiens.awesome.ui.views.ViewFrame;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.crud.BinderCrudEditor;
@@ -34,8 +19,23 @@ import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import io.sapiens.awesome.ui.components.FlexBoxLayout;
+import io.sapiens.awesome.ui.components.Initials;
+import io.sapiens.awesome.ui.components.ListItem;
+import io.sapiens.awesome.ui.layout.size.Horizontal;
+import io.sapiens.awesome.ui.layout.size.Right;
+import io.sapiens.awesome.ui.layout.size.Top;
+import io.sapiens.awesome.ui.layout.size.Vertical;
+import io.sapiens.awesome.ui.util.LumoStyles;
+import io.sapiens.awesome.ui.util.UIUtils;
+import io.sapiens.awesome.ui.util.css.BoxSizing;
+import io.sapiens.awesome.ui.views.ViewFrame;
+import io.sapiens.retail.backend.DummyData;
+import io.sapiens.retail.backend.enums.Role;
+import io.sapiens.retail.ui.BaseLayout;
+import io.sapiens.retail.ui.models.Person;
 
-@Route(value = "staffs", layout = SidebarLayout.class)
+@Route(value = "staffs", layout = BaseLayout.class)
 @PageTitle("Staffs")
 public class Staff extends ViewFrame {
 
@@ -76,10 +76,10 @@ public class Staff extends ViewFrame {
         .setHeader("Active")
         .setTextAlign(ColumnTextAlign.END);
     grid.addColumn(new ComponentRenderer<>(this::createRole))
-            .setAutoWidth(true)
-            .setFlexGrow(0)
-            .setHeader("Role")
-            .setTextAlign(ColumnTextAlign.END);
+        .setAutoWidth(true)
+        .setFlexGrow(0)
+        .setHeader("Role")
+        .setTextAlign(ColumnTextAlign.END);
     grid.addColumn(new ComponentRenderer<>(this::createLastLoginDate))
         .setAutoWidth(true)
         .setFlexGrow(0)

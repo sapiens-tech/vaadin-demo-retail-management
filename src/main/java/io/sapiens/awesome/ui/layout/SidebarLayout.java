@@ -1,21 +1,5 @@
-package io.sapiens.retail.ui;
+package io.sapiens.awesome.ui.layout;
 
-import io.sapiens.awesome.ui.components.FlexBoxLayout;
-import io.sapiens.awesome.ui.components.navigation.bar.AppBar;
-import io.sapiens.awesome.ui.components.navigation.bar.TabBar;
-import io.sapiens.awesome.ui.components.navigation.drawer.NaviDrawer;
-import io.sapiens.awesome.ui.components.navigation.drawer.NaviItem;
-import io.sapiens.awesome.ui.components.navigation.drawer.NaviMenu;
-import io.sapiens.awesome.ui.util.UIUtils;
-import io.sapiens.awesome.ui.util.css.Display;
-import io.sapiens.awesome.ui.util.css.Overflow;
-import io.sapiens.retail.ui.views.Home;
-import io.sapiens.retail.ui.views.inventories.ProductCategoryView;
-import io.sapiens.retail.ui.views.inventories.ProductSizeView;
-import io.sapiens.retail.ui.views.inventories.ProductView;
-import io.sapiens.retail.ui.views.transactions.OrderView;
-import io.sapiens.retail.ui.views.users.CustomerView;
-import io.sapiens.retail.ui.views.users.Staff;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.UI;
@@ -23,7 +7,6 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Main;
-import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.router.AfterNavigationEvent;
 import com.vaadin.flow.router.AfterNavigationObserver;
@@ -31,6 +14,15 @@ import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.server.ErrorHandler;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.theme.lumo.Lumo;
+import io.sapiens.awesome.ui.components.FlexBoxLayout;
+import io.sapiens.awesome.ui.components.navigation.bar.AppBar;
+import io.sapiens.awesome.ui.components.navigation.bar.TabBar;
+import io.sapiens.awesome.ui.components.navigation.drawer.NaviDrawer;
+import io.sapiens.awesome.ui.components.navigation.drawer.NaviItem;
+import io.sapiens.awesome.ui.util.UIUtils;
+import io.sapiens.awesome.ui.util.css.Display;
+import io.sapiens.awesome.ui.util.css.Overflow;
+import io.sapiens.retail.ui.views.Home;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -83,13 +75,7 @@ public class SidebarLayout extends FlexBoxLayout implements RouterLayout, AfterN
     addClassName(CLASS_NAME);
     setFlexDirection(FlexDirection.COLUMN);
     setSizeFull();
-
-    // Initialise the UI building blocks
     initStructure();
-
-    // Populate the navigation drawer
-    initNaviItems();
-
     // Configure the headers and footers (optional)
     initHeadersAndFooters();
   }
@@ -116,25 +102,6 @@ public class SidebarLayout extends FlexBoxLayout implements RouterLayout, AfterN
     row.setOverflow(Overflow.HIDDEN);
     add(row);
     setFlexGrow(1, row);
-  }
-
-  /** Initialise the navigation items. */
-  private void initNaviItems() {
-    NaviMenu menu = naviDrawer.getMenu();
-
-    menu.addNaviItem(VaadinIcon.HOME, "Home", Home.class);
-
-    NaviItem personnel = menu.addNaviItem(VaadinIcon.USERS, "User", null);
-    menu.addNaviItem(personnel, "Customers", CustomerView.class);
-    menu.addNaviItem(personnel, "Staffs", Staff.class);
-
-    NaviItem product = menu.addNaviItem(VaadinIcon.ARCHIVES, "Inventories", null);
-    menu.addNaviItem(product, "Categories", ProductCategoryView.class);
-    menu.addNaviItem(product, "Sizes", ProductSizeView.class);
-    menu.addNaviItem(product, "Products", ProductView.class);
-
-    NaviItem order = menu.addNaviItem(VaadinIcon.CREDIT_CARD, "Transactions", null);
-    menu.addNaviItem(order, "Orders", OrderView.class);
   }
 
   /** Configure the app's inner and outer headers and footers. */
@@ -230,7 +197,10 @@ public class SidebarLayout extends FlexBoxLayout implements RouterLayout, AfterN
     return (SidebarLayout)
         UI.getCurrent()
             .getChildren()
-            .filter(component -> component.getClass() == SidebarLayout.class)
+            .filter(
+                component ->
+                    component.getClass() == SidebarLayout.class
+                        || SidebarLayout.class.isAssignableFrom(component.getClass()))
             .findFirst()
             .get();
   }

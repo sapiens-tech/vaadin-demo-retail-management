@@ -3,11 +3,11 @@ package io.sapiens.retail.ui.views.inventories;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import io.sapiens.awesome.ui.views.CrudView;
-import io.sapiens.retail.ui.SidebarLayout;
+import io.sapiens.retail.ui.BaseLayout;
 import io.sapiens.retail.ui.models.ProductSize;
 
 @PageTitle("ProductSizes")
-@Route(value = "product-sizes", layout = SidebarLayout.class)
+@Route(value = "product-sizes", layout = BaseLayout.class)
 public class ProductSizeView extends CrudView<ProductSize> {
   @Override
   public void onSave() {}

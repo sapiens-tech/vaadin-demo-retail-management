@@ -1,6 +1,6 @@
 package io.sapiens.awesome.ui.components.navigation.bar;
 
-import io.sapiens.retail.ui.SidebarLayout;
+import io.sapiens.awesome.ui.layout.SidebarLayout;
 import io.sapiens.awesome.ui.components.FlexBoxLayout;
 import io.sapiens.awesome.ui.components.navigation.tab.NaviTabs;
 import io.sapiens.awesome.ui.util.LumoStyles;

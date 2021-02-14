@@ -1,25 +1,5 @@
 package io.sapiens.retail.ui.views.transactions;
 
-import io.sapiens.awesome.ui.views.SplitViewFrame;
-import io.sapiens.retail.backend.DummyData;
-import io.sapiens.retail.backend.Payment;
-import io.sapiens.retail.ui.SidebarLayout;
-import io.sapiens.awesome.ui.components.Badge;
-import io.sapiens.awesome.ui.components.FlexBoxLayout;
-import io.sapiens.awesome.ui.components.ListItem;
-import io.sapiens.awesome.ui.components.detailsdrawer.DetailsDrawer;
-import io.sapiens.awesome.ui.components.detailsdrawer.DetailsDrawerHeader;
-import io.sapiens.awesome.ui.components.navigation.bar.AppBar;
-import io.sapiens.awesome.ui.layout.size.Bottom;
-import io.sapiens.awesome.ui.layout.size.Horizontal;
-import io.sapiens.awesome.ui.layout.size.Top;
-import io.sapiens.awesome.ui.layout.size.Vertical;
-import io.sapiens.awesome.ui.util.FontSize;
-import io.sapiens.awesome.ui.util.LumoStyles;
-import io.sapiens.awesome.ui.util.TextColor;
-import io.sapiens.awesome.ui.util.UIUtils;
-import io.sapiens.awesome.ui.util.css.BoxSizing;
-import io.sapiens.awesome.ui.util.css.WhiteSpace;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
@@ -37,9 +17,29 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.renderer.TemplateRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import io.sapiens.awesome.ui.components.Badge;
+import io.sapiens.awesome.ui.components.FlexBoxLayout;
+import io.sapiens.awesome.ui.components.ListItem;
+import io.sapiens.awesome.ui.components.detailsdrawer.DetailsDrawer;
+import io.sapiens.awesome.ui.components.detailsdrawer.DetailsDrawerHeader;
+import io.sapiens.awesome.ui.components.navigation.bar.AppBar;
+import io.sapiens.awesome.ui.layout.size.Bottom;
+import io.sapiens.awesome.ui.layout.size.Horizontal;
+import io.sapiens.awesome.ui.layout.size.Top;
+import io.sapiens.awesome.ui.layout.size.Vertical;
+import io.sapiens.awesome.ui.util.FontSize;
+import io.sapiens.awesome.ui.util.LumoStyles;
+import io.sapiens.awesome.ui.util.TextColor;
+import io.sapiens.awesome.ui.util.UIUtils;
+import io.sapiens.awesome.ui.util.css.BoxSizing;
+import io.sapiens.awesome.ui.util.css.WhiteSpace;
+import io.sapiens.awesome.ui.views.SplitViewFrame;
+import io.sapiens.retail.backend.DummyData;
+import io.sapiens.retail.backend.Payment;
+import io.sapiens.retail.ui.BaseLayout;
 
 @PageTitle("Orders")
-@Route(value = "orders", layout = SidebarLayout.class)
+@Route(value = "orders", layout = BaseLayout.class)
 public class OrderView extends SplitViewFrame {
 
   private Grid<Payment> grid;
@@ -56,7 +56,7 @@ public class OrderView extends SplitViewFrame {
   }
 
   private void initAppBar() {
-    AppBar appBar = SidebarLayout.get().getAppBar();
+    AppBar appBar = BaseLayout.get().getAppBar();
     for (Payment.Status status : Payment.Status.values()) {
       appBar.addTab(status.getName());
     }
@@ -220,7 +220,7 @@ public class OrderView extends SplitViewFrame {
   }
 
   private void filter() {
-    Tab selectedTab = SidebarLayout.get().getAppBar().getSelectedTab();
+    Tab selectedTab = BaseLayout.get().getAppBar().getSelectedTab();
     if (selectedTab != null)
       dataProvider.setFilterByValue(
           Payment::getStatus, Payment.Status.valueOf(selectedTab.getLabel().toUpperCase()));
