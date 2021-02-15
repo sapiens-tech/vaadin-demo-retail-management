@@ -6,5 +6,6 @@ public enum Role {
     MANAGER,
     TRADER,
     PAYMENT_HANDLER,
-    ACCOUNTANT
+    ACCOUNTANT,
+    CUSTOMER
 }

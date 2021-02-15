@@ -3,6 +3,7 @@ package io.sapiens.retail.ui.views.users;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import io.sapiens.awesome.ui.views.CrudView;
+import io.sapiens.retail.backend.enums.Role;
 import io.sapiens.retail.backend.services.CustomerService;
 import io.sapiens.retail.ui.BaseLayout;
 import io.sapiens.retail.ui.models.Person;
@@ -12,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageTitle("Customers")
 public class CustomerView extends CrudView<Person> {
 
-  CustomerService customerService;
+  private final CustomerService customerService;
 
   public CustomerView(@Autowired CustomerService customerService) {
     this.customerService = customerService;
@@ -20,7 +21,7 @@ public class CustomerView extends CrudView<Person> {
 
   @Override
   public void onInit() {
-    setDataSet(customerService.retrieve());
+    setDataSet(customerService.retrieveByRole(Role.CUSTOMER));
     setDetailTitle("Customer Details");
   }
 
