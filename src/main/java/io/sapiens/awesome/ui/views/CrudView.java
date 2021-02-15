@@ -27,6 +27,8 @@ import io.sapiens.awesome.ui.util.UIUtils;
 import io.sapiens.awesome.ui.util.css.BoxSizing;
 import lombok.Getter;
 import lombok.Setter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
@@ -40,17 +42,14 @@ import java.util.List;
 
 public abstract class CrudView<T> extends SplitViewFrame {
 
+  private static final Logger log = LoggerFactory.getLogger(CrudView.class);
   private final Class<T> beanType;
-
-  @Getter @Setter private ListDataProvider<T> dataProvider;
   private DetailsDrawer detailsDrawer;
 
+  @Getter @Setter private ListDataProvider<T> dataProvider;
   @Getter @Setter private Collection<T> dataSet = new ArrayList<>();
-
   @Getter @Setter private Grid<T> grid;
-
   @Getter @Setter private FormLayout createOrUpdateForm;
-
   @Getter @Setter private String detailTitle;
 
   public CrudView() {
@@ -108,7 +107,7 @@ public abstract class CrudView<T> extends SplitViewFrame {
         | IllegalArgumentException
         | InvocationTargetException
         | IntrospectionException e) {
-      e.printStackTrace();
+      log.error(e.getMessage());
     }
 
     return null;
