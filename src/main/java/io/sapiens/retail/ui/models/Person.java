@@ -1,5 +1,6 @@
 package io.sapiens.retail.ui.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
@@ -66,6 +67,8 @@ public class Person {
     return firstName + " " + lastName;
   }
 
+  // ----------------------------------- Custom UI for grid -----------------------------------//
+  @JsonIgnore
   public Component getActive() {
     Icon icon;
     if (isRandomBoolean()) {
@@ -76,6 +79,7 @@ public class Person {
     return icon;
   }
 
+  @JsonIgnore
   public Component getUserInfo() {
     ListItem item = new ListItem(new Initials(getInitials()), getName(), getEmail());
     item.setPadding(Vertical.XS);
@@ -83,11 +87,14 @@ public class Person {
     return item;
   }
 
+  @JsonIgnore
   public Component getRole() {
     return new Span(getRole().toString());
   }
 
+  @JsonIgnore
   public Component getLastLoginDate() {
     return new Span(UIUtils.formatDate(getLastModified()));
   }
+  // ----------------------------------/ Custom UI for grid -----------------------------------//
 }
