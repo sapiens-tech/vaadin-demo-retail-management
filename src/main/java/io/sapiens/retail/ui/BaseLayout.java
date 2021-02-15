@@ -15,10 +15,10 @@ import io.sapiens.retail.ui.views.users.StaffView;
 public class BaseLayout extends SidebarLayout {
   public BaseLayout() {
     super();
-    setupSidebar();
   }
 
-  private void setupSidebar() {
+  @Override
+  protected void setupSidebar() {
     NaviMenu menu = getNaviDrawer().getMenu();
 
     menu.addNaviItem(VaadinIcon.HOME, "Home", Home.class);

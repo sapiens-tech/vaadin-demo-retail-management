@@ -7,9 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @RestController
 @RequestMapping("/api/customers")
 public class CustomerController {
@@ -22,8 +19,6 @@ public class CustomerController {
 
   @GetMapping("/")
   public Object retrieveAllCustomers() {
-    Map<String, String> result = new HashMap<>();
-    result.put("name", "Thai");
     return customerService.retrieveByRole(Role.CUSTOMER);
   }
 }

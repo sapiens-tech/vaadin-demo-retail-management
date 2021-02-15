@@ -42,7 +42,8 @@ import org.slf4j.LoggerFactory;
 @CssImport("./styles/misc/box-shadow-borders.css")
 @CssImport(value = "./styles/styles.css", include = "lumo-badge")
 @JsModule("@vaadin/vaadin-lumo-styles/badge")
-public class SidebarLayout extends FlexBoxLayout implements RouterLayout, AfterNavigationObserver {
+public abstract class SidebarLayout extends FlexBoxLayout
+    implements RouterLayout, AfterNavigationObserver {
 
   private static final Logger log = LoggerFactory.getLogger(SidebarLayout.class);
   private static final String CLASS_NAME = "root";
@@ -78,7 +79,10 @@ public class SidebarLayout extends FlexBoxLayout implements RouterLayout, AfterN
     initStructure();
     // Configure the headers and footers (optional)
     initHeadersAndFooters();
+    setupSidebar();
   }
+
+  protected abstract void setupSidebar();
 
   /** Initialise the required components and containers. */
   private void initStructure() {
