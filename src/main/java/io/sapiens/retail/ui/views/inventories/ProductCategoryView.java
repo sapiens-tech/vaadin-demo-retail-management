@@ -11,6 +11,9 @@ import io.sapiens.retail.ui.models.ProductCategory;
 public class ProductCategoryView extends CrudView<ProductCategory> {
 
   @Override
+  public void onInit() {}
+
+  @Override
   public void onSave() {}
 
   @Override

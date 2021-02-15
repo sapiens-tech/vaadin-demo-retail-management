@@ -10,6 +10,9 @@ import io.sapiens.retail.ui.models.Product;
 @Route(value = "products", layout = BaseLayout.class)
 public class ProductView extends CrudView<Product> {
   @Override
+  public void onInit() {}
+
+  @Override
   public void onSave() {}
 
   @Override

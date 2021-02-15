@@ -1,6 +1,5 @@
 package io.sapiens.retail.ui.views.users;
 
-import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
@@ -22,8 +21,7 @@ import io.sapiens.retail.ui.models.Person;
 public class StaffView extends CrudView<Person> {
 
   @Override
-  protected void onAttach(AttachEvent attachEvent) {
-    super.onAttach(attachEvent);
+  public void onInit() {
     setDataSet(DummyData.getPersons());
     setDetailTitle("Staff Details");
   }

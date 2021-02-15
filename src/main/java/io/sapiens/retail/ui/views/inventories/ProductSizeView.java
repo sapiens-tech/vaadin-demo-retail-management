@@ -9,6 +9,10 @@ import io.sapiens.retail.ui.models.ProductSize;
 @PageTitle("ProductSizes")
 @Route(value = "product-sizes", layout = BaseLayout.class)
 public class ProductSizeView extends CrudView<ProductSize> {
+
+  @Override
+  public void onInit() {}
+
   @Override
   public void onSave() {}
 

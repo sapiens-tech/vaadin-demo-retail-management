@@ -64,10 +64,12 @@ public abstract class CrudView<T> extends SplitViewFrame {
   @Override
   protected void onAttach(AttachEvent attachEvent) {
     super.onAttach(attachEvent);
+    onInit();
     setViewContent(createContent());
     setViewDetails(createDetailsDrawer());
     filter();
   }
+
 
   private DetailsDrawer createDetailsDrawer() {
     detailsDrawer = new DetailsDrawer(DetailsDrawer.Position.RIGHT);
@@ -138,6 +140,8 @@ public abstract class CrudView<T> extends SplitViewFrame {
 
     return grid;
   }
+
+  public abstract void onInit();
 
   public abstract void onSave();
 
