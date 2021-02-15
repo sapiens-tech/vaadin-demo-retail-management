@@ -6,6 +6,14 @@ Wait for the application to start
 
 Open http://localhost:8080/ to view the application.
 
+Also, Intellij can detect this as a Spring Boot Application and setup everything to the Application.java. So, if we use Intellij, we should run the Application.java to use the debugger
+
+
+## Project structure
+
+- Awesome - The framework that wraps up everything and also provides the template to start the project
+- Retail - The actual project that we need to implement
+
 ## Running the Project in Production Mode
 
 `mvn spring-boot:run-exploded -Dvaadin.productionMode`
