@@ -64,7 +64,6 @@ public abstract class CrudView<T> extends SplitViewFrame {
   @Override
   protected void onAttach(AttachEvent attachEvent) {
     super.onAttach(attachEvent);
-    dataProvider = DataProvider.ofCollection(getDataSet());
     setViewContent(createContent());
     setViewDetails(createDetailsDrawer());
     filter();
@@ -98,7 +97,6 @@ public abstract class CrudView<T> extends SplitViewFrame {
   }
 
   private FormLayout createEditor(T entity) {
-
     return new Form<>(entity);
   }
 
@@ -118,11 +116,11 @@ public abstract class CrudView<T> extends SplitViewFrame {
   }
 
   private Grid<T> createGrid() {
+    dataProvider = DataProvider.ofCollection(getDataSet());
     grid = new Grid<>();
     grid.setSelectionMode(Grid.SelectionMode.SINGLE);
     grid.setItems(dataProvider);
-    grid.setHeightFull();
-    grid.setWidthFull();
+    grid.setSizeFull();
     grid.addSelectionListener(event -> event.getFirstSelectedItem().ifPresent(this::showDetails));
 
     for (Field field : beanType.getDeclaredFields()) {

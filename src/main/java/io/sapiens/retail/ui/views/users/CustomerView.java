@@ -2,7 +2,9 @@ package io.sapiens.retail.ui.views.users;
 
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.PreserveOnRefresh;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.spring.annotation.UIScope;
 import io.sapiens.awesome.ui.views.CrudView;
 import io.sapiens.retail.backend.enums.Role;
 import io.sapiens.retail.backend.services.CustomerService;
@@ -13,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 @Route(value = "customers", layout = BaseLayout.class)
 @PageTitle("Customers")
-@Component
 public class CustomerView extends CrudView<Person> {
 
   CustomerService customerService;
@@ -21,11 +22,6 @@ public class CustomerView extends CrudView<Person> {
   @Autowired
   public CustomerView(CustomerService customerService) {
     this.customerService = customerService;
-  }
-
-  @Override
-  protected void onAttach(AttachEvent attachEvent) {
-    super.onAttach(attachEvent);
     setDataSet(customerService.retrieve());
     setDetailTitle("Customer Details");
   }

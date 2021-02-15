@@ -19,7 +19,6 @@ import io.sapiens.retail.ui.models.Person;
 
 @Route(value = "staffs", layout = BaseLayout.class)
 @PageTitle("Staffs")
-@org.springframework.stereotype.Component
 public class StaffView extends CrudView<Person> {
 
   @Override

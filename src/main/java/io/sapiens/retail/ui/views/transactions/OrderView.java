@@ -76,7 +76,7 @@ public class OrderView extends SplitViewFrame {
     return content;
   }
 
-  private Grid createGrid() {
+  private Grid<Payment> createGrid() {
     dataProvider = DataProvider.ofCollection(DummyData.getPayments());
 
     grid = new Grid<>();
