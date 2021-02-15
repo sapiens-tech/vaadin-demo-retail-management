@@ -1,8 +1,17 @@
 package io.sapiens.retail.ui.models;
 
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import io.sapiens.awesome.ui.annotations.FormField;
 import io.sapiens.awesome.ui.annotations.GridColumn;
+import io.sapiens.awesome.ui.components.Initials;
+import io.sapiens.awesome.ui.components.ListItem;
 import io.sapiens.awesome.ui.enums.FormFieldType;
+import io.sapiens.awesome.ui.layout.size.Right;
+import io.sapiens.awesome.ui.layout.size.Vertical;
+import io.sapiens.awesome.ui.util.UIUtils;
 import io.sapiens.retail.backend.enums.Role;
 import lombok.Getter;
 import lombok.Setter;
@@ -55,5 +64,30 @@ public class Person {
   @GridColumn(header = "Name")
   public String getName() {
     return firstName + " " + lastName;
+  }
+
+  public Component getActive() {
+    Icon icon;
+    if (isRandomBoolean()) {
+      icon = UIUtils.createPrimaryIcon(VaadinIcon.CHECK);
+    } else {
+      icon = UIUtils.createDisabledIcon(VaadinIcon.CLOSE);
+    }
+    return icon;
+  }
+
+  public Component getUserInfo() {
+    ListItem item = new ListItem(new Initials(getInitials()), getName(), getEmail());
+    item.setPadding(Vertical.XS);
+    item.setSpacing(Right.M);
+    return item;
+  }
+
+  public Component getRole() {
+    return new Span(getRole().toString());
+  }
+
+  public Component getLastLoginDate() {
+    return new Span(UIUtils.formatDate(getLastModified()));
   }
 }

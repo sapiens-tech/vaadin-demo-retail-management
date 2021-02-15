@@ -70,7 +70,6 @@ public abstract class CrudView<T> extends SplitViewFrame {
     filter();
   }
 
-
   private DetailsDrawer createDetailsDrawer() {
     detailsDrawer = new DetailsDrawer(DetailsDrawer.Position.RIGHT);
 
@@ -128,6 +127,7 @@ public abstract class CrudView<T> extends SplitViewFrame {
     for (Field field : beanType.getDeclaredFields()) {
       if (field.isAnnotationPresent(GridColumn.class)) {
         GridColumn annotation = field.getAnnotation(GridColumn.class);
+        // new ComponentRenderer<>(this::createToInfo)
         grid.addColumn(t -> invokeGetter(t, field.getName()))
             .setAutoWidth(annotation.autoWidth())
             .setFlexGrow(annotation.flexGrow())

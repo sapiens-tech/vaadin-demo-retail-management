@@ -3,7 +3,6 @@ package io.sapiens.retail.ui.views.users;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import io.sapiens.awesome.ui.views.CrudView;
-import io.sapiens.retail.backend.enums.Role;
 import io.sapiens.retail.backend.services.CustomerService;
 import io.sapiens.retail.ui.BaseLayout;
 import io.sapiens.retail.ui.models.Person;
@@ -35,7 +34,5 @@ public class CustomerView extends CrudView<Person> {
   public void onCancel() {}
 
   @Override
-  public void filter() {
-    getDataProvider().setFilterByValue(Person::getRole, Role.ACCOUNTANT);
-  }
+  public void filter() {}
 }
