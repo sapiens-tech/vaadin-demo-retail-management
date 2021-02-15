@@ -25,8 +25,6 @@ import io.sapiens.awesome.ui.layout.size.Top;
 import io.sapiens.awesome.ui.util.LumoStyles;
 import io.sapiens.awesome.ui.util.UIUtils;
 import io.sapiens.awesome.ui.util.css.BoxSizing;
-import io.sapiens.retail.backend.services.CustomerService;
-import io.sapiens.retail.ui.models.Person;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -195,11 +193,7 @@ public abstract class CrudView<T> extends SplitViewFrame {
       }
 
       Button save = new Button("Save");
-      save.addClickListener(
-          buttonClickEvent -> {
-            CustomerService customerService = new CustomerService();
-            customerService.save(new Person());
-          });
+      save.addClickListener(buttonClickEvent -> {});
 
       Button delete = new Button("Delete");
 
