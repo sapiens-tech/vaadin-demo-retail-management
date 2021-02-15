@@ -1,4 +1,4 @@
-package io.sapiens.retail.backend;
+package io.sapiens.retail.backend.dummy;
 
 import java.time.LocalDate;
 

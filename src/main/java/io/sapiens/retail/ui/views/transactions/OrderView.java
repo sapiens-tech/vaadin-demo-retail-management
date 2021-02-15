@@ -34,8 +34,8 @@ import io.sapiens.awesome.ui.util.UIUtils;
 import io.sapiens.awesome.ui.util.css.BoxSizing;
 import io.sapiens.awesome.ui.util.css.WhiteSpace;
 import io.sapiens.awesome.ui.views.SplitViewFrame;
-import io.sapiens.retail.backend.DummyData;
-import io.sapiens.retail.backend.Payment;
+import io.sapiens.retail.backend.dummy.DummyData;
+import io.sapiens.retail.backend.dummy.Payment;
 import io.sapiens.retail.ui.BaseLayout;
 
 @PageTitle("Orders")

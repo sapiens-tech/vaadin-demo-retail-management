@@ -1,7 +1,7 @@
 package io.sapiens.awesome.ui.util;
 
-import io.sapiens.retail.backend.Address;
-import io.sapiens.retail.backend.DummyData;
+import io.sapiens.retail.backend.dummy.Address;
+import io.sapiens.retail.backend.dummy.DummyData;
 import io.sapiens.awesome.ui.components.FlexBoxLayout;
 import io.sapiens.awesome.ui.layout.size.Right;
 import com.vaadin.flow.component.Component;

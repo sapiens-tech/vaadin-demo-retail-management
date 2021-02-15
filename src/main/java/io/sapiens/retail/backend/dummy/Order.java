@@ -1,4 +1,4 @@
-package io.sapiens.retail.backend;
+package io.sapiens.retail.backend.dummy;
 
 import io.sapiens.awesome.ui.util.css.lumo.BadgeColor;
 

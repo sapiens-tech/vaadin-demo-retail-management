@@ -3,7 +3,7 @@ package io.sapiens.retail.ui.views.users;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import io.sapiens.awesome.ui.views.CrudView;
-import io.sapiens.retail.backend.DummyData;
+import io.sapiens.retail.backend.dummy.DummyData;
 import io.sapiens.retail.ui.BaseLayout;
 import io.sapiens.retail.ui.models.Person;
 

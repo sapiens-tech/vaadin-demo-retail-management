@@ -1,4 +1,4 @@
-package io.sapiens.retail.backend;
+package io.sapiens.retail.backend.dummy;
 
 import com.vaadin.flow.component.html.Image;
 import io.sapiens.retail.backend.enums.Role;

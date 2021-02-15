@@ -1,6 +1,6 @@
 package io.sapiens.retail.backend.services;
 
-import io.sapiens.retail.backend.DummyData;
+import io.sapiens.retail.backend.dummy.DummyData;
 import io.sapiens.retail.ui.models.Person;
 import org.springframework.stereotype.Service;
 
