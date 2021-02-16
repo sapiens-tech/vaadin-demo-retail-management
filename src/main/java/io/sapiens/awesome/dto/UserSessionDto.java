@@ -1,8 +1,7 @@
-package com.redcross.infra.dto;
+package io.sapiens.awesome.dto;
 
-import com.redcross.common.model.User;
-import com.redcross.infra.enums.ApplicationViewEnum;
-import com.redcross.infra.utils.HashUtils;
+import io.sapiens.awesome.model.User;
+import io.sapiens.awesome.util.HashUtil;
 
 import java.sql.Timestamp;
 import java.util.Collections;
@@ -41,7 +40,7 @@ public class UserSessionDto extends AbstractDto {
 
   public String buildValiditySignature() {
     String toSign = getUserId() + (getLoggedInOn().getTime() + getLastAccessedOn().getTime());
-    return HashUtils.getInstance().getHash(toSign, getHashSalt());
+    return HashUtil.getInstance().getHash(toSign, getHashSalt());
   }
 
   public void addValuesToPersistOntoCookie(String key, Object value) {
@@ -114,9 +113,5 @@ public class UserSessionDto extends AbstractDto {
 
   public void setIsFromSecureCookieParameter(Boolean isFromSecureCookieParameter) {
     this.isFromSecureCookieParameter = isFromSecureCookieParameter;
-  }
-
-  public ApplicationViewEnum getApplicationViewEnum() {
-    return ApplicationViewEnum.Admin;
   }
 }

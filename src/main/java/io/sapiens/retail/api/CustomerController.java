@@ -1,7 +1,7 @@
 package io.sapiens.retail.api;
 
 import io.sapiens.retail.backend.enums.Role;
-import io.sapiens.retail.backend.services.CustomerService;
+import io.sapiens.retail.backend.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

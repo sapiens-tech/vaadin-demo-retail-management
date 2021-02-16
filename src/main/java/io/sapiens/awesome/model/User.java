@@ -1,4 +1,4 @@
-package io.sapiens.awesome.models;
+package io.sapiens.awesome.model;
 
 import lombok.Getter;
 import lombok.Setter;

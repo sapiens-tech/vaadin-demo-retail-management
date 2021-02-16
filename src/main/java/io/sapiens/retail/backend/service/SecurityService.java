@@ -1,4 +1,4 @@
-package io.sapiens.awesome.service;
+package io.sapiens.retail.backend.service;
 
 import org.springframework.stereotype.Service;
 

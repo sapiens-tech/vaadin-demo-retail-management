@@ -8,7 +8,7 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import io.sapiens.awesome.service.SecurityService;
+import io.sapiens.retail.backend.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @PageTitle("Login")

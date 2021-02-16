@@ -1,7 +1,6 @@
-package com.redcross.infra.utils;
+package io.sapiens.awesome.util;
 
-import com.redcross.infra.exception.SystemException;
-import org.apache.log4j.Logger;
+import io.sapiens.awesome.exception.SystemException;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
@@ -9,14 +8,13 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 // http://www.owasp.org/index.php/Hashing_Java
-public class HashUtils {
+public class HashUtil {
 
   private static final int ITERATION_NUMBER = 1;
-  private static HashUtils me;
-  private Logger logger = Logger.getLogger(HashUtils.class);
+  private static HashUtil me;
 
-  public static HashUtils getInstance() {
-    if (me == null) me = new HashUtils();
+  public static HashUtil getInstance() {
+    if (me == null) me = new HashUtil();
 
     return me;
   }
@@ -33,7 +31,7 @@ public class HashUtils {
       // convert to hex
       String hashedStringInHex = new java.math.BigInteger(1, hashedQueryString).toString(16);
       while (hashedStringInHex.length() < 32) hashedStringInHex = "0" + hashedStringInHex;
-      return Base64Utils.getInstance().encode(hashedStringInHex.getBytes("UTF-8"));
+      return Base64Util.getInstance().encode(hashedStringInHex.getBytes("UTF-8"));
     } catch (Exception e) {
       throw new SystemException(e);
     }
@@ -44,10 +42,10 @@ public class HashUtils {
     byte[] proposedDigest = new byte[32];
 
     try {
-      bSalt = Base64Utils.getInstance().decode(salt);
+      bSalt = Base64Util.getInstance().decode(salt);
       proposedDigest = getHash(ITERATION_NUMBER, anyString, bSalt);
 
-      return Base64Utils.getInstance().encode(proposedDigest);
+      return Base64Util.getInstance().encode(proposedDigest);
     } catch (Exception e) {
       throw new SystemException(e);
     }
@@ -85,7 +83,7 @@ public class HashUtils {
       throws NoSuchAlgorithmException, UnsupportedEncodingException {
     MessageDigest digest = MessageDigest.getInstance("SHA-512");
     digest.reset();
-    if (!ValidationUtils.getInstance().isEmptyString(secret)) {
+    if (!ValidationUtil.getInstance().isEmptyString(secret)) {
       digest.update(secret.getBytes(StandardCharsets.UTF_8));
     }
     byte[] resultBytes = digest.digest(toHash.getBytes(StandardCharsets.UTF_8));

@@ -1,8 +1,8 @@
-package io.sapiens.retail.backend.services;
+package io.sapiens.retail.backend.service;
 
 import io.sapiens.retail.backend.dao.CustomerDao;
 import io.sapiens.retail.backend.enums.Role;
-import io.sapiens.retail.backend.models.User;
+import io.sapiens.retail.backend.model.User;
 import io.sapiens.retail.ui.models.Person;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.redcross.infra.dto;
+package io.sapiens.awesome.dto;
 
 import java.util.ArrayList;
 import java.util.List;

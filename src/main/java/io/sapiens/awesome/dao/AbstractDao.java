@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
@@ -61,27 +60,40 @@ public abstract class AbstractDao<T extends AbstractModel> implements IOperation
 
   @Getter
   @Setter
-  public static class QueryDto<T> {
+  public static class QueryStatement<T> {
     CriteriaQuery<T> criteriaQuery;
     Class<T> clazz;
     CriteriaBuilder builder;
     Root<T> root;
+    Session session;
 
-    public Predicate where() {
-      return builder;
+    public QueryStatement(Session session) {
+      this.session = session;
     }
 
-    public Predic
+    public QueryStatement<T> where() {
+      return this;
+    }
+
+    public QueryStatement<T> eq(String path, Object value) {
+      builder.equal(root.get(path), value);
+      return this;
+    }
+
+    public List<T> execute() {
+      return session.createQuery(this.criteriaQuery).getResultList();
+    }
   }
 
-  protected QueryDto<T> from(Class<T> clazz) {
-    QueryDto<T> dto = new QueryDto<>();
-    dto.setClazz(clazz);
-    var builder = getCurrentSession().getCriteriaBuilder();
-    dto.setBuilder(builder);
-    dto.setCriteriaQuery(builder.createQuery(clazz));
-    dto.setRoot(dto.getCriteriaQuery().from(clazz));
-    return dto;
+  protected QueryStatement<T> from(Class<T> clazz) {
+    var session = getCurrentSession();
+    var builder = session.getCriteriaBuilder();
+    QueryStatement<T> statement = new QueryStatement<>(session);
+    statement.setClazz(clazz);
+    statement.setBuilder(builder);
+    statement.setCriteriaQuery(builder.createQuery(clazz));
+    statement.setRoot(statement.getCriteriaQuery().from(clazz));
+    return statement;
   }
 
   @Override

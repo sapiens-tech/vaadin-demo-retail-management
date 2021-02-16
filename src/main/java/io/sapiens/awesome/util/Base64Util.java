@@ -7,13 +7,13 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 // http://www.owasp.org/index.php/Hashing_Java
-public class Base64Utils {
+public class Base64Util {
 
-  private static Base64Utils me;
-  private Logger logger = LoggerFactory.getLogger(Base64Utils.class);
+  private static Base64Util me;
+  private Logger logger = LoggerFactory.getLogger(Base64Util.class);
 
-  public static Base64Utils getInstance() {
-    if (me == null) me = new Base64Utils();
+  public static Base64Util getInstance() {
+    if (me == null) me = new Base64Util();
     return me;
   }
 

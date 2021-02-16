@@ -1,4 +1,4 @@
-package com.redcross.infra.enums;
+package io.sapiens.awesome.enums;
 
 public interface StringEnum {
 

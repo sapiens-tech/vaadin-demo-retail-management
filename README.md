@@ -6,7 +6,7 @@ Wait for the application to start
 
 Open http://localhost:8080/ to view the application.
 
-Also, Intellij can detect this as a Spring Boot Application and setup everything to the Application.java. So, if we use Intellij, we should run the Application.java to use the debugger
+Also, Intellij can detect this as a Spring Boot io.sapiens.retail.Application and setup everything to the io.sapiens.retail.Application.java. So, if we use Intellij, we should run the io.sapiens.retail.Application.java to use the debugger
 
 
 ## Project structure

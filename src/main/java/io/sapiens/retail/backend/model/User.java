@@ -1,4 +1,4 @@
-package io.sapiens.retail.backend.models;
+package io.sapiens.retail.backend.model;
 
 import io.sapiens.awesome.model.AbstractModel;
 import io.sapiens.retail.backend.enums.Role;

@@ -1,4 +1,4 @@
-package io.sapiens.awesome.services;
+package io.sapiens.awesome.service;
 
 public class AbstractService {
 }

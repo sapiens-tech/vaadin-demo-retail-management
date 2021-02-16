@@ -1,4 +1,4 @@
-package com.redcross.infra.dto;
+package io.sapiens.awesome.dto;
 
 public class ErrorDto extends AbstractDto {
 

@@ -1,2 +1,4 @@
-package io.sapiens.awesome.service;public class UserService {
+package io.sapiens.awesome.service;
+
+public class UserService {
 }
