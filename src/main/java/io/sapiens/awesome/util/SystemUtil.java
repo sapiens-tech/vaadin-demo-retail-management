@@ -3,6 +3,8 @@ package io.sapiens.awesome.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -15,6 +17,36 @@ public class SystemUtil {
     if (me == null) me = new SystemUtil();
 
     return me;
+  }
+
+  public Object invokeGetter(Object obj, String variableName) {
+    try {
+      PropertyDescriptor pd = new PropertyDescriptor(variableName, obj.getClass());
+      Method getter = pd.getReadMethod();
+      return getter.invoke(obj);
+    } catch (IllegalAccessException
+        | IllegalArgumentException
+        | InvocationTargetException
+        | IntrospectionException e) {
+      logger.error(e.getMessage());
+    }
+
+    return null;
+  }
+
+  public Object invokeSetter(Object obj, String variableName, Object value) {
+    try {
+      PropertyDescriptor pd = new PropertyDescriptor(variableName, obj.getClass());
+      Method setter = pd.getWriteMethod();
+      return setter.invoke(obj, value);
+    } catch (IllegalAccessException
+        | IllegalArgumentException
+        | InvocationTargetException
+        | IntrospectionException e) {
+      logger.error(e.getMessage());
+    }
+
+    return null;
   }
 
   public String resolveContentType(String filename) {

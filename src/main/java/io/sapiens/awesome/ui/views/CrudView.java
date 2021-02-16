@@ -12,8 +12,10 @@ import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.upload.Upload;
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.provider.ListDataProvider;
+import com.vaadin.flow.function.ValueProvider;
 import io.sapiens.awesome.ui.annotations.FormField;
 import io.sapiens.awesome.ui.annotations.GridColumn;
 import io.sapiens.awesome.ui.components.FlexBoxLayout;
@@ -25,16 +27,13 @@ import io.sapiens.awesome.ui.layout.size.Top;
 import io.sapiens.awesome.ui.util.LumoStyles;
 import io.sapiens.awesome.ui.util.UIUtils;
 import io.sapiens.awesome.ui.util.css.BoxSizing;
+import io.sapiens.awesome.util.SystemUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.beans.IntrospectionException;
-import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,6 +44,7 @@ public abstract class CrudView<T> extends SplitViewFrame {
   private static final Logger log = LoggerFactory.getLogger(CrudView.class);
   private final Class<T> beanType;
   private DetailsDrawer detailsDrawer;
+  @Getter private Binder<T> binder;
 
   @Getter @Setter private ListDataProvider<T> dataProvider;
   @Getter @Setter private Collection<T> dataSet = new ArrayList<>();
@@ -56,6 +56,7 @@ public abstract class CrudView<T> extends SplitViewFrame {
     this.beanType =
         (Class<T>)
             ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+    this.binder = new Binder<>(this.beanType);
   }
 
   @Override
@@ -112,22 +113,7 @@ public abstract class CrudView<T> extends SplitViewFrame {
   }
 
   private FormLayout createEditor(Class<T> clazz, T entity) {
-    return new Form<T>(clazz, entity);
-  }
-
-  public Object invokeGetter(Object obj, String variableName) {
-    try {
-      PropertyDescriptor pd = new PropertyDescriptor(variableName, obj.getClass());
-      Method getter = pd.getReadMethod();
-      return getter.invoke(obj);
-    } catch (IllegalAccessException
-        | IllegalArgumentException
-        | InvocationTargetException
-        | IntrospectionException e) {
-      log.error(e.getMessage());
-    }
-
-    return null;
+    return new Form<T>(clazz, entity, setupButtons(entity));
   }
 
   private Grid<T> createGrid() {
@@ -142,7 +128,7 @@ public abstract class CrudView<T> extends SplitViewFrame {
       if (field.isAnnotationPresent(GridColumn.class)) {
         GridColumn annotation = field.getAnnotation(GridColumn.class);
         // new ComponentRenderer<>(this::createToInfo)
-        grid.addColumn(t -> invokeGetter(t, field.getName()))
+        grid.addColumn(t -> SystemUtil.getInstance().invokeGetter(t, field.getName()))
             .setAutoWidth(annotation.autoWidth())
             .setFlexGrow(annotation.flexGrow())
             .setFrozen(annotation.frozen())
@@ -157,7 +143,7 @@ public abstract class CrudView<T> extends SplitViewFrame {
 
   public abstract void onInit();
 
-  public abstract void onSave();
+  public abstract void onSave(T entity);
 
   public abstract void onDelete();
 
@@ -165,14 +151,39 @@ public abstract class CrudView<T> extends SplitViewFrame {
 
   public abstract void filter();
 
+  private Component setupButtons(T entity) {
+    Button save = new Button("Save");
+    save.addClickListener(
+        event -> {
+          onSave(binder.getBean());
+        });
+
+    HorizontalLayout buttons = new HorizontalLayout(save);
+    if (entity != null) {
+      Button delete = new Button("Delete");
+      buttons.add(delete);
+    }
+
+    buttons.setHeight("200");
+    buttons.setMargin(true);
+    save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+    UIUtils.setColSpan(2, buttons);
+    return buttons;
+  }
+
   static class Form<T> extends FormLayout {
     @Getter @Setter private T entity;
     @Getter @Setter private Class<T> beanType;
 
-    public Form(Class<T> clazz, T entity) {
+    @Getter private Binder<T> binder;
+
+    public Form(Class<T> clazz, T entity, Component buttons) {
       super();
       this.entity = entity;
       this.beanType = clazz;
+      this.binder = new Binder<>(clazz);
+      // this.binder.bindInstanceFields(this);
 
       addClassNames(
           LumoStyles.Padding.Bottom.L, LumoStyles.Padding.Horizontal.L, LumoStyles.Padding.Top.S);
@@ -180,30 +191,11 @@ public abstract class CrudView<T> extends SplitViewFrame {
           new FormLayout.ResponsiveStep("0", 1, FormLayout.ResponsiveStep.LabelsPosition.TOP),
           new FormLayout.ResponsiveStep("21em", 2, FormLayout.ResponsiveStep.LabelsPosition.TOP));
 
-      setupForm();
-      setupButtons(entity);
-    }
-
-    private void setupButtons(T entity) {
-      Button save = new Button("Save");
-      save.addClickListener(buttonClickEvent -> {});
-
-      HorizontalLayout buttons = new HorizontalLayout(save);
-      if (entity != null) {
-        Button delete = new Button("Delete");
-        buttons.add(delete);
-      }
-
-      buttons.setHeight("200");
-      buttons.setMargin(true);
-      save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-
-      UIUtils.setColSpan(2, buttons);
-
+      setupForm(entity);
       add(buttons);
     }
 
-    private void setupForm() {
+    private void setupForm(T entity) {
       List<FormItem> items = new ArrayList<>();
 
       for (Field field : getBeanType().getDeclaredFields()) {
@@ -215,7 +207,21 @@ public abstract class CrudView<T> extends SplitViewFrame {
               DatePicker dateField = new DatePicker();
               dateField.setWidthFull();
               FormItem dateFieldItem = addFormItem(dateField, annotation.label());
-              items.add(dateFieldItem);
+//              binder.forField(
+//                  dateField,
+//                      new ValueProvider<T, String>() {
+//                        @Override
+//                        public String apply(T entity) {
+//                          return (String) SystemUtil.getInstance().invokeGetter(entity, field.getName());
+//                        }
+//                      },
+//                      new Setter<T, String>() {
+//                        @Override
+//                        public void accept(T obj, String value) {
+//                          SystemUtil.getInstance().invokeSetter(obj, field.getName(), value);
+//                        }
+//                      });
+
               break;
             case PhoneField:
               FlexLayout phone = UIUtils.createPhoneLayout();

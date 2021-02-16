@@ -14,7 +14,7 @@ public class ProductCategoryView extends CrudView<ProductCategory> {
   public void onInit() {}
 
   @Override
-  public void onSave() {}
+  public void onSave(ProductCategory productCategory) {}
 
   @Override
   public void onDelete() {}

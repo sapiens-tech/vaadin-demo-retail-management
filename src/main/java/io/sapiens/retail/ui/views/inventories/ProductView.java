@@ -13,7 +13,7 @@ public class ProductView extends CrudView<Product> {
   public void onInit() {}
 
   @Override
-  public void onSave() {}
+  public void onSave(Product product) {}
 
   @Override
   public void onDelete() {}

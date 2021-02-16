@@ -4,15 +4,11 @@ import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.component.page.Viewport;
 import com.vaadin.flow.server.AppShellSettings;
 import com.vaadin.flow.server.PWA;
-import org.hibernate.SessionFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.vaadin.artur.helpers.LaunchUtil;
-
-import javax.persistence.EntityManagerFactory;
 
 @PWA(
     name = "Sapiens App",
@@ -31,8 +27,6 @@ public class Application extends SpringBootServletInitializer implements AppShel
     settings.addMetaTag("apple-mobile-web-app-status-bar-style", "black");
     settings.addFavIcon("icon", "frontend/images/favicons/favicon.ico", "256x256");
   }
-
-
 
   public static void main(String[] args) {
     LaunchUtil.launchBrowserInDevelopmentMode(SpringApplication.run(Application.class, args));

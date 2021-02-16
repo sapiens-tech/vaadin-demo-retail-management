@@ -26,7 +26,7 @@ public class CustomerView extends CrudView<Person> {
   }
 
   @Override
-  public void onSave() {}
+  public void onSave(Person customer) {}
 
   @Override
   public void onDelete() {}

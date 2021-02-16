@@ -14,7 +14,7 @@ public class ProductSizeView extends CrudView<ProductSize> {
   public void onInit() {}
 
   @Override
-  public void onSave() {}
+  public void onSave(ProductSize productSize) {}
 
   @Override
   public void onDelete() {}

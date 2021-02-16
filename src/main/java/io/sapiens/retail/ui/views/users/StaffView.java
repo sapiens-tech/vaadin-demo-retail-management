@@ -26,7 +26,7 @@ public class StaffView extends CrudView<Person> {
   }
 
   @Override
-  public void onSave() {}
+  public void onSave(Person person) {}
 
   @Override
   public void onDelete() {}
