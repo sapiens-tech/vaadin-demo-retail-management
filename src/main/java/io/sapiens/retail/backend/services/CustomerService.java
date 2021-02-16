@@ -14,9 +14,10 @@ import java.util.List;
 
 @Service
 public class CustomerService {
-  private final CustomerDao customerDao;
+  private CustomerDao customerDao;
 
-  public CustomerService(@Autowired CustomerDao customerDao) {
+  @Autowired
+  public void setDao(CustomerDao customerDao) {
     this.customerDao = customerDao;
   }
 
