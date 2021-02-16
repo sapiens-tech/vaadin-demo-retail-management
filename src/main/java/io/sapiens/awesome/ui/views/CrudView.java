@@ -62,9 +62,26 @@ public abstract class CrudView<T> extends SplitViewFrame {
   protected void onAttach(AttachEvent attachEvent) {
     super.onAttach(attachEvent);
     onInit();
-    setViewContent(createContent());
+    setViewContent(createUtilButton(), createContent());
     setViewDetails(createDetailsDrawer());
     filter();
+  }
+
+  public Component createUtilButton() {
+    Button save = new Button("New");
+    save.addClickListener(
+        buttonClickEvent -> {
+          showDetails(null);
+        });
+
+    FlexBoxLayout content = new FlexBoxLayout(save);
+    content.setBoxSizing(BoxSizing.BORDER_BOX);
+    content.setHeight("80");
+    content.setFlexDirection(FlexLayout.FlexDirection.ROW_REVERSE);
+    content.setPadding(Horizontal.RESPONSIVE_X, Top.M);
+    save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+    UIUtils.setColSpan(2, content);
+    return content;
   }
 
   private DetailsDrawer createDetailsDrawer() {
@@ -81,7 +98,7 @@ public abstract class CrudView<T> extends SplitViewFrame {
     FlexBoxLayout content = new FlexBoxLayout(createGrid());
     content.setBoxSizing(BoxSizing.BORDER_BOX);
     content.setHeightFull();
-    content.setPadding(Horizontal.RESPONSIVE_X, Top.RESPONSIVE_X, Bottom.M);
+    content.setPadding(Horizontal.RESPONSIVE_X, Top.S, Bottom.M);
     return content;
   }
 
@@ -91,11 +108,11 @@ public abstract class CrudView<T> extends SplitViewFrame {
   }
 
   private Component createDetails(T entity) {
-    return createEditor(entity);
+    return createEditor(beanType, entity);
   }
 
-  private FormLayout createEditor(T entity) {
-    return new Form<>(entity);
+  private FormLayout createEditor(Class<T> clazz, T entity) {
+    return new Form<T>(clazz, entity);
   }
 
   public Object invokeGetter(Object obj, String variableName) {
@@ -150,10 +167,12 @@ public abstract class CrudView<T> extends SplitViewFrame {
 
   static class Form<T> extends FormLayout {
     @Getter @Setter private T entity;
+    @Getter @Setter private Class<T> beanType;
 
-    public Form(T entity) {
+    public Form(Class<T> clazz, T entity) {
       super();
       this.entity = entity;
+      this.beanType = clazz;
 
       addClassNames(
           LumoStyles.Padding.Bottom.L, LumoStyles.Padding.Horizontal.L, LumoStyles.Padding.Top.S);
@@ -161,8 +180,33 @@ public abstract class CrudView<T> extends SplitViewFrame {
           new FormLayout.ResponsiveStep("0", 1, FormLayout.ResponsiveStep.LabelsPosition.TOP),
           new FormLayout.ResponsiveStep("21em", 2, FormLayout.ResponsiveStep.LabelsPosition.TOP));
 
+      setupForm();
+      setupButtons(entity);
+    }
+
+    private void setupButtons(T entity) {
+      Button save = new Button("Save");
+      save.addClickListener(buttonClickEvent -> {});
+
+      HorizontalLayout buttons = new HorizontalLayout(save);
+      if (entity != null) {
+        Button delete = new Button("Delete");
+        buttons.add(delete);
+      }
+
+      buttons.setHeight("200");
+      buttons.setMargin(true);
+      save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+      UIUtils.setColSpan(2, buttons);
+
+      add(buttons);
+    }
+
+    private void setupForm() {
       List<FormItem> items = new ArrayList<>();
-      for (Field field : getEntity().getClass().getDeclaredFields()) {
+
+      for (Field field : getBeanType().getDeclaredFields()) {
         if (field.isAnnotationPresent(FormField.class)) {
           FormField annotation = field.getAnnotation(FormField.class);
 
@@ -170,41 +214,27 @@ public abstract class CrudView<T> extends SplitViewFrame {
             case DateField:
               DatePicker dateField = new DatePicker();
               dateField.setWidthFull();
-              FormLayout.FormItem dateFieldItem = addFormItem(dateField, annotation.label());
+              FormItem dateFieldItem = addFormItem(dateField, annotation.label());
               items.add(dateFieldItem);
               break;
             case PhoneField:
               FlexLayout phone = UIUtils.createPhoneLayout();
-              FormLayout.FormItem phoneItem = addFormItem(phone, annotation.label());
+              FormItem phoneItem = addFormItem(phone, annotation.label());
               items.add(phoneItem);
               break;
             case FileField:
-              FormLayout.FormItem uploadItem = addFormItem(new Upload(), annotation.label());
+              FormItem uploadItem = addFormItem(new Upload(), annotation.label());
               items.add(uploadItem);
               break;
             default:
               TextField textField = new TextField();
-              FormLayout.FormItem textFieldItem = addFormItem(textField, annotation.label());
+              FormItem textFieldItem = addFormItem(textField, annotation.label());
               textField.setWidthFull();
               items.add(textFieldItem);
           }
         }
       }
-
-      Button save = new Button("Save");
-      save.addClickListener(buttonClickEvent -> {});
-
-      Button delete = new Button("Delete");
-
-      HorizontalLayout buttons = new HorizontalLayout(save, delete);
-      buttons.setHeight("200");
-      buttons.setMargin(true);
-      save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-
       UIUtils.setColSpan(2, items.toArray(new Component[0]));
-      UIUtils.setColSpan(2, buttons);
-
-      add(buttons);
     }
   }
 }
