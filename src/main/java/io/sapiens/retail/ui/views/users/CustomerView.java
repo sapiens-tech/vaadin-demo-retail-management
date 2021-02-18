@@ -1,5 +1,6 @@
 package io.sapiens.retail.ui.views.users;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import io.sapiens.awesome.ui.views.CrudView;
@@ -7,6 +8,7 @@ import io.sapiens.retail.backend.enums.Role;
 import io.sapiens.retail.backend.service.CustomerService;
 import io.sapiens.retail.ui.BaseLayout;
 import io.sapiens.retail.ui.models.Person;
+import io.sapiens.retail.ui.views.Home;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Route(value = "customers", layout = BaseLayout.class)
@@ -28,6 +30,7 @@ public class CustomerView extends CrudView<Person> {
   @Override
   public void onSave(Person customer) {
     customerService.save(customer);
+    UI.getCurrent().getPage().reload();
   }
 
   @Override
