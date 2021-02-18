@@ -4,33 +4,26 @@ import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.provider.ListDataProvider;
-import com.vaadin.flow.function.ValueProvider;
-import io.sapiens.awesome.ui.annotations.FormField;
 import io.sapiens.awesome.ui.annotations.GridColumn;
 import io.sapiens.awesome.ui.components.FlexBoxLayout;
+import io.sapiens.awesome.ui.components.Form;
 import io.sapiens.awesome.ui.components.detailsdrawer.DetailsDrawer;
 import io.sapiens.awesome.ui.components.detailsdrawer.DetailsDrawerHeader;
 import io.sapiens.awesome.ui.layout.size.Bottom;
 import io.sapiens.awesome.ui.layout.size.Horizontal;
-import io.sapiens.awesome.ui.layout.size.Right;
 import io.sapiens.awesome.ui.layout.size.Top;
-import io.sapiens.awesome.ui.util.LumoStyles;
 import io.sapiens.awesome.ui.util.UIUtils;
 import io.sapiens.awesome.ui.util.css.BoxSizing;
 import io.sapiens.awesome.util.SystemUtil;
-import io.sapiens.retail.backend.dummy.DummyData;
 import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;
@@ -39,10 +32,8 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public abstract class CrudView<T> extends SplitViewFrame {
 
@@ -86,6 +77,7 @@ public abstract class CrudView<T> extends SplitViewFrame {
               | InvocationTargetException
               | NoSuchMethodException e) {
             e.printStackTrace();
+            log.error(e.getMessage());
           }
         });
 
@@ -173,7 +165,7 @@ public abstract class CrudView<T> extends SplitViewFrame {
             binder.writeBean(entity);
             onSave(entity);
           } catch (ValidationException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
           }
         });
 
@@ -189,92 +181,5 @@ public abstract class CrudView<T> extends SplitViewFrame {
 
     UIUtils.setColSpan(2, buttons);
     return buttons;
-  }
-
-  static class Form<T> extends FormLayout {
-    @Getter @Setter private T entity;
-    @Getter @Setter private Class<T> beanType;
-    @Getter private final Binder<T> binder;
-
-    public Form(Class<T> clazz, T entity, Binder<T> binder, Component buttons) {
-      super();
-      this.entity = entity;
-      this.beanType = clazz;
-      this.binder = binder;
-
-      addClassNames(
-          LumoStyles.Padding.Bottom.L, LumoStyles.Padding.Horizontal.L, LumoStyles.Padding.Top.S);
-      setResponsiveSteps(
-          new FormLayout.ResponsiveStep("0", 1, FormLayout.ResponsiveStep.LabelsPosition.TOP),
-          new FormLayout.ResponsiveStep("21em", 2, FormLayout.ResponsiveStep.LabelsPosition.TOP));
-
-      setupForm(entity);
-      add(buttons);
-    }
-
-    private void setupForm(T entity) {
-      List<FormItem> items = new ArrayList<>();
-      log.debug(String.valueOf(entity));
-
-      for (Field field : getBeanType().getDeclaredFields()) {
-        if (field.isAnnotationPresent(FormField.class)) {
-          var annotation = field.getAnnotation(FormField.class);
-          var fieldName = field.getName();
-          var util = SystemUtil.getInstance();
-
-          switch (annotation.type()) {
-            case DateField:
-              DatePicker dateField = new DatePicker();
-              dateField.setWidthFull();
-              FormItem dateFieldItem = addFormItem(dateField, annotation.label());
-              items.add(dateFieldItem);
-              binder
-                  .forField(dateField)
-                  .bind(
-                      (ValueProvider<T, LocalDate>)
-                          t -> (LocalDate) util.invokeGetter(t, fieldName),
-                      (com.vaadin.flow.data.binder.Setter<T, LocalDate>)
-                          (t, localDate) -> util.invokeSetter(t, fieldName, localDate));
-
-              break;
-            case PhoneField:
-              TextField phonePrefix = new TextField();
-              phonePrefix.setValue("+358");
-              phonePrefix.setWidth("80px");
-              TextField phoneNumber = new TextField();
-              phoneNumber.setValue(DummyData.getPhoneNumber());
-              FlexBoxLayout layout = new FlexBoxLayout(phonePrefix, phoneNumber);
-              layout.setFlexGrow(1, phoneNumber);
-              layout.setSpacing(Right.S);
-
-              FormItem phoneItem = addFormItem(layout, annotation.label());
-              items.add(phoneItem);
-              binder
-                  .forField(phonePrefix)
-                  .bind(
-                      (ValueProvider<T, String>) t -> (String) util.invokeGetter(t, fieldName),
-                      (com.vaadin.flow.data.binder.Setter<T, String>)
-                          (t, s) -> util.invokeSetter(t, fieldName, s));
-              break;
-            case FileField:
-              FormItem uploadItem = addFormItem(new Upload(), annotation.label());
-              items.add(uploadItem);
-              break;
-            default:
-              TextField textField = new TextField();
-              FormItem textFieldItem = addFormItem(textField, annotation.label());
-              textField.setWidthFull();
-              items.add(textFieldItem);
-              binder
-                  .forField(textField)
-                  .bind(
-                      (ValueProvider<T, String>) t -> (String) util.invokeGetter(t, fieldName),
-                      (com.vaadin.flow.data.binder.Setter<T, String>)
-                          (t, s) -> util.invokeSetter(t, fieldName, s));
-          }
-        }
-      }
-      UIUtils.setColSpan(2, items.toArray(new Component[0]));
-    }
   }
 }

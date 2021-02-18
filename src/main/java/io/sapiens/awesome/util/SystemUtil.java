@@ -34,11 +34,11 @@ public class SystemUtil {
     return null;
   }
 
-  public Object invokeSetter(Object obj, String variableName, Object value) {
+  public void invokeSetter(Object obj, String variableName, Object value) {
     try {
       PropertyDescriptor pd = new PropertyDescriptor(variableName, obj.getClass());
       Method setter = pd.getWriteMethod();
-      return setter.invoke(obj, value);
+      setter.invoke(obj, value);
     } catch (IllegalAccessException
         | IllegalArgumentException
         | InvocationTargetException
@@ -46,7 +46,6 @@ public class SystemUtil {
       logger.error(e.getMessage());
     }
 
-    return null;
   }
 
   public String resolveContentType(String filename) {

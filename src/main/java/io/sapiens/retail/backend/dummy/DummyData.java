@@ -548,7 +548,7 @@ public class DummyData {
       person.setId(i);
       person.setFirstName(firstName);
       person.setLastName(lastName);
-      person.setEmail(firstName.toLowerCase() + "." + lastName.toLowerCase() + "@email.com");
+      person.setEmailAddress(firstName.toLowerCase() + "." + lastName.toLowerCase() + "@email.com");
       person.setRole(getRole());
       person.setLastModified(getDate());
       person.setRandomBoolean(random.nextBoolean());

@@ -10,7 +10,7 @@ public interface IOperations<T extends AbstractModel> {
 
   List<T> findAll();
 
-  void create(final T entity);
+  void save(final T entity);
 
   T update(final T entity);
 

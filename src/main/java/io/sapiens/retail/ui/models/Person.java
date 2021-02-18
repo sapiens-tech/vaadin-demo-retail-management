@@ -34,7 +34,7 @@ public class Person {
 
   @GridColumn(header = "Email", flexGrow = 1)
   @FormField(type = FormFieldType.TextField, label = "Email")
-  private String email;
+  private String emailAddress;
 
   @FormField(type = FormFieldType.DateField, label = "Date of birth")
   @GridColumn(header = "Date of birth")
@@ -85,7 +85,7 @@ public class Person {
 
   @JsonIgnore
   public Component getUserInfo() {
-    ListItem item = new ListItem(new Initials(getInitials()), getName(), getEmail());
+    ListItem item = new ListItem(new Initials(getInitials()), getName(), getEmailAddress());
     item.setPadding(Vertical.XS);
     item.setSpacing(Right.M);
     return item;

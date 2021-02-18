@@ -27,7 +27,7 @@ public class CustomerView extends CrudView<Person> {
 
   @Override
   public void onSave(Person customer) {
-    System.out.print(customer);
+    customerService.save(customer);
   }
 
   @Override

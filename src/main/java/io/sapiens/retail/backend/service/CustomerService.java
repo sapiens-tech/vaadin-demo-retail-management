@@ -4,6 +4,8 @@ import io.sapiens.retail.backend.dao.CustomerDao;
 import io.sapiens.retail.backend.enums.Role;
 import io.sapiens.retail.backend.model.User;
 import io.sapiens.retail.ui.models.Person;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import java.util.List;
 
 @Service
 public class CustomerService {
+  private final Logger log = LoggerFactory.getLogger(CustomerService.class);
   private CustomerDao customerDao;
 
   @Autowired
@@ -22,7 +25,11 @@ public class CustomerService {
   }
 
   public void save(Person person) {
-    System.out.println(person);
+    User user = new User();
+    BeanUtils.copyProperties(person, user);
+    user.setRole(Role.CUSTOMER);
+    log.debug("Saving user: ", user);
+    customerDao.save(user);
   }
 
   public Collection<Person> retrieveByRole(Role role) {

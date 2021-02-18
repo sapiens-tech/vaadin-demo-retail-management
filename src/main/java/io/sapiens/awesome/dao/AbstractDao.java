@@ -97,24 +97,31 @@ public abstract class AbstractDao<T extends AbstractModel> implements IOperation
   }
 
   @Override
-  public void create(final T entity) {
-    getCurrentSession().saveOrUpdate(entity);
-    getCurrentSession().close();
+  public void save(final T entity) {
+    var session = getCurrentSession();
+    session.getTransaction().begin();
+    session.saveOrUpdate(entity);
+    session.getTransaction().commit();
+    session.close();
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public T update(final T entity) {
+    var session = getCurrentSession();
     var result = (T) getCurrentSession().merge(entity);
+    session.getTransaction().commit();
 
-    getCurrentSession().close();
+    session.close();
     return result;
   }
 
   @Override
   public void delete(final T entity) {
-    getCurrentSession().delete(entity);
-    getCurrentSession().close();
+    Session session = getCurrentSession();
+    session.delete(entity);
+    session.getTransaction().commit();
+    session.close();
   }
 
   @Override
