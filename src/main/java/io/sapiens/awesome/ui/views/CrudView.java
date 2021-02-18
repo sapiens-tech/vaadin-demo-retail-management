@@ -13,6 +13,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.function.ValueProvider;
@@ -36,6 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -47,7 +49,7 @@ public abstract class CrudView<T> extends SplitViewFrame {
   private static final Logger log = LoggerFactory.getLogger(CrudView.class);
   private final Class<T> beanType;
   private DetailsDrawer detailsDrawer;
-  @Getter private Binder<T> binder;
+  @Getter private final Binder<T> binder;
 
   @Getter @Setter private ListDataProvider<T> dataProvider;
   @Getter @Setter private Collection<T> dataSet = new ArrayList<>();
@@ -72,18 +74,27 @@ public abstract class CrudView<T> extends SplitViewFrame {
   }
 
   public Component createUtilButton() {
-    Button save = new Button("New");
-    save.addClickListener(
+    Button newButton = new Button("New");
+    newButton.addClickListener(
         buttonClickEvent -> {
-          showDetails(null);
+          T entity;
+          try {
+            entity = this.beanType.getDeclaredConstructor(null).newInstance(null);
+            showDetails(entity);
+          } catch (InstantiationException
+              | IllegalAccessException
+              | InvocationTargetException
+              | NoSuchMethodException e) {
+            e.printStackTrace();
+          }
         });
 
-    FlexBoxLayout content = new FlexBoxLayout(save);
+    FlexBoxLayout content = new FlexBoxLayout(newButton);
     content.setBoxSizing(BoxSizing.BORDER_BOX);
     content.setHeight("80");
     content.setFlexDirection(FlexLayout.FlexDirection.ROW_REVERSE);
     content.setPadding(Horizontal.RESPONSIVE_X, Top.M);
-    save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+    newButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
     UIUtils.setColSpan(2, content);
     return content;
   }
@@ -158,7 +169,12 @@ public abstract class CrudView<T> extends SplitViewFrame {
     Button save = new Button("Save");
     save.addClickListener(
         event -> {
-          onSave(binder.getBean());
+          try {
+            binder.writeBean(entity);
+            onSave(entity);
+          } catch (ValidationException e) {
+            e.printStackTrace();
+          }
         });
 
     HorizontalLayout buttons = new HorizontalLayout(save);
@@ -198,6 +214,7 @@ public abstract class CrudView<T> extends SplitViewFrame {
 
     private void setupForm(T entity) {
       List<FormItem> items = new ArrayList<>();
+      log.debug(String.valueOf(entity));
 
       for (Field field : getBeanType().getDeclaredFields()) {
         if (field.isAnnotationPresent(FormField.class)) {
