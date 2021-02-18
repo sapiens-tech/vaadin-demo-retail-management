@@ -40,8 +40,12 @@ public class Person {
   @GridColumn(header = "Date of birth")
   private LocalDate dateOfBirth;
 
-  @FormField(type = FormFieldType.PhoneField, label = "Phone")
+  private String phonePrefix;
+
+  private String phoneNumber;
+
   @GridColumn(header = "Phone")
+  @FormField(type = FormFieldType.PhoneField, label = "Phone")
   private String phone;
 
   @FormField(type = FormFieldType.FileField, label = "Avatar")

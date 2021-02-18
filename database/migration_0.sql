@@ -26,4 +26,4 @@ CREATE TABLE `user`
     PRIMARY KEY (`id`),
     UNIQUE (`email_address`),
     UNIQUE (`user_name`)
-)Engine = InnoDB;
+) Engine = InnoDB;

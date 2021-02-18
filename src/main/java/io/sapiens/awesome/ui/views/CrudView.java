@@ -23,11 +23,13 @@ import io.sapiens.awesome.ui.components.detailsdrawer.DetailsDrawer;
 import io.sapiens.awesome.ui.components.detailsdrawer.DetailsDrawerHeader;
 import io.sapiens.awesome.ui.layout.size.Bottom;
 import io.sapiens.awesome.ui.layout.size.Horizontal;
+import io.sapiens.awesome.ui.layout.size.Right;
 import io.sapiens.awesome.ui.layout.size.Top;
 import io.sapiens.awesome.ui.util.LumoStyles;
 import io.sapiens.awesome.ui.util.UIUtils;
 import io.sapiens.awesome.ui.util.css.BoxSizing;
 import io.sapiens.awesome.util.SystemUtil;
+import io.sapiens.retail.backend.dummy.DummyData;
 import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;
@@ -35,6 +37,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -113,7 +116,7 @@ public abstract class CrudView<T> extends SplitViewFrame {
   }
 
   private FormLayout createEditor(Class<T> clazz, T entity) {
-    return new Form<T>(clazz, entity, setupButtons(entity));
+    return new Form<>(clazz, entity, binder, setupButtons(entity));
   }
 
   private Grid<T> createGrid() {
@@ -175,15 +178,13 @@ public abstract class CrudView<T> extends SplitViewFrame {
   static class Form<T> extends FormLayout {
     @Getter @Setter private T entity;
     @Getter @Setter private Class<T> beanType;
+    @Getter private final Binder<T> binder;
 
-    @Getter private Binder<T> binder;
-
-    public Form(Class<T> clazz, T entity, Component buttons) {
+    public Form(Class<T> clazz, T entity, Binder<T> binder, Component buttons) {
       super();
       this.entity = entity;
       this.beanType = clazz;
-      this.binder = new Binder<>(clazz);
-      // this.binder.bindInstanceFields(this);
+      this.binder = binder;
 
       addClassNames(
           LumoStyles.Padding.Bottom.L, LumoStyles.Padding.Horizontal.L, LumoStyles.Padding.Top.S);
@@ -200,33 +201,43 @@ public abstract class CrudView<T> extends SplitViewFrame {
 
       for (Field field : getBeanType().getDeclaredFields()) {
         if (field.isAnnotationPresent(FormField.class)) {
-          FormField annotation = field.getAnnotation(FormField.class);
+          var annotation = field.getAnnotation(FormField.class);
+          var fieldName = field.getName();
+          var util = SystemUtil.getInstance();
 
           switch (annotation.type()) {
             case DateField:
               DatePicker dateField = new DatePicker();
               dateField.setWidthFull();
               FormItem dateFieldItem = addFormItem(dateField, annotation.label());
-//              binder.forField(
-//                  dateField,
-//                      new ValueProvider<T, String>() {
-//                        @Override
-//                        public String apply(T entity) {
-//                          return (String) SystemUtil.getInstance().invokeGetter(entity, field.getName());
-//                        }
-//                      },
-//                      new Setter<T, String>() {
-//                        @Override
-//                        public void accept(T obj, String value) {
-//                          SystemUtil.getInstance().invokeSetter(obj, field.getName(), value);
-//                        }
-//                      });
+              items.add(dateFieldItem);
+              binder
+                  .forField(dateField)
+                  .bind(
+                      (ValueProvider<T, LocalDate>)
+                          t -> (LocalDate) util.invokeGetter(t, fieldName),
+                      (com.vaadin.flow.data.binder.Setter<T, LocalDate>)
+                          (t, localDate) -> util.invokeSetter(t, fieldName, localDate));
 
               break;
             case PhoneField:
-              FlexLayout phone = UIUtils.createPhoneLayout();
-              FormItem phoneItem = addFormItem(phone, annotation.label());
+              TextField phonePrefix = new TextField();
+              phonePrefix.setValue("+358");
+              phonePrefix.setWidth("80px");
+              TextField phoneNumber = new TextField();
+              phoneNumber.setValue(DummyData.getPhoneNumber());
+              FlexBoxLayout layout = new FlexBoxLayout(phonePrefix, phoneNumber);
+              layout.setFlexGrow(1, phoneNumber);
+              layout.setSpacing(Right.S);
+
+              FormItem phoneItem = addFormItem(layout, annotation.label());
               items.add(phoneItem);
+              binder
+                  .forField(phonePrefix)
+                  .bind(
+                      (ValueProvider<T, String>) t -> (String) util.invokeGetter(t, fieldName),
+                      (com.vaadin.flow.data.binder.Setter<T, String>)
+                          (t, s) -> util.invokeSetter(t, fieldName, s));
               break;
             case FileField:
               FormItem uploadItem = addFormItem(new Upload(), annotation.label());
@@ -237,6 +248,12 @@ public abstract class CrudView<T> extends SplitViewFrame {
               FormItem textFieldItem = addFormItem(textField, annotation.label());
               textField.setWidthFull();
               items.add(textFieldItem);
+              binder
+                  .forField(textField)
+                  .bind(
+                      (ValueProvider<T, String>) t -> (String) util.invokeGetter(t, fieldName),
+                      (com.vaadin.flow.data.binder.Setter<T, String>)
+                          (t, s) -> util.invokeSetter(t, fieldName, s));
           }
         }
       }
