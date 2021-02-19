@@ -1,5 +1,6 @@
 package io.sapiens.retail.ui.views.users;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import io.sapiens.awesome.ui.views.CrudView;
@@ -25,7 +26,10 @@ public class StaffView extends CrudView<User> {
   }
 
   @Override
-  public void onSave(User user) {}
+  public void onSave(User user) {
+    userService.saveUser(user);
+    UI.getCurrent().getPage().reload();
+  }
 
   @Override
   public void onDelete() {}

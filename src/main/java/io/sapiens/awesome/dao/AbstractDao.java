@@ -15,7 +15,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import java.lang.reflect.ParameterizedType;
-import java.util.Collection;
 import java.util.List;
 
 public abstract class AbstractDao<T extends AbstractModel> implements IOperations<T> {
@@ -51,7 +50,6 @@ public abstract class AbstractDao<T extends AbstractModel> implements IOperation
     return result;
   }
 
-  @SuppressWarnings("unchecked")
   public List<T> execute(CriteriaQuery<T> query) {
     var result = getCurrentSession().createQuery(query).getResultList();
     getCurrentSession().close();

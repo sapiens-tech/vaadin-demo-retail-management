@@ -34,6 +34,7 @@ public class UserService {
   public void saveUser(io.sapiens.retail.ui.models.User user) {
     User u = new User();
     BeanUtils.copyProperties(user, u);
+    u.setRole(Role.MANAGER);
     userDao.save(u);
   }
 

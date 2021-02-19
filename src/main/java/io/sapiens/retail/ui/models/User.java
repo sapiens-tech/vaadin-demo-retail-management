@@ -1,6 +1,8 @@
 package io.sapiens.retail.ui.models;
 
+import io.sapiens.awesome.ui.annotations.FormField;
 import io.sapiens.awesome.ui.annotations.GridColumn;
+import io.sapiens.awesome.ui.enums.FormFieldType;
 import io.sapiens.retail.backend.enums.Role;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,24 +13,29 @@ import lombok.ToString;
 @ToString
 public class User {
   @GridColumn(header = "Username")
+  @FormField(type = FormFieldType.TextField, label = "Username")
   private String userName;
 
+  @FormField(type = FormFieldType.PasswordField, label = "Password")
   private String password;
 
-  @GridColumn(header = "Username")
+  @GridColumn(header = "First Name")
+  @FormField(type = FormFieldType.TextField, label = "First name")
   private String firstName;
 
-  @GridColumn(header = "Username")
+  @GridColumn(header = "Last Name")
+  @FormField(type = FormFieldType.TextField, label = "Last name")
   private String lastName;
 
-  @GridColumn(header = "Username")
+  @GridColumn(header = "Email", flexGrow = 1)
+  @FormField(type = FormFieldType.TextField, label = "Email")
   private String emailAddress;
 
   private String hashSalt;
 
-  @GridColumn(header = "Username")
+  @GridColumn(header = "Phone")
+  @FormField(type = FormFieldType.TextField, label = "Phone")
   private String phone;
 
-  @GridColumn(header = "Username")
   private Role role;
 }
