@@ -13,7 +13,7 @@ import java.util.List;
 public class UserDao extends AbstractDao<User> {
   public List<User> retrieveByRole(Role... roles) {
     var statement = from(User.class);
-    statement.select(statement.getRoot()).where(statement.getRoot().get("role").in((Object) roles));
+    statement.select(statement.getRoot()).where(statement.getRoot().get("role").in(roles));
     return execute(statement.getQuery());
   }
 }
