@@ -6,14 +6,18 @@ import io.sapiens.retail.backend.model.User;
 import lombok.ToString;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Repository
 @ToString
 public class UserDao extends AbstractDao<User> {
   public List<User> retrieveByRole(Role... roles) {
-    var statement = from(User.class);
-    statement.select(statement.getRoot()).where(statement.getRoot().get("role").in((Object) roles));
+    QueryStatement<User> statement = from(User.class);
+    Root<User> user = statement.getRoot();
+
+    statement.select(user).where(user.get("role").in(roles));
+
     return execute(statement.getQuery());
   }
 }
