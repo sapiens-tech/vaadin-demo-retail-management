@@ -4,32 +4,30 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import io.sapiens.awesome.ui.views.CrudView;
-import io.sapiens.retail.backend.enums.Role;
-import io.sapiens.retail.backend.service.CustomerService;
+import io.sapiens.retail.backend.service.UserService;
 import io.sapiens.retail.ui.BaseLayout;
-import io.sapiens.retail.ui.models.Person;
-import io.sapiens.retail.ui.views.Home;
+import io.sapiens.retail.ui.models.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Route(value = "customers", layout = BaseLayout.class)
 @PageTitle("Customers")
-public class CustomerView extends CrudView<Person> {
+public class CustomerView extends CrudView<Customer> {
 
-  private final CustomerService customerService;
+  private final UserService userService;
 
-  public CustomerView(@Autowired CustomerService customerService) {
-    this.customerService = customerService;
+  public CustomerView(@Autowired UserService userService) {
+    this.userService = userService;
   }
 
   @Override
   public void onInit() {
-    setDataSet(customerService.retrieveByRole(Role.CUSTOMER));
+    setDataSet(userService.retrieveCustomer());
     setDetailTitle("Customer Details");
   }
 
   @Override
-  public void onSave(Person customer) {
-    customerService.save(customer);
+  public void onSave(Customer customer) {
+    userService.saveCustomer(customer);
     UI.getCurrent().getPage().reload();
   }
 

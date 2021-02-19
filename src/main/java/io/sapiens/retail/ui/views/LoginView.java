@@ -31,8 +31,7 @@ public class LoginView extends Composite<Div> implements HasStyle {
         e -> {
           String identifier = e.getUsername();
           String password = e.getPassword();
-          boolean isAuthenticated = true;
-          // securityService.checkAuthenticated(identifier, password);
+          boolean isAuthenticated = securityService.checkAuthenticated(identifier, password);
           if (isAuthenticated) {
             UI.getCurrent().navigate(Home.class);
           } else {

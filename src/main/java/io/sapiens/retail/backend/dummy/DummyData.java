@@ -2,7 +2,7 @@ package io.sapiens.retail.backend.dummy;
 
 import com.vaadin.flow.component.html.Image;
 import io.sapiens.retail.backend.enums.Role;
-import io.sapiens.retail.ui.models.Person;
+import io.sapiens.retail.ui.models.Customer;
 import io.sapiens.awesome.ui.util.UIUtils;
 
 import java.time.LocalDate;
@@ -11,7 +11,7 @@ import java.util.*;
 public class DummyData {
 
   private static final Map<Long, Report> REPORTS = new HashMap<>();
-  private static final Map<Long, Person> PERSONS = new HashMap<>();
+  private static final Map<Long, Customer> PERSONS = new HashMap<>();
   private static final Map<Long, Transaction> TRANSACTIONS = new HashMap<>();
   private static final Map<Long, BankAccount> BANK_ACCOUNTS = new HashMap<>();
   private static final Map<Long, Payment> PAYMENTS = new HashMap<>();
@@ -544,7 +544,7 @@ public class DummyData {
     for (i = 0; i < 100; i++) {
       String firstName = getFirstName();
       String lastName = getLastName();
-      Person person = new Person();
+      Customer person = new Customer();
       person.setId(i);
       person.setFirstName(firstName);
       person.setLastName(lastName);
@@ -856,11 +856,11 @@ public class DummyData {
 
   /* === PERSON === */
 
-  public static Collection<Person> getPersons() {
+  public static Collection<Customer> getPersons() {
     return PERSONS.values();
   }
 
-  public static Person getPerson() {
+  public static Customer getPerson() {
     return PERSONS.get(new ArrayList<>(PERSONS.keySet()).get(random.nextInt(PERSONS.size())));
   }
 

@@ -1,6 +1,7 @@
 package io.sapiens.awesome.dao;
 
 import io.sapiens.awesome.model.AbstractModel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.HibernateException;
@@ -12,7 +13,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Selection;
 import java.lang.reflect.ParameterizedType;
+import java.util.Collection;
 import java.util.List;
 
 public abstract class AbstractDao<T extends AbstractModel> implements IOperations<T> {
@@ -48,52 +51,35 @@ public abstract class AbstractDao<T extends AbstractModel> implements IOperation
     return result;
   }
 
+  @SuppressWarnings("unchecked")
   public List<T> execute(CriteriaQuery<T> query) {
     var result = getCurrentSession().createQuery(query).getResultList();
     getCurrentSession().close();
     return result;
   }
 
-  protected CriteriaBuilder expr() {
-    return getCurrentSession().getCriteriaBuilder();
+  public QueryStatement<T> from(Class<T> clazz) {
+    var builder = expr();
+    var query = builder.createQuery(clazz);
+    var root= query.from(clazz);
+
+    return new QueryStatement<>(query, root, getCurrentSession());
   }
 
-  @Getter
-  @Setter
+  @Setter @Getter
+  @AllArgsConstructor
   public static class QueryStatement<T> {
-    CriteriaQuery<T> criteriaQuery;
-    Class<T> clazz;
-    CriteriaBuilder builder;
+    CriteriaQuery<T> query;
     Root<T> root;
     Session session;
 
-    public QueryStatement(Session session) {
-      this.session = session;
-    }
-
-    public QueryStatement<T> where() {
-      return this;
-    }
-
-    public QueryStatement<T> eq(String path, Object value) {
-      builder.equal(root.get(path), value);
-      return this;
-    }
-
-    public List<T> execute() {
-      return session.createQuery(this.criteriaQuery).getResultList();
+    public CriteriaQuery<T> select(Selection<? extends T> selection) {
+      return query.select(selection) ;
     }
   }
 
-  protected QueryStatement<T> from(Class<T> clazz) {
-    var session = getCurrentSession();
-    var builder = session.getCriteriaBuilder();
-    QueryStatement<T> statement = new QueryStatement<>(session);
-    statement.setClazz(clazz);
-    statement.setBuilder(builder);
-    statement.setCriteriaQuery(builder.createQuery(clazz));
-    statement.setRoot(statement.getCriteriaQuery().from(clazz));
-    return statement;
+  protected CriteriaBuilder expr() {
+    return getCurrentSession().getCriteriaBuilder();
   }
 
   @Override

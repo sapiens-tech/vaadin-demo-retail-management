@@ -21,7 +21,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-public class Person {
+public class Customer {
 
   @GridColumn(header = "ID")
   private Long id;
