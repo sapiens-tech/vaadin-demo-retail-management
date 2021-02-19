@@ -34,7 +34,7 @@ public class UserService {
   public void saveUser(io.sapiens.retail.ui.models.User user) {
     User u = new User();
     BeanUtils.copyProperties(user, u);
-    u.setRole(Role.MANAGER);
+    u.setRole(Role.STAFF);
     userDao.save(u);
   }
 
@@ -52,7 +52,7 @@ public class UserService {
   }
 
   public Collection<io.sapiens.retail.ui.models.User> retrieveUser() {
-    List<User> users = userDao.retrieveByRole(Role.MANAGER);
+    List<User> users = userDao.retrieveByRole(Role.STAFF);
     List<io.sapiens.retail.ui.models.User> result = new ArrayList<>();
 
     for (User user : users) {
