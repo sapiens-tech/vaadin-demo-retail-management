@@ -1,5 +1,6 @@
 package io.sapiens.awesome.ui.components.navigation.bar;
 
+import com.vaadin.flow.component.UI;
 import io.sapiens.awesome.ui.layout.SidebarLayout;
 import io.sapiens.awesome.ui.components.FlexBoxLayout;
 import io.sapiens.awesome.ui.components.navigation.tab.NaviTab;
@@ -122,7 +123,9 @@ public class AppBar extends Header {
         e -> Notification.show("Not implemented yet.", 3000, Notification.Position.BOTTOM_CENTER));
     contextMenu.addItem(
         "Log Out",
-        e -> Notification.show("Not implemented yet.", 3000, Notification.Position.BOTTOM_CENTER));
+        e ->  {
+          UI.getCurrent().navigate("logout");
+        });
   }
 
   private void initActionItems() {
