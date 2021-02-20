@@ -6,5 +6,6 @@ public enum FormFieldType {
   SelectField,
   PhoneField,
   PasswordField,
+  TextAreaField,
   FileField;
 }

@@ -5,6 +5,7 @@ import io.sapiens.awesome.ui.components.navigation.drawer.NaviItem;
 import io.sapiens.awesome.ui.components.navigation.drawer.NaviMenu;
 import io.sapiens.awesome.ui.layout.SidebarLayout;
 import io.sapiens.retail.ui.views.Home;
+import io.sapiens.retail.ui.views.StaticPageView;
 import io.sapiens.retail.ui.views.inventories.ProductCategoryView;
 import io.sapiens.retail.ui.views.inventories.ProductSizeView;
 import io.sapiens.retail.ui.views.inventories.ProductView;
@@ -22,6 +23,7 @@ public class BaseLayout extends SidebarLayout {
     NaviMenu menu = getNaviDrawer().getMenu();
 
     menu.addNaviItem(VaadinIcon.HOME, "Home", Home.class);
+    menu.addNaviItem(VaadinIcon.FILE_TEXT, "Static Page", StaticPageView.class);
 
     NaviItem personnel = menu.addNaviItem(VaadinIcon.USERS, "User", null);
     menu.addNaviItem(personnel, "Customers", CustomerView.class);
@@ -34,5 +36,6 @@ public class BaseLayout extends SidebarLayout {
 
     NaviItem order = menu.addNaviItem(VaadinIcon.CREDIT_CARD, "Transactions", null);
     menu.addNaviItem(order, "Orders", OrderView.class);
+
   }
 }

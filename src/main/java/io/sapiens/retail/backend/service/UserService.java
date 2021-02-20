@@ -25,6 +25,7 @@ public class UserService {
   }
 
   public void saveCustomer(Customer person) {
+    log.info("Saving customer ...");
     User user = new User();
     BeanUtils.copyProperties(person, user);
     user.setRole(Role.CUSTOMER);

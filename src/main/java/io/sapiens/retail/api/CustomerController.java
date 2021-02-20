@@ -19,6 +19,6 @@ public class CustomerController {
 
   @GetMapping("/")
   public Object retrieveAllCustomers() {
-    return userService.retrieveCustomer();
+    return userService.retrieveUser();
   }
 }

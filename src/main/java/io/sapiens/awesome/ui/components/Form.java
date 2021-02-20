@@ -1,15 +1,16 @@
 package io.sapiens.awesome.ui.components;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
+import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.function.ValueProvider;
 import io.sapiens.awesome.ui.annotations.FormField;
-import io.sapiens.awesome.ui.enums.FormFieldType;
 import io.sapiens.awesome.ui.layout.size.Right;
 import io.sapiens.awesome.ui.util.LumoStyles;
 import io.sapiens.awesome.ui.util.UIUtils;
@@ -96,7 +97,7 @@ public class Form<T> extends FormLayout {
     phonePrefix.setValue("+358");
     phonePrefix.setWidth("80px");
     var phoneNumber = new TextField();
-   phoneNumber.setValue(DummyData.getPhoneNumber());
+    phoneNumber.setValue(DummyData.getPhoneNumber());
     FlexBoxLayout layout = new FlexBoxLayout(phonePrefix, phoneNumber);
     layout.setFlexGrow(1, phoneNumber);
     layout.setSpacing(Right.S);
@@ -111,31 +112,34 @@ public class Form<T> extends FormLayout {
                 (t, s) -> util.invokeSetter(t, fieldName, s));
   }
 
+  private HasValue getTextComponent(FormField annotation) {
+    switch (annotation.type()) {
+      case PasswordField:
+        PasswordField passwordField = new PasswordField();
+        passwordField.setWidthFull();
+        return passwordField;
+      case TextAreaField:
+        TextArea textArea = new TextArea();
+        textArea.setWidthFull();
+        return textArea;
+      default:
+        TextField textField = new TextField();
+        textField.setWidthFull();
+        return textField;
+    }
+  }
+
   private void setupTextField(
       List<FormItem> items, FormField annotation, String fieldName, SystemUtil util) {
 
-    if (annotation.type().equals(FormFieldType.PasswordField)) {
-      var textField = new PasswordField();
-      textField.setWidthFull();
-      var textFieldItem = addFormItem(textField, annotation.label());
-      items.add(textFieldItem);
-      binder
-          .forField(textField)
-          .bind(
-              (ValueProvider<T, String>) t -> (String) util.invokeGetter(t, fieldName),
-              (com.vaadin.flow.data.binder.Setter<T, String>)
-                  (t, s) -> util.invokeSetter(t, fieldName, s));
-    } else {
-      var textField = new TextField();
-      textField.setWidthFull();
-      var textFieldItem = addFormItem(textField, annotation.label());
-      items.add(textFieldItem);
-      binder
-          .forField(textField)
-          .bind(
-              (ValueProvider<T, String>) t -> (String) util.invokeGetter(t, fieldName),
-              (com.vaadin.flow.data.binder.Setter<T, String>)
-                  (t, s) -> util.invokeSetter(t, fieldName, s));
-    }
+    HasValue formComponent = getTextComponent(annotation);
+    var formItem = addFormItem((Component) formComponent, annotation.label());
+    items.add(formItem);
+    binder
+        .forField(formComponent)
+        .bind(
+            (ValueProvider<T, String>) t -> (String) util.invokeGetter(t, fieldName),
+            (com.vaadin.flow.data.binder.Setter<T, String>)
+                (t, s) -> util.invokeSetter(t, fieldName, s));
   }
 }

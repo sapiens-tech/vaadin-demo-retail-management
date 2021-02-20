@@ -1,5 +1,6 @@
 package io.sapiens.retail.ui.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.sapiens.awesome.ui.annotations.FormField;
 import io.sapiens.awesome.ui.annotations.GridColumn;
 import io.sapiens.awesome.ui.enums.FormFieldType;
@@ -17,6 +18,7 @@ public class User {
   private String userName;
 
   @FormField(type = FormFieldType.PasswordField, label = "Password")
+  @JsonIgnore
   private String password;
 
   @GridColumn(header = "First Name")
