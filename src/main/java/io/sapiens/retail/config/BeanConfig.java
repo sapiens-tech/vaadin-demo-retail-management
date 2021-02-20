@@ -1,4 +1,4 @@
-package io.sapiens.retail;
+package io.sapiens.retail.config;
 
 import org.springframework.context.annotation.Configuration;
 
