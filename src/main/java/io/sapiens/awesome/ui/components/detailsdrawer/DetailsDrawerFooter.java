@@ -5,7 +5,7 @@ import io.sapiens.awesome.ui.layout.size.Horizontal;
 import io.sapiens.awesome.ui.layout.size.Right;
 import io.sapiens.awesome.ui.layout.size.Vertical;
 import io.sapiens.awesome.ui.util.LumoStyles;
-import io.sapiens.awesome.ui.util.UIUtils;
+import io.sapiens.awesome.ui.util.UIUtil;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
@@ -22,8 +22,8 @@ public class DetailsDrawerFooter extends FlexBoxLayout {
     setSpacing(Right.S);
     setWidthFull();
 
-    save = UIUtils.createPrimaryButton("Save");
-    cancel = UIUtils.createTertiaryButton("Cancel");
+    save = UIUtil.createPrimaryButton("Save");
+    cancel = UIUtil.createTertiaryButton("Cancel");
     add(save, cancel);
   }
 

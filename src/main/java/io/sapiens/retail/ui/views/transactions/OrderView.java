@@ -30,7 +30,7 @@ import io.sapiens.awesome.ui.layout.size.Vertical;
 import io.sapiens.awesome.ui.util.FontSize;
 import io.sapiens.awesome.ui.util.LumoStyles;
 import io.sapiens.awesome.ui.util.TextColor;
-import io.sapiens.awesome.ui.util.UIUtils;
+import io.sapiens.awesome.ui.util.UIUtil;
 import io.sapiens.awesome.ui.util.css.BoxSizing;
 import io.sapiens.awesome.ui.util.css.WhiteSpace;
 import io.sapiens.awesome.ui.views.SplitViewFrame;
@@ -89,7 +89,7 @@ public class OrderView extends SplitViewFrame {
             payment -> {
               Payment.Status status = payment.getStatus();
               Badge badge = new Badge(status.getName(), status.getTheme());
-              UIUtils.setTooltip(status.getDesc(), badge);
+              UIUtil.setTooltip(status.getDesc(), badge);
               return badge;
             });
     grid.addColumn(badgeRenderer).setAutoWidth(true).setFlexGrow(0).setHeader("Status");
@@ -104,7 +104,7 @@ public class OrderView extends SplitViewFrame {
         .setTextAlign(ColumnTextAlign.END);
     grid.addColumn(
             TemplateRenderer.<Payment>of("[[item.date]]")
-                .withProperty("date", payment -> UIUtils.formatDate(payment.getDate())))
+                .withProperty("date", payment -> UIUtil.formatDate(payment.getDate())))
         .setAutoWidth(true)
         .setComparator(Payment::getDate)
         .setFlexGrow(0)
@@ -127,7 +127,7 @@ public class OrderView extends SplitViewFrame {
 
   private Component createAmount(Payment payment) {
     Double amount = payment.getAmount();
-    return UIUtils.createAmountLabel(amount);
+    return UIUtil.createAmountLabel(amount);
   }
 
   private DetailsDrawer createDetailsDrawer() {
@@ -171,28 +171,28 @@ public class OrderView extends SplitViewFrame {
 
     status.getContent().setAlignItems(FlexComponent.Alignment.BASELINE);
     status.getContent().setSpacing(Bottom.XS);
-    UIUtils.setTheme(payment.getStatus().getTheme().getThemeName(), status.getPrimary());
-    UIUtils.setTooltip(payment.getStatus().getDesc(), status);
+    UIUtil.setTheme(payment.getStatus().getTheme().getThemeName(), status.getPrimary());
+    UIUtil.setTooltip(payment.getStatus().getDesc(), status);
 
     ListItem from =
         new ListItem(
-            UIUtils.createTertiaryIcon(VaadinIcon.UPLOAD_ALT),
+            UIUtil.createTertiaryIcon(VaadinIcon.UPLOAD_ALT),
             payment.getFrom() + "\n" + payment.getFromIBAN(),
             "Sender");
     ListItem to =
         new ListItem(
-            UIUtils.createTertiaryIcon(VaadinIcon.DOWNLOAD_ALT),
+            UIUtil.createTertiaryIcon(VaadinIcon.DOWNLOAD_ALT),
             payment.getTo() + "\n" + payment.getToIBAN(),
             "Receiver");
     ListItem amount =
         new ListItem(
-            UIUtils.createTertiaryIcon(VaadinIcon.DOLLAR),
-            UIUtils.formatAmount(payment.getAmount()),
+            UIUtil.createTertiaryIcon(VaadinIcon.DOLLAR),
+            UIUtil.formatAmount(payment.getAmount()),
             "Amount");
     ListItem date =
         new ListItem(
-            UIUtils.createTertiaryIcon(VaadinIcon.CALENDAR),
-            UIUtils.formatDate(payment.getDate()),
+            UIUtil.createTertiaryIcon(VaadinIcon.CALENDAR),
+            UIUtil.formatDate(payment.getDate()),
             "Date");
 
     for (ListItem item : new ListItem[] {status, from, to, amount, date}) {
@@ -206,14 +206,14 @@ public class OrderView extends SplitViewFrame {
   }
 
   private Component createAttachments() {
-    Label message = UIUtils.createLabel(FontSize.S, TextColor.SECONDARY, "Not implemented yet.");
+    Label message = UIUtil.createLabel(FontSize.S, TextColor.SECONDARY, "Not implemented yet.");
     message.addClassNames(
         LumoStyles.Padding.Responsive.Horizontal.L, LumoStyles.Padding.Vertical.L);
     return message;
   }
 
   private Component createHistory() {
-    Label message = UIUtils.createLabel(FontSize.S, TextColor.SECONDARY, "Not implemented yet.");
+    Label message = UIUtil.createLabel(FontSize.S, TextColor.SECONDARY, "Not implemented yet.");
     message.addClassNames(
         LumoStyles.Padding.Responsive.Horizontal.L, LumoStyles.Padding.Vertical.L);
     return message;

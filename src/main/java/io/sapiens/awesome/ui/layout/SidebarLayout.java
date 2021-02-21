@@ -19,7 +19,7 @@ import io.sapiens.awesome.ui.components.navigation.bar.AppBar;
 import io.sapiens.awesome.ui.components.navigation.bar.TabBar;
 import io.sapiens.awesome.ui.components.navigation.drawer.NaviDrawer;
 import io.sapiens.awesome.ui.components.navigation.drawer.NaviItem;
-import io.sapiens.awesome.ui.util.UIUtils;
+import io.sapiens.awesome.ui.util.UIUtil;
 import io.sapiens.awesome.ui.util.css.Display;
 import io.sapiens.awesome.ui.util.css.Overflow;
 import io.sapiens.retail.ui.views.Home;
@@ -90,9 +90,9 @@ public abstract class SidebarLayout extends FlexBoxLayout
 
     viewContainer = new Main();
     viewContainer.addClassName(CLASS_NAME + "__view-container");
-    UIUtils.setDisplay(Display.FLEX, viewContainer);
-    UIUtils.setFlexGrow(1, viewContainer);
-    UIUtils.setOverflow(Overflow.HIDDEN, viewContainer);
+    UIUtil.setDisplay(Display.FLEX, viewContainer);
+    UIUtil.setFlexGrow(1, viewContainer);
+    UIUtil.setOverflow(Overflow.HIDDEN, viewContainer);
 
     column = new FlexBoxLayout(viewContainer);
     column.addClassName(CLASS_NAME + "__column");
@@ -124,7 +124,7 @@ public abstract class SidebarLayout extends FlexBoxLayout
     // Tabbed navigation
     if (navigationTabs) {
       tabBar = new TabBar();
-      UIUtils.setTheme(Lumo.DARK, tabBar);
+      UIUtil.setTheme(Lumo.DARK, tabBar);
 
       // Shift-click to add a new tab
       for (NaviItem item : naviDrawer.getMenu().getNaviItems()) {
@@ -141,7 +141,7 @@ public abstract class SidebarLayout extends FlexBoxLayout
 
       // Default navigation
     } else {
-      UIUtils.setTheme(Lumo.DARK, appBar);
+      UIUtil.setTheme(Lumo.DARK, appBar);
       setAppHeaderInner(appBar);
     }
   }

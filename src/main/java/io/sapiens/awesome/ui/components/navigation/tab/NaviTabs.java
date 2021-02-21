@@ -1,6 +1,6 @@
 package io.sapiens.awesome.ui.components.navigation.tab;
 
-import io.sapiens.awesome.ui.util.UIUtils;
+import io.sapiens.awesome.ui.util.UIUtil;
 import io.sapiens.awesome.ui.util.css.Overflow;
 import io.sapiens.retail.ui.views.Home;
 import com.vaadin.flow.component.Component;
@@ -21,7 +21,7 @@ public class NaviTabs extends Tabs {
   public NaviTabs() {
     addSelectedChangeListener(listener);
     getElement().setAttribute("overflow", "end");
-    UIUtils.setOverflow(Overflow.HIDDEN, this);
+    UIUtil.setOverflow(Overflow.HIDDEN, this);
   }
 
   /**

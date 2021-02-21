@@ -23,7 +23,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-public class UIUtils {
+public class UIUtil {
 
   public static final String IMG_PATH = "images/";
 

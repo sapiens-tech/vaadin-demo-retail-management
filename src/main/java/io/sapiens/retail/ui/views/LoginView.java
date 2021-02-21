@@ -38,6 +38,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     icon.getStyle().set("top", "-4px");
     title.add(icon);
     title.add(new Text(" Retail App"));
+    loginForm.setDescription("Welcome to our system, my lord !");
     loginForm.setTitle(title);
     loginForm.addLoginListener(e -> loginForm.close());
 

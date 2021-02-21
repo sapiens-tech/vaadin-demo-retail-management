@@ -12,8 +12,7 @@ import io.sapiens.awesome.ui.components.ListItem;
 import io.sapiens.awesome.ui.enums.FormFieldType;
 import io.sapiens.awesome.ui.layout.size.Right;
 import io.sapiens.awesome.ui.layout.size.Vertical;
-import io.sapiens.awesome.ui.util.UIUtils;
-import io.sapiens.retail.backend.enums.Role;
+import io.sapiens.awesome.ui.util.UIUtil;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,6 +30,10 @@ public class Customer {
 
   @FormField(type = FormFieldType.TextField, label = "Last name")
   private String lastName;
+
+  @JsonIgnore
+  @GridColumn(header = "Email", flexGrow = 1)
+  private Component userInfo;
 
   @GridColumn(header = "Email", flexGrow = 1)
   @FormField(type = FormFieldType.TextField, label = "Email")
@@ -51,13 +54,6 @@ public class Customer {
   @FormField(type = FormFieldType.FileField, label = "Avatar")
   private String avatar;
 
-  @GridColumn(header = "Role")
-  private Role role;
-
-  private boolean randomBoolean;
-
-  private int randomInteger;
-
   @GridColumn(header = "Last Modified")
   private LocalDate lastModified;
 
@@ -72,18 +68,6 @@ public class Customer {
   }
 
   // ----------------------------------- Custom UI for grid -----------------------------------//
-  @JsonIgnore
-  public Component getActive() {
-    Icon icon;
-    if (isRandomBoolean()) {
-      icon = UIUtils.createPrimaryIcon(VaadinIcon.CHECK);
-    } else {
-      icon = UIUtils.createDisabledIcon(VaadinIcon.CLOSE);
-    }
-    return icon;
-  }
-
-  @JsonIgnore
   public Component getUserInfo() {
     ListItem item = new ListItem(new Initials(getInitials()), getName(), getEmailAddress());
     item.setPadding(Vertical.XS);
@@ -98,7 +82,7 @@ public class Customer {
 
   @JsonIgnore
   public Component getLastLoginDate() {
-    return new Span(UIUtils.formatDate(getLastModified()));
+    return new Span(UIUtil.formatDate(getLastModified()));
   }
   // ----------------------------------/ Custom UI for grid -----------------------------------//
 }

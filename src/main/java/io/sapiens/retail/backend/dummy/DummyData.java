@@ -3,7 +3,7 @@ package io.sapiens.retail.backend.dummy;
 import com.vaadin.flow.component.html.Image;
 import io.sapiens.retail.backend.enums.Role;
 import io.sapiens.retail.ui.models.Customer;
-import io.sapiens.awesome.ui.util.UIUtils;
+import io.sapiens.awesome.ui.util.UIUtil;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -549,10 +549,7 @@ public class DummyData {
       person.setFirstName(firstName);
       person.setLastName(lastName);
       person.setEmailAddress(firstName.toLowerCase() + "." + lastName.toLowerCase() + "@email.com");
-      person.setRole(getRole());
       person.setLastModified(getDate());
-      person.setRandomBoolean(random.nextBoolean());
-      person.setRandomInteger(random.nextInt());
       person.setDateOfBirth(getDate());
 
       PERSONS.put(i, person);
@@ -943,7 +940,7 @@ public class DummyData {
   }
 
   public static String getImageSource() {
-    return UIUtils.IMG_PATH + "logos/" + DummyData.getRandomInt(1, 40) + ".png";
+    return UIUtil.IMG_PATH + "logos/" + DummyData.getRandomInt(1, 40) + ".png";
   }
 
   /* === NUMBERS === */

@@ -4,8 +4,7 @@ import io.sapiens.awesome.ui.layout.size.Right;
 import io.sapiens.awesome.ui.layout.size.Wide;
 import io.sapiens.awesome.ui.util.FontSize;
 import io.sapiens.awesome.ui.util.TextColor;
-import io.sapiens.awesome.ui.util.UIUtils;
-import io.sapiens.awesome.ui.util.css.FlexDirection;
+import io.sapiens.awesome.ui.util.UIUtil;
 import io.sapiens.awesome.ui.util.css.WhiteSpace;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -34,7 +33,7 @@ public class ListItem extends FlexBoxLayout {
     setSpacing(Right.L);
 
     this.primary = new Label(primary);
-    this.secondary = UIUtils.createLabel(FontSize.S, TextColor.SECONDARY, secondary);
+    this.secondary = UIUtil.createLabel(FontSize.S, TextColor.SECONDARY, secondary);
     this.primary.setClassName(CLASS_NAME + "__primary");
     this.secondary.setClassName(CLASS_NAME + "__secondary");
 
@@ -89,7 +88,7 @@ public class ListItem extends FlexBoxLayout {
   }
 
   public void setWhiteSpace(WhiteSpace whiteSpace) {
-    UIUtils.setWhiteSpace(whiteSpace, this);
+    UIUtil.setWhiteSpace(whiteSpace, this);
   }
 
   public void setReverse(boolean reverse) {

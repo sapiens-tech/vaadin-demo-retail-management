@@ -5,8 +5,7 @@ import io.sapiens.awesome.ui.layout.size.Horizontal;
 import io.sapiens.awesome.ui.layout.size.Right;
 import io.sapiens.awesome.ui.layout.size.Vertical;
 import io.sapiens.awesome.ui.util.BoxShadowBorders;
-import io.sapiens.awesome.ui.util.UIUtils;
-import io.sapiens.awesome.ui.util.css.FlexDirection;
+import io.sapiens.awesome.ui.util.UIUtil;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -25,10 +24,10 @@ public class DetailsDrawerHeader extends FlexBoxLayout {
     setFlexDirection(FlexDirection.COLUMN);
     setWidthFull();
 
-    this.close = UIUtils.createTertiaryInlineButton(VaadinIcon.CLOSE);
-    UIUtils.setLineHeight("1", this.close);
+    this.close = UIUtil.createTertiaryInlineButton(VaadinIcon.CLOSE);
+    UIUtil.setLineHeight("1", this.close);
 
-    this.title = UIUtils.createH4Label(title);
+    this.title = UIUtil.createH4Label(title);
 
     FlexBoxLayout wrapper = new FlexBoxLayout(this.close, this.title);
     wrapper.setAlignItems(FlexComponent.Alignment.CENTER);

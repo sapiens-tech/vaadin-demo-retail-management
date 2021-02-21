@@ -1,6 +1,8 @@
 package io.sapiens.retail.ui.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.html.Span;
 import io.sapiens.awesome.ui.annotations.FormField;
 import io.sapiens.awesome.ui.annotations.GridColumn;
 import io.sapiens.awesome.ui.enums.FormFieldType;
@@ -40,4 +42,13 @@ public class User {
   private String phone;
 
   private Role role;
+
+  @JsonIgnore
+  @GridColumn(header = "Role")
+  private Component roleComponent;
+
+  @JsonIgnore
+  public Component getRoleComponent() {
+    return new Span(getRole().toString());
+  }
 }

@@ -1,6 +1,6 @@
 package io.sapiens.awesome.ui.components.navigation.drawer;
 
-import io.sapiens.awesome.ui.util.UIUtils;
+import io.sapiens.awesome.ui.util.UIUtil;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.contextmenu.ContextMenu;
@@ -11,7 +11,7 @@ import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.VaadinIcon;
 
-import static io.sapiens.awesome.ui.util.UIUtils.IMG_PATH;
+import static io.sapiens.awesome.ui.util.UIUtil.IMG_PATH;
 
 @CssImport("./styles/components/account-switcher.css")
 public class AccountSwitcher extends Div {
@@ -50,7 +50,7 @@ public class AccountSwitcher extends Div {
     email.addClassName(CLASS_NAME + "__email");
 
     dropdown =
-        UIUtils.createButton(
+        UIUtil.createButton(
             VaadinIcon.ANGLE_DOWN, ButtonVariant.LUMO_SMALL, ButtonVariant.LUMO_TERTIARY);
     email.add(dropdown);
 

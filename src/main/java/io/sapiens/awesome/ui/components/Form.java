@@ -13,7 +13,7 @@ import com.vaadin.flow.function.ValueProvider;
 import io.sapiens.awesome.ui.annotations.FormField;
 import io.sapiens.awesome.ui.layout.size.Right;
 import io.sapiens.awesome.ui.util.LumoStyles;
-import io.sapiens.awesome.ui.util.UIUtils;
+import io.sapiens.awesome.ui.util.UIUtil;
 import io.sapiens.awesome.util.SystemUtil;
 import io.sapiens.retail.backend.dummy.DummyData;
 import lombok.Getter;
@@ -74,7 +74,7 @@ public class Form<T> extends FormLayout {
         }
       }
     }
-    UIUtils.setColSpan(2, items.toArray(new Component[0]));
+    UIUtil.setColSpan(2, items.toArray(new Component[0]));
   }
 
   private void setupDateField(

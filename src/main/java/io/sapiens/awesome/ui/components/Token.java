@@ -5,7 +5,7 @@ import io.sapiens.awesome.ui.layout.size.Right;
 import io.sapiens.awesome.ui.util.FontSize;
 import io.sapiens.awesome.ui.util.LumoStyles;
 import io.sapiens.awesome.ui.util.TextColor;
-import io.sapiens.awesome.ui.util.UIUtils;
+import io.sapiens.awesome.ui.util.UIUtil;
 import io.sapiens.awesome.ui.util.css.BorderRadius;
 import io.sapiens.awesome.ui.util.css.Display;
 import com.vaadin.flow.component.button.Button;
@@ -27,9 +27,9 @@ public class Token extends FlexBoxLayout {
     setPadding(Left.S, Right.XS);
     setSpacing(Right.XS);
 
-    Label label = UIUtils.createLabel(FontSize.S, TextColor.BODY, text);
+    Label label = UIUtil.createLabel(FontSize.S, TextColor.BODY, text);
     Button button =
-        UIUtils.createButton(
+        UIUtil.createButton(
             VaadinIcon.CLOSE_SMALL, ButtonVariant.LUMO_SMALL, ButtonVariant.LUMO_TERTIARY_INLINE);
     add(label, button);
   }

@@ -1,7 +1,7 @@
 package io.sapiens.awesome.ui.components;
 
 import io.sapiens.awesome.ui.util.LumoStyles;
-import io.sapiens.awesome.ui.util.UIUtils;
+import io.sapiens.awesome.ui.util.UIUtil;
 import com.vaadin.flow.component.HasSize;
 import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.html.Div;
@@ -23,7 +23,7 @@ public class Divider extends FlexBoxLayout implements HasSize, HasStyle {
     setHeight(height);
 
     divider = new Div();
-    UIUtils.setBackgroundColor(LumoStyles.Color.Contrast._10, divider);
+    UIUtil.setBackgroundColor(LumoStyles.Color.Contrast._10, divider);
     divider.setHeight("1px");
     divider.setWidthFull();
     add(divider);

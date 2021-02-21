@@ -1,6 +1,6 @@
 package io.sapiens.awesome.ui.components.navigation.drawer;
 
-import io.sapiens.awesome.ui.util.UIUtils;
+import io.sapiens.awesome.ui.util.UIUtil;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.ClientCallable;
 import com.vaadin.flow.component.UI;
@@ -97,7 +97,7 @@ public class NaviDrawer extends Div implements AfterNavigationObserver {
   }
 
   private void initFooter() {
-    railButton = UIUtils.createSmallButton("Collapse", VaadinIcon.CHEVRON_LEFT_SMALL);
+    railButton = UIUtil.createSmallButton("Collapse", VaadinIcon.CHEVRON_LEFT_SMALL);
     railButton.addClassName(CLASS_NAME + "__footer");
     railButton.addClickListener(event -> toggleRailMode());
     railButton.getElement().setAttribute("aria-label", "Collapse menu");
@@ -109,13 +109,13 @@ public class NaviDrawer extends Div implements AfterNavigationObserver {
       getElement().setAttribute(RAIL, false);
       railButton.setIcon(new Icon(VaadinIcon.CHEVRON_LEFT_SMALL));
       railButton.setText("Collapse");
-      UIUtils.setAriaLabel("Collapse menu", railButton);
+      UIUtil.setAriaLabel("Collapse menu", railButton);
 
     } else {
       getElement().setAttribute(RAIL, true);
       railButton.setIcon(new Icon(VaadinIcon.CHEVRON_RIGHT_SMALL));
       railButton.setText("Expand");
-      UIUtils.setAriaLabel("Expand menu", railButton);
+      UIUtil.setAriaLabel("Expand menu", railButton);
       getUI()
           .get()
           .getPage()

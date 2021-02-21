@@ -18,7 +18,7 @@ import io.sapiens.awesome.ui.layout.size.*;
 import io.sapiens.awesome.ui.util.IconSize;
 import io.sapiens.awesome.ui.util.LumoStyles;
 import io.sapiens.awesome.ui.util.TextColor;
-import io.sapiens.awesome.ui.util.UIUtils;
+import io.sapiens.awesome.ui.util.UIUtil;
 import io.sapiens.awesome.ui.util.css.BorderRadius;
 import io.sapiens.awesome.ui.util.css.BoxSizing;
 import io.sapiens.awesome.ui.util.css.Display;
@@ -53,7 +53,7 @@ public class Home extends ViewFrame {
   private FlexBoxLayout createHeader(VaadinIcon icon, String title) {
     FlexBoxLayout header =
         new FlexBoxLayout(
-            UIUtils.createIcon(IconSize.M, TextColor.TERTIARY, icon), UIUtils.createH3Label(title));
+            UIUtil.createIcon(IconSize.M, TextColor.TERTIARY, icon), UIUtil.createH3Label(title));
     header.setAlignItems(FlexComponent.Alignment.CENTER);
     header.setMargin(Bottom.L, Horizontal.RESPONSIVE_L);
     header.setSpacing(Right.L);
@@ -88,7 +88,7 @@ public class Home extends ViewFrame {
 
     Row docs = new Row(reports, logs);
     docs.addClassName(LumoStyles.Margin.Top.XL);
-    UIUtils.setMaxWidth(MAX_WIDTH, docs);
+    UIUtil.setMaxWidth(MAX_WIDTH, docs);
     docs.setWidthFull();
 
     return docs;
@@ -105,21 +105,21 @@ public class Home extends ViewFrame {
     Div items =
         new Div(
             new ListItem(
-                UIUtils.createIcon(IconSize.M, TextColor.TERTIARY, VaadinIcon.CHART),
+                UIUtil.createIcon(IconSize.M, TextColor.TERTIARY, VaadinIcon.CHART),
                 "Weekly Report",
                 "Generated Oct 5, 2018",
                 createInfoButton()),
             new ListItem(
-                UIUtils.createIcon(IconSize.M, TextColor.TERTIARY, VaadinIcon.SITEMAP),
+                UIUtil.createIcon(IconSize.M, TextColor.TERTIARY, VaadinIcon.SITEMAP),
                 "Payment Workflows",
                 "Last modified Oct 24, 2018",
                 createInfoButton()));
     items.addClassNames(LumoStyles.Padding.Vertical.S);
 
     Div card = new Div(tabs, items);
-    UIUtils.setBackgroundColor(LumoStyles.Color.BASE_COLOR, card);
-    UIUtils.setBorderRadius(BorderRadius.S, card);
-    UIUtils.setShadow(Shadow.XS, card);
+    UIUtil.setBackgroundColor(LumoStyles.Color.BASE_COLOR, card);
+    UIUtil.setBorderRadius(BorderRadius.S, card);
+    UIUtil.setShadow(Shadow.XS, card);
 
     FlexBoxLayout reports = new FlexBoxLayout(header, card);
     reports.addClassName(CLASS_NAME + "__reports");
@@ -139,21 +139,21 @@ public class Home extends ViewFrame {
     Div items =
         new Div(
             new ListItem(
-                UIUtils.createIcon(IconSize.M, TextColor.TERTIARY, VaadinIcon.EXCHANGE),
+                UIUtil.createIcon(IconSize.M, TextColor.TERTIARY, VaadinIcon.EXCHANGE),
                 "Transfers (October)",
                 "Generated Oct 31, 2018",
                 createInfoButton()),
             new ListItem(
-                UIUtils.createIcon(IconSize.M, TextColor.TERTIARY, VaadinIcon.SHIELD),
+                UIUtil.createIcon(IconSize.M, TextColor.TERTIARY, VaadinIcon.SHIELD),
                 "Security Log",
                 "Updated 16:31 CET",
                 createInfoButton()));
     items.addClassNames(LumoStyles.Padding.Vertical.S);
 
     Div card = new Div(tabs, items);
-    UIUtils.setBackgroundColor(LumoStyles.Color.BASE_COLOR, card);
-    UIUtils.setBorderRadius(BorderRadius.S, card);
-    UIUtils.setShadow(Shadow.XS, card);
+    UIUtil.setBackgroundColor(LumoStyles.Color.BASE_COLOR, card);
+    UIUtil.setBorderRadius(BorderRadius.S, card);
+    UIUtil.setShadow(Shadow.XS, card);
 
     FlexBoxLayout logs = new FlexBoxLayout(header, card);
     logs.addClassName(CLASS_NAME + "__logs");
@@ -163,8 +163,8 @@ public class Home extends ViewFrame {
   }
 
   private Button createInfoButton() {
-    Button infoButton = UIUtils.createSmallButton(VaadinIcon.INFO);
-    infoButton.addClickListener(e -> UIUtils.showNotification("Not implemented yet."));
+    Button infoButton = UIUtil.createSmallButton(VaadinIcon.INFO);
+    infoButton.addClickListener(e -> UIUtil.showNotification("Not implemented yet."));
     return infoButton;
   }
 }

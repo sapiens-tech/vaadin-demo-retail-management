@@ -7,12 +7,14 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.provider.ListDataProvider;
+import com.vaadin.flow.data.renderer.ComponentRenderer;
 import io.sapiens.awesome.ui.annotations.GridColumn;
 import io.sapiens.awesome.ui.components.FlexBoxLayout;
 import io.sapiens.awesome.ui.components.Form;
@@ -21,7 +23,7 @@ import io.sapiens.awesome.ui.components.detailsdrawer.DetailsDrawerHeader;
 import io.sapiens.awesome.ui.layout.size.Bottom;
 import io.sapiens.awesome.ui.layout.size.Horizontal;
 import io.sapiens.awesome.ui.layout.size.Top;
-import io.sapiens.awesome.ui.util.UIUtils;
+import io.sapiens.awesome.ui.util.UIUtil;
 import io.sapiens.awesome.ui.util.css.BoxSizing;
 import io.sapiens.awesome.util.SystemUtil;
 import lombok.Getter;
@@ -87,7 +89,7 @@ public abstract class CrudView<T> extends SplitViewFrame {
     content.setFlexDirection(FlexLayout.FlexDirection.ROW_REVERSE);
     content.setPadding(Horizontal.RESPONSIVE_X, Top.M);
     newButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-    UIUtils.setColSpan(2, content);
+    UIUtil.setColSpan(2, content);
     return content;
   }
 
@@ -133,8 +135,16 @@ public abstract class CrudView<T> extends SplitViewFrame {
     for (Field field : beanType.getDeclaredFields()) {
       if (field.isAnnotationPresent(GridColumn.class)) {
         GridColumn annotation = field.getAnnotation(GridColumn.class);
-        // new ComponentRenderer<>(this::createToInfo)
-        grid.addColumn(t -> SystemUtil.getInstance().invokeGetter(t, field.getName()))
+
+        grid.addColumn(
+                new ComponentRenderer<>(
+                    (t) -> {
+                      Object value = SystemUtil.getInstance().invokeGetter(t, field.getName());
+                      if (value instanceof Component) {
+                        return (Component) value;
+                      }
+                      return new Span(String.valueOf(value));
+                    }))
             .setAutoWidth(annotation.autoWidth())
             .setFlexGrow(annotation.flexGrow())
             .setFrozen(annotation.frozen())
@@ -179,7 +189,7 @@ public abstract class CrudView<T> extends SplitViewFrame {
     buttons.setMargin(true);
     save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-    UIUtils.setColSpan(2, buttons);
+    UIUtil.setColSpan(2, buttons);
     return buttons;
   }
 }

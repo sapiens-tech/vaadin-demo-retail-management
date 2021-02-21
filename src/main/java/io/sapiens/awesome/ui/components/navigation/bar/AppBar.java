@@ -6,7 +6,7 @@ import io.sapiens.awesome.ui.components.FlexBoxLayout;
 import io.sapiens.awesome.ui.components.navigation.tab.NaviTab;
 import io.sapiens.awesome.ui.components.navigation.tab.NaviTabs;
 import io.sapiens.awesome.ui.util.LumoStyles;
-import io.sapiens.awesome.ui.util.UIUtils;
+import io.sapiens.awesome.ui.util.UIUtil;
 import io.sapiens.retail.ui.views.Home;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -30,7 +30,7 @@ import com.vaadin.flow.shared.Registration;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import static io.sapiens.awesome.ui.util.UIUtils.IMG_PATH;
+import static io.sapiens.awesome.ui.util.UIUtil.IMG_PATH;
 
 @CssImport("./styles/components/app-bar.css")
 public class AppBar extends Header {
@@ -83,19 +83,19 @@ public class AppBar extends Header {
   }
 
   private void initMenuIcon() {
-    menuIcon = UIUtils.createTertiaryInlineButton(VaadinIcon.MENU);
+    menuIcon = UIUtil.createTertiaryInlineButton(VaadinIcon.MENU);
     menuIcon.addClassName(CLASS_NAME + "__navi-icon");
     menuIcon.addClickListener(e -> SidebarLayout.get().getNaviDrawer().toggle());
-    UIUtils.setAriaLabel("Menu", menuIcon);
-    UIUtils.setLineHeight("1", menuIcon);
+    UIUtil.setAriaLabel("Menu", menuIcon);
+    UIUtil.setLineHeight("1", menuIcon);
   }
 
   private void initContextIcon() {
-    contextIcon = UIUtils.createTertiaryInlineButton(VaadinIcon.ARROW_LEFT);
+    contextIcon = UIUtil.createTertiaryInlineButton(VaadinIcon.ARROW_LEFT);
     contextIcon.addClassNames(CLASS_NAME + "__context-icon");
     contextIcon.setVisible(false);
-    UIUtils.setAriaLabel("Back", contextIcon);
-    UIUtils.setLineHeight("1", contextIcon);
+    UIUtil.setAriaLabel("Back", contextIcon);
+    UIUtil.setLineHeight("1", contextIcon);
   }
 
   private void initTitle(String title) {
@@ -143,7 +143,7 @@ public class AppBar extends Header {
   }
 
   private void initTabs(NaviTab... tabs) {
-    addTab = UIUtils.createSmallButton(VaadinIcon.PLUS);
+    addTab = UIUtil.createSmallButton(VaadinIcon.PLUS);
     addTab.addClickListener(
         e -> this.tabs.setSelectedTab(addClosableNaviTab("New Tab", Home.class)));
     addTab.setVisible(false);
@@ -199,7 +199,7 @@ public class AppBar extends Header {
 
   public Button addActionItem(VaadinIcon icon) {
     Button button =
-        UIUtils.createButton(icon, ButtonVariant.LUMO_SMALL, ButtonVariant.LUMO_TERTIARY);
+        UIUtil.createButton(icon, ButtonVariant.LUMO_SMALL, ButtonVariant.LUMO_TERTIARY);
     addActionItem(button);
     return button;
   }

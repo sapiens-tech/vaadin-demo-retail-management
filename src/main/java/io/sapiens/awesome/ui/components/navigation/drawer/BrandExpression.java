@@ -1,6 +1,6 @@
 package io.sapiens.awesome.ui.components.navigation.drawer;
 
-import io.sapiens.awesome.ui.util.UIUtils;
+import io.sapiens.awesome.ui.util.UIUtil;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
@@ -17,11 +17,11 @@ public class BrandExpression extends Div {
   public BrandExpression(String text) {
     setClassName(CLASS_NAME);
 
-    logo = new Image(UIUtils.IMG_PATH + "logos/27.png", "");
+    logo = new Image(UIUtil.IMG_PATH + "logos/27.png", "");
     logo.setAlt(text + " logo");
     logo.setClassName(CLASS_NAME + "__logo");
 
-    title = UIUtils.createH3Label(text);
+    title = UIUtil.createH3Label(text);
     title.addClassName(CLASS_NAME + "__title");
 
     add(logo, title);

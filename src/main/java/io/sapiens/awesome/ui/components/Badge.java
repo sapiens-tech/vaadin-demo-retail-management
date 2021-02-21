@@ -1,6 +1,6 @@
 package io.sapiens.awesome.ui.components;
 
-import io.sapiens.awesome.ui.util.UIUtils;
+import io.sapiens.awesome.ui.util.UIUtil;
 import io.sapiens.awesome.ui.util.css.lumo.BadgeColor;
 import io.sapiens.awesome.ui.util.css.lumo.BadgeShape;
 import io.sapiens.awesome.ui.util.css.lumo.BadgeSize;
@@ -18,7 +18,7 @@ public class Badge extends Span {
 
   public Badge(String text, BadgeColor color) {
     super(text);
-    UIUtils.setTheme(color.getThemeName(), this);
+    UIUtil.setTheme(color.getThemeName(), this);
   }
 
   public Badge(String text, BadgeColor color, BadgeSize size, BadgeShape shape) {
@@ -31,6 +31,6 @@ public class Badge extends Span {
     if (size.equals(BadgeSize.S)) {
       joiner.add(size.getThemeName());
     }
-    UIUtils.setTheme(joiner.toString(), this);
+    UIUtil.setTheme(joiner.toString(), this);
   }
 }

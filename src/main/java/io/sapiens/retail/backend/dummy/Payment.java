@@ -1,6 +1,6 @@
 package io.sapiens.retail.backend.dummy;
 
-import io.sapiens.awesome.ui.util.UIUtils;
+import io.sapiens.awesome.ui.util.UIUtil;
 import io.sapiens.awesome.ui.util.css.lumo.BadgeColor;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -44,16 +44,16 @@ public class Payment {
       Icon icon;
       switch (this) {
         case PENDING:
-          icon = UIUtils.createSecondaryIcon(this.icon);
+          icon = UIUtil.createSecondaryIcon(this.icon);
           break;
         case SUBMITTED:
-          icon = UIUtils.createPrimaryIcon(this.icon);
+          icon = UIUtil.createPrimaryIcon(this.icon);
           break;
         case CONFIRMED:
-          icon = UIUtils.createSuccessIcon(this.icon);
+          icon = UIUtil.createSuccessIcon(this.icon);
           break;
         default:
-          icon = UIUtils.createErrorIcon(this.icon);
+          icon = UIUtil.createErrorIcon(this.icon);
           break;
       }
       return icon;

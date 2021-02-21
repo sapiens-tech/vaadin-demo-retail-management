@@ -4,7 +4,7 @@ import io.sapiens.awesome.ui.layout.SidebarLayout;
 import io.sapiens.awesome.ui.components.FlexBoxLayout;
 import io.sapiens.awesome.ui.components.navigation.tab.NaviTabs;
 import io.sapiens.awesome.ui.util.LumoStyles;
-import io.sapiens.awesome.ui.util.UIUtils;
+import io.sapiens.awesome.ui.util.UIUtil;
 import io.sapiens.retail.ui.views.Home;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -17,7 +17,7 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 
-import static io.sapiens.awesome.ui.util.UIUtils.IMG_PATH;
+import static io.sapiens.awesome.ui.util.UIUtil.IMG_PATH;
 
 @CssImport("./styles/components/tab-bar.css")
 public class TabBar extends FlexBoxLayout {
@@ -32,7 +32,7 @@ public class TabBar extends FlexBoxLayout {
   public TabBar() {
     setClassName(CLASS_NAME);
 
-    menuIcon = UIUtils.createTertiaryInlineButton(VaadinIcon.MENU);
+    menuIcon = UIUtil.createTertiaryInlineButton(VaadinIcon.MENU);
     menuIcon.addClassName(CLASS_NAME + "__navi-icon");
     menuIcon.addClickListener(e -> SidebarLayout.get().getNaviDrawer().toggle());
 
@@ -49,7 +49,7 @@ public class TabBar extends FlexBoxLayout {
         "Log Out",
         e -> Notification.show("Not implemented yet.", 3000, Notification.Position.BOTTOM_CENTER));
 
-    addTab = UIUtils.createSmallButton(VaadinIcon.PLUS);
+    addTab = UIUtil.createSmallButton(VaadinIcon.PLUS);
     addTab.addClickListener(e -> tabs.setSelectedTab(addClosableTab("New Tab", Home.class)));
     addTab.setClassName(CLASS_NAME + "__add-tab");
 

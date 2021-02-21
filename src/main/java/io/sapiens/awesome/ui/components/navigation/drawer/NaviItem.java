@@ -1,6 +1,6 @@
 package io.sapiens.awesome.ui.components.navigation.drawer;
 
-import io.sapiens.awesome.ui.util.UIUtils;
+import io.sapiens.awesome.ui.util.UIUtil;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -66,7 +66,7 @@ public class NaviItem extends ListItem {
     }
 
     expandCollapse =
-        UIUtils.createButton(
+        UIUtil.createButton(
             VaadinIcon.CARET_UP, ButtonVariant.LUMO_SMALL, ButtonVariant.LUMO_TERTIARY);
     expandCollapse.addClickListener(event -> setSubItemsVisible(!subItemsVisible));
     expandCollapse.setVisible(false);
@@ -80,7 +80,7 @@ public class NaviItem extends ListItem {
 
   private void updateAriaLabel() {
     String action = (subItemsVisible ? "Collapse " : "Expand ") + text;
-    UIUtils.setAriaLabel(action, expandCollapse);
+    UIUtil.setAriaLabel(action, expandCollapse);
   }
 
   public boolean isHighlighted(AfterNavigationEvent e) {

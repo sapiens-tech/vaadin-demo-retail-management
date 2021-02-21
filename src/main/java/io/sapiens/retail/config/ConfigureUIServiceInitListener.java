@@ -12,10 +12,6 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
 
   @Override
   public void serviceInit(ServiceInitEvent event) {
-
-    // bypass for developement
-    if (true) return;
-
     event
         .getSource()
         .addUIInitListener(

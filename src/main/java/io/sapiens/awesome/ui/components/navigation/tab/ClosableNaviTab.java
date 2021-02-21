@@ -1,7 +1,7 @@
 package io.sapiens.awesome.ui.components.navigation.tab;
 
 import io.sapiens.awesome.ui.util.FontSize;
-import io.sapiens.awesome.ui.util.UIUtils;
+import io.sapiens.awesome.ui.util.UIUtil;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -15,9 +15,9 @@ public class ClosableNaviTab extends NaviTab {
     super(label, navigationTarget);
     getElement().setAttribute("closable", true);
 
-    close = UIUtils.createButton(VaadinIcon.CLOSE, ButtonVariant.LUMO_TERTIARY_INLINE);
+    close = UIUtil.createButton(VaadinIcon.CLOSE, ButtonVariant.LUMO_TERTIARY_INLINE);
     // ButtonVariant.LUMO_SMALL isn't small enough.
-    UIUtils.setFontSize(FontSize.XXS, close);
+    UIUtil.setFontSize(FontSize.XXS, close);
     add(close);
   }
 
