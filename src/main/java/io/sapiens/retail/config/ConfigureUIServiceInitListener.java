@@ -1,6 +1,5 @@
 package io.sapiens.retail.config;
 
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.server.ServiceInitEvent;
 import com.vaadin.flow.server.VaadinServiceInitListener;
@@ -13,13 +12,14 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
 
   @Override
   public void serviceInit(ServiceInitEvent event) {
+
+    // bypass for developement
+    if (true) return;
+
     event
         .getSource()
         .addUIInitListener(
-            uiEvent -> {
-              final UI ui = uiEvent.getUI();
-              ui.addBeforeEnterListener(this::authenticateNavigation);
-            });
+            uiEvent -> uiEvent.getUI().addBeforeEnterListener(this::authenticateNavigation));
   }
 
   private void authenticateNavigation(BeforeEnterEvent event) {
