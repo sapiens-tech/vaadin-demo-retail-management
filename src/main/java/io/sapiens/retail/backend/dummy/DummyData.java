@@ -545,7 +545,6 @@ public class DummyData {
       String firstName = getFirstName();
       String lastName = getLastName();
       Customer person = new Customer();
-      person.setId(i);
       person.setFirstName(firstName);
       person.setLastName(lastName);
       person.setEmailAddress(firstName.toLowerCase() + "." + lastName.toLowerCase() + "@email.com");

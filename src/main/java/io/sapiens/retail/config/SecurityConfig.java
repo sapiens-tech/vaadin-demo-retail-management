@@ -1,6 +1,7 @@
 package io.sapiens.retail.config;
 
 import io.sapiens.awesome.util.SecurityUtil;
+import io.sapiens.retail.backend.enums.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,7 +25,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Bean
   @Override
   public UserDetailsService userDetailsService() {
-    UserDetails user = User.withUsername("user").password("{noop}password").roles("USER").build();
+    UserDetails user =
+        User.withUsername("admin").password("{noop}password").roles(Role.STAFF.name()).build();
     return new InMemoryUserDetailsManager(user);
   }
 

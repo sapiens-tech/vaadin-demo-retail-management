@@ -22,9 +22,6 @@ import java.time.LocalDate;
 @Setter
 public class Customer {
 
-  @GridColumn(header = "ID")
-  private Long id;
-
   @FormField(type = FormFieldType.TextField, label = "First name")
   private String firstName;
 
@@ -32,7 +29,7 @@ public class Customer {
   private String lastName;
 
   @JsonIgnore
-  @GridColumn(header = "Email", flexGrow = 1)
+  @GridColumn(header = "User info", flexGrow = 1)
   private Component userInfo;
 
   @GridColumn(header = "Email", flexGrow = 1)
@@ -57,7 +54,6 @@ public class Customer {
   @GridColumn(header = "Last Modified")
   private LocalDate lastModified;
 
-  @GridColumn(header = "Initials")
   public String getInitials() {
     return (firstName.substring(0, 1) + lastName.substring(0, 1)).toUpperCase();
   }
