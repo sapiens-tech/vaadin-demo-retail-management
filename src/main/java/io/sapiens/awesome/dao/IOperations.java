@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IOperations<T extends AbstractModel> {
 
-  T findOne(final long id);
+  T findOne(final String id);
 
   List<T> findAll();
 

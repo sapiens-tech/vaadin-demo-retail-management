@@ -36,7 +36,7 @@ public class UserService {
     User u = new User();
     BeanUtils.copyProperties(user, u);
     u.setRole(Role.STAFF);
-    userDao.save(u);
+    userDao.saveOrUpdate(u);
   }
 
   public Collection<Customer> retrieveCustomer() {

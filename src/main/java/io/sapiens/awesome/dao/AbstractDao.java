@@ -7,6 +7,9 @@ import lombok.Setter;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManagerFactory;
@@ -21,6 +24,7 @@ public abstract class AbstractDao<T extends AbstractModel> implements IOperation
 
   protected Class<T> clazz;
   private EntityManagerFactory emf;
+  private Logger logger = LoggerFactory.getLogger(AbstractDao.class);
 
   public AbstractDao() {
     this.clazz =
@@ -34,7 +38,7 @@ public abstract class AbstractDao<T extends AbstractModel> implements IOperation
   }
 
   @Override
-  public T findOne(final long id) {
+  public T findOne(final String id) {
     var result = getCurrentSession().get(clazz, id);
 
     getCurrentSession().close();
@@ -59,12 +63,13 @@ public abstract class AbstractDao<T extends AbstractModel> implements IOperation
   public QueryStatement<T> from(Class<T> clazz) {
     var builder = expr();
     var query = builder.createQuery(clazz);
-    var root= query.from(clazz);
+    var root = query.from(clazz);
 
     return new QueryStatement<>(query, root, getCurrentSession());
   }
 
-  @Setter @Getter
+  @Setter
+  @Getter
   @AllArgsConstructor
   public static class QueryStatement<T> {
     CriteriaQuery<T> query;
@@ -72,7 +77,7 @@ public abstract class AbstractDao<T extends AbstractModel> implements IOperation
     Session session;
 
     public CriteriaQuery<T> select(Selection<? extends T> selection) {
-      return query.select(selection) ;
+      return query.select(selection);
     }
   }
 
@@ -85,6 +90,17 @@ public abstract class AbstractDao<T extends AbstractModel> implements IOperation
     var session = getCurrentSession();
     session.getTransaction().begin();
     session.saveOrUpdate(entity);
+    session.getTransaction().commit();
+    session.close();
+  }
+
+  public void saveOrUpdate(final T entity) {
+    String id = entity.getId();
+    var session = getCurrentSession();
+    var old = session.get(clazz, id);
+    BeanUtils.copyProperties(entity, old);
+    session.getTransaction().begin();
+    session.saveOrUpdate(old);
     session.getTransaction().commit();
     session.close();
   }

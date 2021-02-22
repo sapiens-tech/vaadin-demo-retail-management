@@ -2,7 +2,6 @@ package io.sapiens.retail.ui.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.html.Span;
 import io.sapiens.awesome.ui.annotations.FormField;
 import io.sapiens.awesome.ui.annotations.GridColumn;
 import io.sapiens.awesome.ui.components.Badge;
@@ -17,6 +16,8 @@ import lombok.ToString;
 @Setter
 @ToString
 public class User {
+  private String id;
+
   @GridColumn(header = "Username")
   @FormField(type = FormFieldType.TextField, label = "Username")
   private String userName;
