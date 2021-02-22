@@ -121,6 +121,7 @@ public abstract class CrudView<T> extends SplitViewFrame {
   }
 
   private FormLayout createEditor(Class<T> clazz, T entity) {
+    binder.setBean(entity);
     return new Form<>(clazz, entity, binder, setupButtons(entity));
   }
 

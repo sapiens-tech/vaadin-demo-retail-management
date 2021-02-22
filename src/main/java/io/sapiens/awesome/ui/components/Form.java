@@ -49,8 +49,6 @@ public class Form<T> extends FormLayout {
 
   private void setupForm(T entity) {
     List<FormItem> items = new ArrayList<>();
-    log.debug(String.valueOf(entity));
-
     for (var field : getBeanType().getDeclaredFields()) {
       if (field.isAnnotationPresent(FormField.class)) {
         var annotation = field.getAnnotation(FormField.class);
