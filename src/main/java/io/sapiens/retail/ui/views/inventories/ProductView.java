@@ -6,6 +6,8 @@ import io.sapiens.awesome.ui.views.CrudView;
 import io.sapiens.retail.ui.BaseLayout;
 import io.sapiens.retail.ui.models.Product;
 
+import java.util.List;
+
 @PageTitle("Products")
 @Route(value = "products", layout = BaseLayout.class)
 public class ProductView extends CrudView<Product> {
@@ -23,4 +25,9 @@ public class ProductView extends CrudView<Product> {
 
   @Override
   public void filter() {}
+
+  @Override
+  public List<String> onValidate(Product entity) {
+    return null;
+  }
 }

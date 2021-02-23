@@ -9,6 +9,8 @@ import io.sapiens.retail.ui.BaseLayout;
 import io.sapiens.retail.ui.models.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 @Route(value = "customers", layout = BaseLayout.class)
 @PageTitle("Customers")
 public class CustomerView extends CrudView<Customer> {
@@ -23,6 +25,11 @@ public class CustomerView extends CrudView<Customer> {
   public void onInit() {
     setDataSet(userService.retrieveCustomer());
     setDetailTitle("Customer Details");
+  }
+
+  @Override
+  public List<String> onValidate(Customer entity) {
+    return null;
   }
 
   @Override

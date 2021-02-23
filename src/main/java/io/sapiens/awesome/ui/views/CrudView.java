@@ -8,8 +8,10 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.data.provider.DataProvider;
@@ -36,6 +38,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public abstract class CrudView<T> extends SplitViewFrame {
 
@@ -168,22 +171,37 @@ public abstract class CrudView<T> extends SplitViewFrame {
 
   public abstract void filter();
 
+  public abstract List<String> onValidate(T entity);
+
   private Component setupButtons(T entity) {
     Button save = new Button("Save");
+    Button cancel = new Button("Cancel");
+
     save.addClickListener(
         event -> {
           try {
             binder.writeBean(entity);
+            List<String> errors = onValidate(entity);
+
+            if (errors != null && !errors.isEmpty()) {
+              binder.setValidationStatusHandler(binderValidationStatus -> {});
+            }
             onSave(entity);
           } catch (ValidationException e) {
             log.error(e.getMessage());
           }
         });
 
-    HorizontalLayout buttons = new HorizontalLayout(save);
+    HorizontalLayout buttons = new HorizontalLayout(save, cancel);
+
     if (entity != null) {
-      Button delete = new Button("Delete");
-      buttons.add(delete);
+      Button delete = UIUtil.createErrorPrimaryButton("Delete");
+      VerticalLayout verticalLayout = new VerticalLayout (delete);
+      verticalLayout.setWidthFull();
+      verticalLayout.setAlignItems(FlexComponent.Alignment.END);
+      verticalLayout.setMargin(false);
+      verticalLayout.setPadding(false);
+      buttons.add(verticalLayout);
     }
 
     buttons.setHeight("200");

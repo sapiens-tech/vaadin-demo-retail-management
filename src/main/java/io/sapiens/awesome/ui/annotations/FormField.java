@@ -13,4 +13,5 @@ public @interface FormField {
   FormFieldType type() default FormFieldType.TextField;
 
   String label() default "";
+  String isValid() default "";
 }

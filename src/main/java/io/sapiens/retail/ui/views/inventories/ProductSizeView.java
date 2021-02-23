@@ -6,6 +6,8 @@ import io.sapiens.awesome.ui.views.CrudView;
 import io.sapiens.retail.ui.BaseLayout;
 import io.sapiens.retail.ui.models.ProductSize;
 
+import java.util.List;
+
 @PageTitle("ProductSizes")
 @Route(value = "product-sizes", layout = BaseLayout.class)
 public class ProductSizeView extends CrudView<ProductSize> {
@@ -21,6 +23,11 @@ public class ProductSizeView extends CrudView<ProductSize> {
 
   @Override
   public void onCancel() {}
+
+  @Override
+  public List<String> onValidate(ProductSize entity) {
+    return null;
+  }
 
   @Override
   public void filter() {}

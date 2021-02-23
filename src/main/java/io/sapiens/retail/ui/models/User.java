@@ -16,6 +16,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class User {
+
   private String id;
 
   @GridColumn(header = "Username")

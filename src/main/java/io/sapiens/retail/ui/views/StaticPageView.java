@@ -6,6 +6,8 @@ import io.sapiens.awesome.ui.views.CrudView;
 import io.sapiens.retail.ui.BaseLayout;
 import io.sapiens.retail.ui.models.StaticPage;
 
+import java.util.List;
+
 @PageTitle("Static Page")
 @Route(value = "static-page", layout = BaseLayout.class)
 public class StaticPageView extends CrudView<StaticPage> {
@@ -33,5 +35,10 @@ public class StaticPageView extends CrudView<StaticPage> {
     @Override
     public void filter() {
 
+    }
+
+    @Override
+    public List<String> onValidate(StaticPage entity) {
+        return null;
     }
 }
