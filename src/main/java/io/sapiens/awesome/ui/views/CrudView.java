@@ -176,6 +176,11 @@ public abstract class CrudView<T> extends SplitViewFrame {
   private Component setupButtons(T entity) {
     Button save = new Button("Save");
     Button cancel = new Button("Cancel");
+    cancel.setWidthFull();
+    save.setWidthFull();
+
+    HorizontalLayout actionButtons = new HorizontalLayout(save, cancel);
+    actionButtons.setWidth("50%");
 
     save.addClickListener(
         event -> {
@@ -192,16 +197,14 @@ public abstract class CrudView<T> extends SplitViewFrame {
           }
         });
 
-    HorizontalLayout buttons = new HorizontalLayout(save, cancel);
+    HorizontalLayout buttons = new HorizontalLayout(actionButtons);
 
     if (entity != null) {
       Button delete = UIUtil.createErrorPrimaryButton("Delete");
-      VerticalLayout verticalLayout = new VerticalLayout (delete);
-      verticalLayout.setWidthFull();
-      verticalLayout.setAlignItems(FlexComponent.Alignment.END);
-      verticalLayout.setMargin(false);
-      verticalLayout.setPadding(false);
-      buttons.add(verticalLayout);
+      FlexLayout layout= new FlexLayout(delete);
+      layout.setWidthFull();
+      layout.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
+      buttons.add(layout);
     }
 
     buttons.setHeight("200");
