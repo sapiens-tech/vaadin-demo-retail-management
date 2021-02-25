@@ -4,6 +4,7 @@ import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
@@ -11,7 +12,6 @@ import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.data.provider.DataProvider;
@@ -201,7 +201,34 @@ public abstract class CrudView<T> extends SplitViewFrame {
 
     if (entity != null) {
       Button delete = UIUtil.createErrorPrimaryButton("Delete");
-      FlexLayout layout= new FlexLayout(delete);
+      delete.addClickListener(
+          event -> {
+            Dialog dialog = new Dialog();
+            dialog.setWidth("400px");
+
+            dialog.setCloseOnEsc(false);
+            dialog.setCloseOnOutsideClick(false);
+
+            Span message = new Span();
+            message.setText("Are you sure you want to delete this record ?");
+            message.setSizeFull();
+
+            Button confirmButton = UIUtil.createErrorPrimaryButton("Confirm");
+            confirmButton.addClickListener(
+                e -> {
+                  onDelete();
+                  dialog.close();
+                });
+            Button cancelButton = new Button("Cancel", e -> dialog.close());
+              HorizontalLayout flexLayout = new HorizontalLayout(actionButtons);
+            flexLayout.setWidthFull();
+            flexLayout.add(confirmButton, cancelButton);
+            flexLayout.setMargin(true);
+            flexLayout.setPadding(true);
+            dialog.add(message, flexLayout);
+            dialog.open();
+          });
+      FlexLayout layout = new FlexLayout(delete);
       layout.setWidthFull();
       layout.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
       buttons.add(layout);
