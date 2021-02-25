@@ -205,8 +205,6 @@ public abstract class CrudView<T> extends SplitViewFrame {
           event -> {
             Dialog dialog = new Dialog();
             dialog.setWidth("400px");
-
-            dialog.setCloseOnEsc(false);
             dialog.setCloseOnOutsideClick(false);
 
             Span message = new Span();
@@ -220,9 +218,8 @@ public abstract class CrudView<T> extends SplitViewFrame {
                   dialog.close();
                 });
             Button cancelButton = new Button("Cancel", e -> dialog.close());
-              HorizontalLayout flexLayout = new HorizontalLayout(actionButtons);
+            HorizontalLayout flexLayout = new HorizontalLayout(confirmButton, cancelButton);
             flexLayout.setWidthFull();
-            flexLayout.add(confirmButton, cancelButton);
             flexLayout.setMargin(true);
             flexLayout.setPadding(true);
             dialog.add(message, flexLayout);
