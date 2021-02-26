@@ -15,8 +15,7 @@ public class AbstractService<M extends AbstractModel> {
     return dao.saveOrUpdate(entity);
   }
 
-  public void delete (String id){
-    M entity = dao.findOne(id);
-    dao.delete(entity);
+  public void delete(String id) {
+    dao.deleteById(id);
   }
 }

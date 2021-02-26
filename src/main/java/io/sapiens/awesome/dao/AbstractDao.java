@@ -97,12 +97,17 @@ public abstract class AbstractDao<T extends AbstractModel> implements IOperation
   }
 
   public T saveOrUpdate(final T entity) {
-    String id = entity.getId();
     var session = getCurrentSession();
-    var old = session.get(clazz, id);
-    BeanUtils.copyProperties(entity, old);
     session.getTransaction().begin();
-    session.saveOrUpdate(old);
+    if (entity != null && entity.getId() != null && !entity.getId().isEmpty())  {
+      String id = entity.getId();
+      var old = session.get(clazz, id);
+      BeanUtils.copyProperties(entity, old);
+      session.saveOrUpdate(old);
+    } else {
+      session.saveOrUpdate(entity);
+    }
+
     session.getTransaction().commit();
     session.close();
 
