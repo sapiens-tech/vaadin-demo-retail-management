@@ -39,7 +39,7 @@ public class CustomerView extends CrudView<Customer> {
   }
 
   @Override
-  public void onDelete() {}
+  public void onDelete(Customer customer) {}
 
   @Override
   public void onCancel() {}

@@ -1,5 +1,6 @@
 package io.sapiens.retail.backend.service;
 
+import io.sapiens.awesome.service.AbstractService;
 import io.sapiens.retail.backend.dao.UserDao;
 import io.sapiens.retail.backend.enums.Role;
 import io.sapiens.retail.backend.model.User;
@@ -15,13 +16,12 @@ import java.util.Collection;
 import java.util.List;
 
 @Service
-public class UserService {
+public class UserService extends AbstractService<User> {
   private final Logger log = LoggerFactory.getLogger(UserService.class);
-  private UserDao userDao;
 
   @Autowired
   public void setDao(UserDao userDao) {
-    this.userDao = userDao;
+    super.setDao(userDao);
   }
 
   public void saveCustomer(Customer person) {
@@ -29,18 +29,18 @@ public class UserService {
     User user = new User();
     BeanUtils.copyProperties(person, user);
     user.setRole(Role.CUSTOMER);
-    userDao.save(user);
+    saveOrUpdate(user);
   }
 
   public void saveUser(io.sapiens.retail.ui.models.User user) {
     User u = new User();
     BeanUtils.copyProperties(user, u);
     u.setRole(Role.STAFF);
-    userDao.saveOrUpdate(u);
+    saveOrUpdate(u);
   }
 
   public Collection<Customer> retrieveCustomer() {
-    List<User> users = userDao.retrieveByRole(Role.CUSTOMER);
+    List<User> users = ((UserDao) dao).retrieveByRole(Role.CUSTOMER);
     List<Customer> result = new ArrayList<>();
 
     for (User user : users) {
@@ -53,7 +53,7 @@ public class UserService {
   }
 
   public Collection<io.sapiens.retail.ui.models.User> retrieveUser() {
-    List<User> users = userDao.retrieveByRole(Role.STAFF);
+    List<User> users = ((UserDao) dao).retrieveByRole(Role.STAFF);
     List<io.sapiens.retail.ui.models.User> result = new ArrayList<>();
 
     for (User user : users) {

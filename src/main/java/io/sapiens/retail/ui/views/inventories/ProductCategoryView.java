@@ -19,7 +19,7 @@ public class ProductCategoryView extends CrudView<ProductCategory> {
   public void onSave(ProductCategory productCategory) {}
 
   @Override
-  public void onDelete() {}
+  public void onDelete(ProductCategory entity) {}
 
   @Override
   public void onCancel() {}

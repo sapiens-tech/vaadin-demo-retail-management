@@ -46,7 +46,9 @@ public class StaffView extends CrudView<User> {
   }
 
   @Override
-  public void onDelete() {}
+  public void onDelete(User user) {
+    userService.delete(user.getId());
+  }
 
   @Override
   public void onCancel() {}

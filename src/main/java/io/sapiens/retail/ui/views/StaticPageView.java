@@ -23,7 +23,7 @@ public class StaticPageView extends CrudView<StaticPage> {
     }
 
     @Override
-    public void onDelete() {
+    public void onDelete(StaticPage staticPage) {
 
     }
 

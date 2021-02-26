@@ -165,7 +165,7 @@ public abstract class CrudView<T> extends SplitViewFrame {
 
   public abstract void onSave(T entity);
 
-  public abstract void onDelete();
+  public abstract void onDelete(T entity);
 
   public abstract void onCancel();
 
@@ -197,7 +197,11 @@ public abstract class CrudView<T> extends SplitViewFrame {
   private Button createCancelButton() {
     Button cancel = new Button("Cancel");
     cancel.setWidthFull();
-    cancel.addClickListener(buttonClickEvent -> detailsDrawer.hide());
+    cancel.addClickListener(
+        buttonClickEvent -> {
+          onCancel();
+          detailsDrawer.hide();
+        });
     return cancel;
   }
 
@@ -216,7 +220,7 @@ public abstract class CrudView<T> extends SplitViewFrame {
           Button confirmButton = UIUtil.createErrorPrimaryButton("Confirm");
           confirmButton.addClickListener(
               e -> {
-                onDelete();
+                onDelete(entity);
                 dialog.close();
               });
           Button cancelButton = new Button("Cancel", e -> dialog.close());

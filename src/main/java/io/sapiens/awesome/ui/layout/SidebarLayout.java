@@ -70,7 +70,7 @@ public abstract class SidebarLayout extends FlexBoxLayout
             (ErrorHandler)
                 errorEvent -> {
                   log.error("Uncaught UI exception", errorEvent.getThrowable());
-                  Notification.show("We are sorry, but an internal error occurred");
+                  Notification.show("We are sorry, but an internal error occurred: " + errorEvent.getThrowable().getMessage());
                 });
 
     addClassName(CLASS_NAME);

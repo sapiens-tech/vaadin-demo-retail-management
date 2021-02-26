@@ -86,15 +86,17 @@ public abstract class AbstractDao<T extends AbstractModel> implements IOperation
   }
 
   @Override
-  public void save(final T entity) {
+  public T save(final T entity) {
     var session = getCurrentSession();
     session.getTransaction().begin();
     session.saveOrUpdate(entity);
     session.getTransaction().commit();
     session.close();
+
+    return entity;
   }
 
-  public void saveOrUpdate(final T entity) {
+  public T saveOrUpdate(final T entity) {
     String id = entity.getId();
     var session = getCurrentSession();
     var old = session.get(clazz, id);
@@ -103,6 +105,8 @@ public abstract class AbstractDao<T extends AbstractModel> implements IOperation
     session.saveOrUpdate(old);
     session.getTransaction().commit();
     session.close();
+
+    return entity;
   }
 
   @Override
@@ -118,17 +122,17 @@ public abstract class AbstractDao<T extends AbstractModel> implements IOperation
 
   @Override
   public void delete(final T entity) {
-    Session session = getCurrentSession();
-    session.delete(entity);
-    session.getTransaction().commit();
-    session.close();
+    deleteById(entity.getId());
   }
 
   @Override
-  public void deleteById(final long id) {
-    var result = getCurrentSession().get(clazz, id);
-    getCurrentSession().delete(result);
-    getCurrentSession().close();
+  public void deleteById(final String id) {
+    Session session = getCurrentSession();
+    var result = session.get(clazz, id);
+    session.getTransaction().begin();
+    session.delete(result);
+    session.getTransaction().commit();
+    session.close();
   }
 
   protected Session getCurrentSession() {

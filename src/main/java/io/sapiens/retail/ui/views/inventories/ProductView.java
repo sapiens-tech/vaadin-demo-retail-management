@@ -18,7 +18,7 @@ public class ProductView extends CrudView<Product> {
   public void onSave(Product product) {}
 
   @Override
-  public void onDelete() {}
+  public void onDelete(Product product) {}
 
   @Override
   public void onCancel() {}
