@@ -227,6 +227,8 @@ public abstract class CrudView<T> extends SplitViewFrame {
           dialog.add(message, flexLayout);
           dialog.open();
         });
+
+    return delete;
   }
 
   private Component setupButtons(T entity) {
