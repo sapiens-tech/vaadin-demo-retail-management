@@ -173,15 +173,9 @@ public abstract class CrudView<T> extends SplitViewFrame {
 
   public abstract List<String> onValidate(T entity);
 
-  private Component setupButtons(T entity) {
+  private Button createSaveButton(T entity) {
     Button save = new Button("Save");
-    Button cancel = new Button("Cancel");
-    cancel.setWidthFull();
     save.setWidthFull();
-
-    HorizontalLayout actionButtons = new HorizontalLayout(save, cancel);
-    actionButtons.setWidth("50%");
-
     save.addClickListener(
         event -> {
           try {
@@ -197,34 +191,54 @@ public abstract class CrudView<T> extends SplitViewFrame {
           }
         });
 
+    return save;
+  }
+
+  private Button createCancelButton() {
+    Button cancel = new Button("Cancel");
+    cancel.setWidthFull();
+    cancel.addClickListener(buttonClickEvent -> detailsDrawer.hide());
+    return cancel;
+  }
+
+  private Button createDeleteButton(T entity) {
+    Button delete = UIUtil.createErrorPrimaryButton("Delete");
+    delete.addClickListener(
+        event -> {
+          Dialog dialog = new Dialog();
+          dialog.setWidth("400px");
+          dialog.setCloseOnOutsideClick(false);
+
+          Span message = new Span();
+          message.setText("Are you sure you want to delete this record ?");
+          message.setSizeFull();
+
+          Button confirmButton = UIUtil.createErrorPrimaryButton("Confirm");
+          confirmButton.addClickListener(
+              e -> {
+                onDelete();
+                dialog.close();
+              });
+          Button cancelButton = new Button("Cancel", e -> dialog.close());
+          HorizontalLayout flexLayout = new HorizontalLayout(confirmButton, cancelButton);
+          flexLayout.setWidthFull();
+          flexLayout.setMargin(true);
+          flexLayout.setPadding(true);
+          dialog.add(message, flexLayout);
+          dialog.open();
+        });
+  }
+
+  private Component setupButtons(T entity) {
+    Button save = createSaveButton(entity);
+    Button cancel = createCancelButton();
+    HorizontalLayout actionButtons = new HorizontalLayout(save, cancel);
+    actionButtons.setWidth("50%");
+
     HorizontalLayout buttons = new HorizontalLayout(actionButtons);
 
     if (entity != null) {
-      Button delete = UIUtil.createErrorPrimaryButton("Delete");
-      delete.addClickListener(
-          event -> {
-            Dialog dialog = new Dialog();
-            dialog.setWidth("400px");
-            dialog.setCloseOnOutsideClick(false);
-
-            Span message = new Span();
-            message.setText("Are you sure you want to delete this record ?");
-            message.setSizeFull();
-
-            Button confirmButton = UIUtil.createErrorPrimaryButton("Confirm");
-            confirmButton.addClickListener(
-                e -> {
-                  onDelete();
-                  dialog.close();
-                });
-            Button cancelButton = new Button("Cancel", e -> dialog.close());
-            HorizontalLayout flexLayout = new HorizontalLayout(confirmButton, cancelButton);
-            flexLayout.setWidthFull();
-            flexLayout.setMargin(true);
-            flexLayout.setPadding(true);
-            dialog.add(message, flexLayout);
-            dialog.open();
-          });
+      Button delete = createDeleteButton(entity);
       FlexLayout layout = new FlexLayout(delete);
       layout.setWidthFull();
       layout.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
