@@ -1,6 +1,5 @@
 package io.sapiens.retail.ui.views.users;
 
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import io.sapiens.awesome.ui.views.CrudView;
@@ -13,37 +12,35 @@ import java.util.List;
 
 @Route(value = "customers", layout = BaseLayout.class)
 @PageTitle("Customers")
-public class CustomerView extends CrudView<Customer> {
+public class CustomerView
+    extends CrudView<Customer.ListCustomer, Customer.EditCustomer, Customer.Mapper> {
 
   private final UserService userService;
 
   public CustomerView(@Autowired UserService userService) {
+    super(Customer.ListCustomer.class, Customer.EditCustomer.class, new Customer.Mapper());
     this.userService = userService;
   }
 
   @Override
   public void onInit() {
-    setDataSet(userService.retrieveCustomer());
-    setDetailTitle("Customer Details");
+    userService.retrieveUser();
   }
 
   @Override
-  public List<String> onValidate(Customer entity) {
-    return null;
-  }
+  public void onSave(Customer.EditCustomer entity) {}
 
   @Override
-  public void onSave(Customer customer) {
-    userService.saveCustomer(customer);
-    UI.getCurrent().getPage().reload();
-  }
-
-  @Override
-  public void onDelete(Customer customer) {}
+  public void onDelete(Customer.EditCustomer entity) {}
 
   @Override
   public void onCancel() {}
 
   @Override
   public void filter() {}
+
+  @Override
+  public List<String> onValidate(Customer.EditCustomer entity) {
+    return null;
+  }
 }

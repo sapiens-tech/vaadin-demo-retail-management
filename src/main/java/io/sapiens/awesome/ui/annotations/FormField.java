@@ -13,5 +13,12 @@ public @interface FormField {
   FormFieldType type() default FormFieldType.TextField;
 
   String label() default "";
-  String isValid() default "";
+
+  FormGroup group() default @FormGroup();
+}
+
+@interface FormGroup {
+  String name() default "";
+
+  int order() default 0;
 }

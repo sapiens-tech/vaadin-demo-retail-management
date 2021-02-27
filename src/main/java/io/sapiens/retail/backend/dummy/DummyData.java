@@ -545,11 +545,11 @@ public class DummyData {
       String firstName = getFirstName();
       String lastName = getLastName();
       Customer person = new Customer();
-      person.setFirstName(firstName);
-      person.setLastName(lastName);
-      person.setEmailAddress(firstName.toLowerCase() + "." + lastName.toLowerCase() + "@email.com");
-      person.setLastModified(getDate());
-      person.setDateOfBirth(getDate());
+//      person.setFirstName(firstName);
+//      person.setLastName(lastName);
+//      person.setEmailAddress(firstName.toLowerCase() + "." + lastName.toLowerCase() + "@email.com");
+//      person.setLastModified(getDate());
+//      person.setDateOfBirth(getDate());
 
       PERSONS.put(i, person);
     }

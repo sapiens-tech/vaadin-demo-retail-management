@@ -2,13 +2,21 @@ package io.sapiens.awesome.ui.components;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasValue;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.function.ValueProvider;
 import io.sapiens.awesome.ui.annotations.FormField;
 import io.sapiens.awesome.ui.layout.size.Right;
@@ -26,16 +34,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Form<T> extends FormLayout {
-  private Logger log = LoggerFactory.getLogger(Form.class);
+  private static final Logger logger = LoggerFactory.getLogger(Form.class);
   @Getter @Setter private T entity;
   @Getter @Setter private Class<T> beanType;
   @Getter private final Binder<T> binder;
+  private IFormAction onValidate;
+  private IFormAction onSave;
+  private IFormAction onCancel;
+  private IFormAction onDelete;
 
-  public Form(Class<T> clazz, T entity, Binder<T> binder, Component buttons) {
+  public Form(
+      Class<T> clazz,
+      T entity,
+      Binder<T> binder,
+      Component buttons,
+      IFormAction onValidate,
+      IFormAction onSave,
+      IFormAction onDelete,
+      IFormAction onCancel) {
     super();
     this.entity = entity;
     this.beanType = clazz;
     this.binder = binder;
+    this.onValidate = onValidate;
+    this.onDelete = onDelete;
+    this.onSave = onSave;
+    this.onCancel = onCancel;
 
     addClassNames(
         LumoStyles.Padding.Bottom.L, LumoStyles.Padding.Horizontal.L, LumoStyles.Padding.Top.S);
@@ -139,5 +163,82 @@ public class Form<T> extends FormLayout {
             (ValueProvider<T, String>) t -> (String) util.invokeGetter(t, fieldName),
             (com.vaadin.flow.data.binder.Setter<T, String>)
                 (t, s) -> util.invokeSetter(t, fieldName, s));
+  }
+
+  private Button createSaveButton(T entity) {
+    Button save = new Button("Save");
+    save.setWidthFull();
+    save.addClickListener(
+        event -> {
+          try {
+            binder.writeBean(entity);
+            onSave.execute(entity);
+          } catch (ValidationException e) {
+            logger.error(e.getMessage());
+          }
+        });
+
+    return save;
+  }
+
+  private Button createCancelButton(T entity) {
+    Button cancel = new Button("Cancel");
+    cancel.setWidthFull();
+    cancel.addClickListener(buttonClickEvent -> onCancel.execute(entity));
+    return cancel;
+  }
+
+  private Button createDeleteButton(T entity) {
+    Button delete = UIUtil.createErrorPrimaryButton("Delete");
+    delete.addClickListener(
+        event -> {
+          Dialog dialog = new Dialog();
+          dialog.setWidth("400px");
+          dialog.setCloseOnOutsideClick(false);
+
+          Span message = new Span();
+          message.setText("Are you sure you want to delete this record ?");
+          message.setSizeFull();
+
+          Button confirmButton = UIUtil.createErrorPrimaryButton("Confirm");
+          confirmButton.addClickListener(
+              e -> {
+                onDelete.execute(entity);
+                dialog.close();
+              });
+          Button cancelButton = new Button("Cancel", e -> dialog.close());
+          HorizontalLayout flexLayout = new HorizontalLayout(confirmButton, cancelButton);
+          flexLayout.setWidthFull();
+          flexLayout.setMargin(true);
+          flexLayout.setPadding(true);
+          dialog.add(message, flexLayout);
+          dialog.open();
+        });
+
+    return delete;
+  }
+
+  private Component setupButtons(T entity) {
+    Button save = createSaveButton(entity);
+    Button cancel = createCancelButton(entity);
+    HorizontalLayout actionButtons = new HorizontalLayout(save, cancel);
+    actionButtons.setWidth("50%");
+
+    HorizontalLayout buttons = new HorizontalLayout(actionButtons);
+
+    if (entity != null) {
+      Button delete = createDeleteButton(entity);
+      FlexLayout layout = new FlexLayout(delete);
+      layout.setWidthFull();
+      layout.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
+      buttons.add(layout);
+    }
+
+    buttons.setHeight("200");
+    buttons.setMargin(true);
+    save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+    UIUtil.setColSpan(2, buttons);
+    return buttons;
   }
 }

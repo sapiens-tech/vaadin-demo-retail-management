@@ -1,10 +1,7 @@
 package io.sapiens.retail.ui.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
 import io.sapiens.awesome.ui.annotations.FormField;
 import io.sapiens.awesome.ui.annotations.GridColumn;
 import io.sapiens.awesome.ui.components.Initials;
@@ -12,73 +9,88 @@ import io.sapiens.awesome.ui.components.ListItem;
 import io.sapiens.awesome.ui.enums.FormFieldType;
 import io.sapiens.awesome.ui.layout.size.Right;
 import io.sapiens.awesome.ui.layout.size.Vertical;
-import io.sapiens.awesome.ui.util.UIUtil;
+import io.sapiens.awesome.ui.views.CrudMapper;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
 public class Customer {
 
-  @FormField(type = FormFieldType.TextField, label = "First name")
-  private String firstName;
+  @Getter
+  @Setter
+  public static class ListCustomer {
+    private String id;
+    private String firstName;
+    private String lastName;
+    private String avatar;
 
-  @FormField(type = FormFieldType.TextField, label = "Last name")
-  private String lastName;
+    @GridColumn(header = "Avatar", flexGrow = 1)
+    private Component avatarComponent;
 
-  @JsonIgnore
-  @GridColumn(header = "User info", flexGrow = 1)
-  private Component userInfo;
+    public Component getAvatarComponent() {
+      return new Span(avatar);
+    }
 
-  @GridColumn(header = "Email", flexGrow = 1)
-  @FormField(type = FormFieldType.TextField, label = "Email")
-  private String emailAddress;
+    @GridColumn(header = "User info", flexGrow = 1)
+    private Component userInfo;
 
-  @FormField(type = FormFieldType.DateField, label = "Date of birth")
-  @GridColumn(header = "Date of birth")
-  private LocalDate dateOfBirth;
+    public Component getUserInfo() {
+      ListItem item = new ListItem(new Initials(getInitials()), getName(), getEmailAddress());
+      item.setPadding(Vertical.XS);
+      item.setSpacing(Right.M);
+      return item;
+    }
 
-  private String phonePrefix;
+    @GridColumn(header = "Phone")
+    private String phone;
 
-  private String phoneNumber;
+    @GridColumn(header = "Email", flexGrow = 1)
+    private String emailAddress;
 
-  @GridColumn(header = "Phone")
-  @FormField(type = FormFieldType.PhoneField, label = "Phone")
-  private String phone;
+    @GridColumn(header = "Date of birth")
+    private LocalDate dateOfBirth;
 
-  @FormField(type = FormFieldType.FileField, label = "Avatar")
-  private String avatar;
+    public String getInitials() {
+      return (firstName.charAt(0) + lastName.charAt(0) + "").toUpperCase();
+    }
 
-  @GridColumn(header = "Last Modified")
-  private LocalDate lastModified;
-
-  public String getInitials() {
-    return (firstName.substring(0, 1) + lastName.substring(0, 1)).toUpperCase();
+    public String getName() {
+      return firstName + " " + lastName;
+    }
   }
 
-  @GridColumn(header = "Name")
-  public String getName() {
-    return firstName + " " + lastName;
+  @Getter
+  @Setter
+  public static class EditCustomer {
+    private String id;
+
+    @FormField(type = FormFieldType.TextField, label = "First name")
+    private String firstName;
+
+    @FormField(type = FormFieldType.TextField, label = "Last name")
+    private String lastName;
+
+    @FormField(type = FormFieldType.TextField, label = "Email")
+    private String emailAddress;
+
+    @FormField(type = FormFieldType.PhoneField, label = "Phone")
+    private String phone;
+
+    @FormField(type = FormFieldType.DateField, label = "Date of birth")
+    private LocalDate dateOfBirth;
+
+    @FormField(type = FormFieldType.FileField, label = "Avatar")
+    private String avatar;
   }
 
-  // ----------------------------------- Custom UI for grid -----------------------------------//
-  public Component getUserInfo() {
-    ListItem item = new ListItem(new Initials(getInitials()), getName(), getEmailAddress());
-    item.setPadding(Vertical.XS);
-    item.setSpacing(Right.M);
-    return item;
+  public static class Mapper extends CrudMapper<ListCustomer, EditCustomer> {
+    @Override
+    public EditCustomer fromListToEdit(ListCustomer l) {
+      EditCustomer editCustomer = new EditCustomer();
+      BeanUtils.copyProperties(l, editCustomer);
+      return editCustomer;
+    }
   }
-
-  @JsonIgnore
-  public Component getRole() {
-    return new Span(getRole().toString());
-  }
-
-  @JsonIgnore
-  public Component getLastLoginDate() {
-    return new Span(UIUtil.formatDate(getLastModified()));
-  }
-  // ----------------------------------/ Custom UI for grid -----------------------------------//
 }
