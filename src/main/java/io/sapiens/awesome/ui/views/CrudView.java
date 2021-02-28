@@ -77,6 +77,10 @@ class GridView<L> extends Grid<L> {
     createGrid();
   }
 
+  public void setData(Collection<L> data) {
+    setItems(data);
+  }
+
   private void createGrid() {
     dataProvider = DataProvider.ofCollection(getDataSet());
     setSizeFull();
@@ -140,10 +144,17 @@ public abstract class CrudView<L, E, M extends CrudMapper<L, E>> extends SplitVi
   private final Class<E> editEntity;
   private final M mapper;
 
+  private GridView<L> grid;
+
   public CrudView(Class<L> listEntity, Class<E> editEntity, M mapper) {
     this.mapper = mapper;
     this.listEntity = listEntity;
     this.editEntity = editEntity;
+    this.grid = new GridView<>(listEntity);
+  }
+
+  protected void setGridData(Collection<L> data) {
+    grid.setData(data);
   }
 
   @Override
@@ -170,7 +181,7 @@ public abstract class CrudView<L, E, M extends CrudMapper<L, E>> extends SplitVi
   }
 
   private Component createContent() {
-    FlexBoxLayout content = new FlexBoxLayout(new GridView<L>(listEntity));
+    FlexBoxLayout content = new FlexBoxLayout(grid);
     content.setBoxSizing(BoxSizing.BORDER_BOX);
     content.setHeightFull();
     content.setPadding(Horizontal.RESPONSIVE_X, Top.S, Bottom.M);

@@ -24,7 +24,7 @@ public class CustomerView
 
   @Override
   public void onInit() {
-    userService.retrieveUser();
+    setGridData(userService.retrieveCustomer());
   }
 
   @Override

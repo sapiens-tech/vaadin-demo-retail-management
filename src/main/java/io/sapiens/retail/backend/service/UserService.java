@@ -39,12 +39,12 @@ public class UserService extends AbstractService<User> {
     saveOrUpdate(u);
   }
 
-  public Collection<Customer> retrieveCustomer() {
+  public Collection<Customer.ListCustomer> retrieveCustomer() {
     List<User> users = ((UserDao) dao).retrieveByRole(Role.CUSTOMER);
-    List<Customer> result = new ArrayList<>();
+    List<Customer.ListCustomer> result = new ArrayList<>();
 
     for (User user : users) {
-      var person = new Customer();
+      var person = new Customer.ListCustomer();
       BeanUtils.copyProperties(user, person);
       result.add(person);
     }
