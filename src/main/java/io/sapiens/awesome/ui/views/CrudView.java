@@ -140,13 +140,16 @@ class GridView<L> extends Grid<L> {
 class Toolbar<E> extends FlexBoxLayout {
   @Setter @Getter private E entity;
   private static final Logger logger = LoggerFactory.getLogger(Toolbar.class);
-  private Result<Registration> registrationResult = Result.failure("not registered");
+  Result<Registration> registrationResult = Result.ofNullable(registerForEvents());
 
   public Toolbar() {
     Button newButton = new Button("New");
     newButton.addClickListener(event -> {
       final DemoComponentRegistry.ValueEvent valueEvent = new DemoComponentRegistry.ValueEvent("toolbar", "open");
       fireCustomEvent(valueEvent);
+
+      registrationResult.ifPresent(Registration::remove);
+      registrationResult = Result.failure("not registered");
     });
 
     add(newButton);
@@ -156,8 +159,6 @@ class Toolbar<E> extends FlexBoxLayout {
     setPadding(Horizontal.RESPONSIVE_X, Top.M);
     newButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
     UIUtil.setColSpan(2, this);
-
-    registrationResult = Result.ofNullable(registerForEvents());
   }
 
   private Registration registerForEvents() {
@@ -184,6 +185,8 @@ public abstract class CrudView<L, E, M extends CrudMapper<L, E>> extends SplitVi
   @Getter @Setter private FormLayout createOrUpdateForm;
   @Getter @Setter private String detailTitle;
 
+  private Result<Registration> registrationResult = Result.failure("not registered");
+
   private final Class<L> listEntity;
   private final Class<E> editEntity;
   private final M mapper;
@@ -195,6 +198,7 @@ public abstract class CrudView<L, E, M extends CrudMapper<L, E>> extends SplitVi
     this.listEntity = listEntity;
     this.editEntity = editEntity;
     this.grid = new GridView<>(listEntity);
+    registrationResult = Result.ofNullable(registerForEvents());
   }
 
   protected void setGridData(Collection<L> data) {
@@ -258,4 +262,21 @@ public abstract class CrudView<L, E, M extends CrudMapper<L, E>> extends SplitVi
   public abstract void filter();
 
   public abstract List<String> onValidate(E entity);
+
+  private Registration registerForEvents() {
+    return UI.getCurrent()
+            .getSession()
+            .getAttribute(DemoComponentRegistry.class)
+            .register(
+                    valueEvent -> {
+                      if (nonNull(valueEvent.id()) && !valueEvent.id().equals(getId().orElse(""))) {
+                        // eventID.setValue(valueEvent.id());
+                        // eventMessage.setValue(valueEvent.value());
+                      }
+                    });
+  }
+
+  private void fireCustomEvent(DemoComponentRegistry.ValueEvent valueEvent) {
+    UI.getCurrent().getSession().getAttribute(DemoComponentRegistry.class).sentEvent(valueEvent);
+  }
 }
