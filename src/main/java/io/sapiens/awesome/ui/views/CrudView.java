@@ -2,6 +2,7 @@ package io.sapiens.awesome.ui.views;
 
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -12,7 +13,6 @@ import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
-import com.vaadin.flow.internal.Pair;
 import com.vaadin.flow.server.*;
 import com.vaadin.flow.shared.Registration;
 import io.sapiens.awesome.ui.annotations.GridColumn;
@@ -27,6 +27,8 @@ import io.sapiens.awesome.ui.util.css.BoxSizing;
 import io.sapiens.awesome.util.SystemUtil;
 import lombok.Getter;
 import lombok.Setter;
+import org.rapidpm.frp.model.Pair;
+import org.rapidpm.frp.model.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +40,8 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
+import static java.util.Objects.nonNull;
+
 class DemoComponentRegistry extends Registry<DemoComponentRegistry.ValueEvent> {
 
   public static class ValueEvent extends Pair<String, String> {
@@ -47,17 +51,16 @@ class DemoComponentRegistry extends Registry<DemoComponentRegistry.ValueEvent> {
     }
 
     public String id() {
-      return getFirst();
+      return getT1();
     }
 
     public String value() {
-      return getSecond();
+      return getT2();
     }
   }
 }
 
-class RegistryServiceInitListener
-    implements VaadinServiceInitListener, UIInitListener {
+class RegistryServiceInitListener implements VaadinServiceInitListener, UIInitListener {
 
   @Override
   public void serviceInit(ServiceInitEvent serviceInitEvent) {
@@ -137,10 +140,14 @@ class GridView<L> extends Grid<L> {
 class Toolbar<E> extends FlexBoxLayout {
   @Setter @Getter private E entity;
   private static final Logger logger = LoggerFactory.getLogger(Toolbar.class);
+  private Result<Registration> registrationResult = Result.failure("not registered");
 
   public Toolbar() {
     Button newButton = new Button("New");
-    newButton.addClickListener(event -> {});
+    newButton.addClickListener(event -> {
+      final DemoComponentRegistry.ValueEvent valueEvent = new DemoComponentRegistry.ValueEvent("toolbar", "open");
+      fireCustomEvent(valueEvent);
+    });
 
     add(newButton);
     setBoxSizing(BoxSizing.BORDER_BOX);
@@ -149,6 +156,25 @@ class Toolbar<E> extends FlexBoxLayout {
     setPadding(Horizontal.RESPONSIVE_X, Top.M);
     newButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
     UIUtil.setColSpan(2, this);
+
+    registrationResult = Result.ofNullable(registerForEvents());
+  }
+
+  private Registration registerForEvents() {
+    return UI.getCurrent()
+        .getSession()
+        .getAttribute(DemoComponentRegistry.class)
+        .register(
+            valueEvent -> {
+              if (nonNull(valueEvent.id()) && !valueEvent.id().equals(getId().orElse(""))) {
+                // eventID.setValue(valueEvent.id());
+                // eventMessage.setValue(valueEvent.value());
+              }
+            });
+  }
+
+  private void fireCustomEvent(DemoComponentRegistry.ValueEvent valueEvent) {
+    UI.getCurrent().getSession().getAttribute(DemoComponentRegistry.class).sentEvent(valueEvent);
   }
 }
 
