@@ -12,6 +12,9 @@ import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
+import com.vaadin.flow.internal.Pair;
+import com.vaadin.flow.server.*;
+import com.vaadin.flow.shared.Registration;
 import io.sapiens.awesome.ui.annotations.GridColumn;
 import io.sapiens.awesome.ui.components.FlexBoxLayout;
 import io.sapiens.awesome.ui.components.detailsdrawer.DetailsDrawer;
@@ -27,42 +30,59 @@ import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 
-interface Statable {
-  void addChangeListener(PropertyChangeListener newListener);
+class DemoComponentRegistry extends Registry<DemoComponentRegistry.ValueEvent> {
+
+  public static class ValueEvent extends Pair<String, String> {
+
+    public ValueEvent(String id, String value) {
+      super(id, value);
+    }
+
+    public String id() {
+      return getFirst();
+    }
+
+    public String value() {
+      return getSecond();
+    }
+  }
 }
 
-class StateObserver implements PropertyChangeListener {
-  public StateObserver(State model) {
-    model.addChangeListener(this);
+class RegistryServiceInitListener
+    implements VaadinServiceInitListener, UIInitListener {
+
+  @Override
+  public void serviceInit(ServiceInitEvent serviceInitEvent) {
+    serviceInitEvent.getSource().addUIInitListener(this);
   }
 
   @Override
-  public void propertyChange(PropertyChangeEvent event) {
-    System.out.println(
-        "Changed property: "
-            + event.getPropertyName()
-            + " [old -> "
-            + event.getOldValue()
-            + "] | [new -> "
-            + event.getNewValue()
-            + "]");
+  public void uiInit(UIInitEvent uiInitEvent) {
+    final VaadinSession session = uiInitEvent.getUI().getSession();
+    session.setAttribute(DemoComponentRegistry.class, null);
+    session.setAttribute(DemoComponentRegistry.class, new DemoComponentRegistry());
   }
 }
 
-class State implements Statable {
-  private List<PropertyChangeListener> listeners = new ArrayList<>();
-  @Setter @Getter private boolean showDetails;
+class Registry<VALUE> {
 
-  @Override
-  public void addChangeListener(PropertyChangeListener newListener) {
-    listeners.add(newListener);
+  private final Set<Consumer<VALUE>> listeners = ConcurrentHashMap.newKeySet();
+
+  public Registration register(Consumer<VALUE> listener) {
+    listeners.add(listener);
+    return () -> listeners.remove(listener);
+  }
+
+  public void sentEvent(VALUE event) {
+    listeners.forEach(listener -> listener.accept(event));
   }
 }
 
@@ -118,9 +138,9 @@ class Toolbar<E> extends FlexBoxLayout {
   @Setter @Getter private E entity;
   private static final Logger logger = LoggerFactory.getLogger(Toolbar.class);
 
-  public Toolbar(State state) {
+  public Toolbar() {
     Button newButton = new Button("New");
-    newButton.addClickListener(event -> state.setShowDetails(true));
+    newButton.addClickListener(event -> {});
 
     add(newButton);
     setBoxSizing(BoxSizing.BORDER_BOX);
@@ -133,8 +153,6 @@ class Toolbar<E> extends FlexBoxLayout {
 }
 
 public abstract class CrudView<L, E, M extends CrudMapper<L, E>> extends SplitViewFrame {
-  private State state = new State();
-  private StateObserver observer = new StateObserver(state);
   private static final Logger log = LoggerFactory.getLogger(CrudView.class);
   private DetailsDrawer detailsDrawer;
   @Getter @Setter private FormLayout createOrUpdateForm;
@@ -177,7 +195,7 @@ public abstract class CrudView<L, E, M extends CrudMapper<L, E>> extends SplitVi
   }
 
   private Component createToolbar() {
-    return new Toolbar<E>(state);
+    return new Toolbar<E>();
   }
 
   private Component createContent() {
