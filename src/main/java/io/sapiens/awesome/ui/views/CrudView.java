@@ -1,8 +1,6 @@
 package io.sapiens.awesome.ui.views;
 
-import com.vaadin.flow.component.AttachEvent;
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -32,6 +30,7 @@ import org.rapidpm.frp.model.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.tools.Tool;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -140,16 +139,15 @@ class GridView<L> extends Grid<L> {
 class Toolbar<E> extends FlexBoxLayout {
   @Setter @Getter private E entity;
   private static final Logger logger = LoggerFactory.getLogger(Toolbar.class);
-  Result<Registration> registrationResult = Result.ofNullable(registerForEvents());
+
+  public Registration addChangeListener(
+          ComponentEventListener<ToolbarEvent> listener) {
+    return addListener(ToolbarEvent.class, listener);
+  }
 
   public Toolbar() {
     Button newButton = new Button("New");
     newButton.addClickListener(event -> {
-      final DemoComponentRegistry.ValueEvent valueEvent = new DemoComponentRegistry.ValueEvent("toolbar", "open");
-      fireCustomEvent(valueEvent);
-
-      registrationResult.ifPresent(Registration::remove);
-      registrationResult = Result.failure("not registered");
     });
 
     add(newButton);
@@ -160,22 +158,12 @@ class Toolbar<E> extends FlexBoxLayout {
     newButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
     UIUtil.setColSpan(2, this);
   }
+}
 
-  private Registration registerForEvents() {
-    return UI.getCurrent()
-        .getSession()
-        .getAttribute(DemoComponentRegistry.class)
-        .register(
-            valueEvent -> {
-              if (nonNull(valueEvent.id()) && !valueEvent.id().equals(getId().orElse(""))) {
-                // eventID.setValue(valueEvent.id());
-                // eventMessage.setValue(valueEvent.value());
-              }
-            });
-  }
+class ToolbarEvent extends ComponentEvent<Component> {
 
-  private void fireCustomEvent(DemoComponentRegistry.ValueEvent valueEvent) {
-    UI.getCurrent().getSession().getAttribute(DemoComponentRegistry.class).sentEvent(valueEvent);
+  public ToolbarEvent(Component source, boolean fromClient) {
+    super(source, fromClient);
   }
 }
 
@@ -184,8 +172,6 @@ public abstract class CrudView<L, E, M extends CrudMapper<L, E>> extends SplitVi
   private DetailsDrawer detailsDrawer;
   @Getter @Setter private FormLayout createOrUpdateForm;
   @Getter @Setter private String detailTitle;
-
-  private Result<Registration> registrationResult = Result.failure("not registered");
 
   private final Class<L> listEntity;
   private final Class<E> editEntity;
@@ -198,7 +184,6 @@ public abstract class CrudView<L, E, M extends CrudMapper<L, E>> extends SplitVi
     this.listEntity = listEntity;
     this.editEntity = editEntity;
     this.grid = new GridView<>(listEntity);
-    registrationResult = Result.ofNullable(registerForEvents());
   }
 
   protected void setGridData(Collection<L> data) {
@@ -225,7 +210,13 @@ public abstract class CrudView<L, E, M extends CrudMapper<L, E>> extends SplitVi
   }
 
   private Component createToolbar() {
-    return new Toolbar<E>();
+    Toolbar<E> toolbar = new Toolbar<>();
+    Registration reg = toolbar.addChangeListener(e -> {
+      System.out.println("event on toolbar" + e.getSource());
+    });
+
+    System.out.println();
+    return toolbar;
   }
 
   private Component createContent() {
@@ -262,21 +253,4 @@ public abstract class CrudView<L, E, M extends CrudMapper<L, E>> extends SplitVi
   public abstract void filter();
 
   public abstract List<String> onValidate(E entity);
-
-  private Registration registerForEvents() {
-    return UI.getCurrent()
-            .getSession()
-            .getAttribute(DemoComponentRegistry.class)
-            .register(
-                    valueEvent -> {
-                      if (nonNull(valueEvent.id()) && !valueEvent.id().equals(getId().orElse(""))) {
-                        // eventID.setValue(valueEvent.id());
-                        // eventMessage.setValue(valueEvent.value());
-                      }
-                    });
-  }
-
-  private void fireCustomEvent(DemoComponentRegistry.ValueEvent valueEvent) {
-    UI.getCurrent().getSession().getAttribute(DemoComponentRegistry.class).sentEvent(valueEvent);
-  }
 }
