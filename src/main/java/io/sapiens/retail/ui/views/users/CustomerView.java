@@ -8,19 +8,17 @@ import io.sapiens.retail.ui.BaseLayout;
 import io.sapiens.retail.ui.models.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-
 @Route(value = "customers", layout = BaseLayout.class)
 @PageTitle("Customers")
 public class CustomerView
-    extends CrudView<Customer.ListCustomer, Customer.EditCustomer, Customer.Mapper> {
+    extends CrudView<Customer.List, Customer.Edit, Customer.Mapper> {
 
   private final UserService userService;
 
   public CustomerView(@Autowired UserService userService) {
-    super(Customer.ListCustomer.class, Customer.EditCustomer.class, new Customer.Mapper());
-    setDetailTitle("Customer Information");
+    super(Customer.List.class, Customer.Edit.class, new Customer.Mapper());
     this.userService = userService;
+    setDetailTitle("Customer Information");
   }
 
   @Override
@@ -29,10 +27,10 @@ public class CustomerView
   }
 
   @Override
-  public void onSave(Customer.EditCustomer entity) {}
+  public void onSave(Customer.Edit entity) {}
 
   @Override
-  public void onDelete(Customer.EditCustomer entity) {}
+  public void onDelete(Customer.Edit entity) {}
 
   @Override
   public void onCancel() {}
@@ -41,7 +39,7 @@ public class CustomerView
   public void filter() {}
 
   @Override
-  public List<String> onValidate(Customer.EditCustomer entity) {
+  public java.util.List onValidate(Customer.Edit entity) {
     return null;
   }
 }

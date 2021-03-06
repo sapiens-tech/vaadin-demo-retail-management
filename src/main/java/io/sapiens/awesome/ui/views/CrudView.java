@@ -40,7 +40,7 @@ public abstract class CrudView<L, E, M extends CrudMapper<L, E>> extends SplitVi
     this.mapper = mapper;
     this.listEntity = listEntity;
     this.editEntity = editEntity;
-    this.grid = createGrid(listEntity);
+    this.grid = createGrid(this.listEntity);
     this.binder = new Binder<>();
   }
 

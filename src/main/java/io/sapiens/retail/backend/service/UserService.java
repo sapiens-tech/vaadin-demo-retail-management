@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @Service
 public class UserService extends AbstractService<User> {
@@ -39,12 +38,12 @@ public class UserService extends AbstractService<User> {
     saveOrUpdate(u);
   }
 
-  public Collection<Customer.ListCustomer> retrieveCustomer() {
-    List<User> users = ((UserDao) dao).retrieveByRole(Role.CUSTOMER);
-    List<Customer.ListCustomer> result = new ArrayList<>();
+  public Collection<Customer.List> retrieveCustomer() {
+    java.util.List users = ((UserDao) dao).retrieveByRole(Role.CUSTOMER);
+    java.util.List result = new ArrayList<>();
 
     for (User user : users) {
-      var person = new Customer.ListCustomer();
+      var person = new Customer.List();
       BeanUtils.copyProperties(user, person);
       result.add(person);
     }
@@ -53,8 +52,8 @@ public class UserService extends AbstractService<User> {
   }
 
   public Collection<io.sapiens.retail.ui.models.User> retrieveUser() {
-    List<User> users = ((UserDao) dao).retrieveByRole(Role.STAFF);
-    List<io.sapiens.retail.ui.models.User> result = new ArrayList<>();
+    java.util.List users = ((UserDao) dao).retrieveByRole(Role.STAFF);
+    java.util.List result = new ArrayList<>();
 
     for (User user : users) {
       var person = new io.sapiens.retail.ui.models.User();

@@ -20,7 +20,7 @@ public class Customer {
 
   @Getter
   @Setter
-  public static class ListCustomer {
+  public static class List {
     private String id;
     private String firstName;
     private String lastName;
@@ -63,7 +63,7 @@ public class Customer {
 
   @Getter
   @Setter
-  public static class EditCustomer {
+  public static class Edit {
     private String id;
 
     @FormField(type = FormFieldType.TextField, label = "First name")
@@ -85,12 +85,12 @@ public class Customer {
     private String avatar;
   }
 
-  public static class Mapper extends CrudMapper<ListCustomer, EditCustomer> {
+  public static class Mapper extends CrudMapper<List, Edit> {
     @Override
-    public EditCustomer fromListToEdit(ListCustomer l) {
-      EditCustomer editCustomer = new EditCustomer();
-      BeanUtils.copyProperties(l, editCustomer);
-      return editCustomer;
+    public Edit fromListToEdit(List l) {
+      Edit edit = new Edit();
+      BeanUtils.copyProperties(l, edit);
+      return edit;
     }
   }
 }
