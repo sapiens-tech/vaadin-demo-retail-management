@@ -18,12 +18,12 @@ public class CustomerView
   public CustomerView(@Autowired UserService userService) {
     super(Customer.List.class, Customer.Edit.class, new Customer.Mapper());
     this.userService = userService;
-    setDetailTitle("Customer Information");
   }
 
   @Override
   public void onInit() {
     setGridData(userService.retrieveCustomer());
+    setDetailTitle("Customer Information");
   }
 
   @Override

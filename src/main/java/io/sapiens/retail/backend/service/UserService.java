@@ -31,7 +31,7 @@ public class UserService extends AbstractService<User> {
     saveOrUpdate(user);
   }
 
-  public void saveUser(io.sapiens.retail.ui.models.User user) {
+  public void saveUser(io.sapiens.retail.ui.models.User.Edit user) {
     User u = new User();
     BeanUtils.copyProperties(user, u);
     u.setRole(Role.STAFF);
@@ -39,8 +39,8 @@ public class UserService extends AbstractService<User> {
   }
 
   public Collection<Customer.List> retrieveCustomer() {
-    java.util.List users = ((UserDao) dao).retrieveByRole(Role.CUSTOMER);
-    java.util.List result = new ArrayList<>();
+    java.util.List<User> users = ((UserDao) dao).retrieveByRole(Role.CUSTOMER);
+    java.util.List<Customer.List> result = new ArrayList<>();
 
     for (User user : users) {
       var person = new Customer.List();
@@ -51,12 +51,12 @@ public class UserService extends AbstractService<User> {
     return result;
   }
 
-  public Collection<io.sapiens.retail.ui.models.User> retrieveUser() {
-    java.util.List users = ((UserDao) dao).retrieveByRole(Role.STAFF);
-    java.util.List result = new ArrayList<>();
+  public Collection<io.sapiens.retail.ui.models.User.List> retrieveUser() {
+    java.util.List<User> users = ((UserDao) dao).retrieveByRole(Role.STAFF);
+    java.util.List<io.sapiens.retail.ui.models.User.List> result = new ArrayList<>();
 
     for (User user : users) {
-      var person = new io.sapiens.retail.ui.models.User();
+      var person = new io.sapiens.retail.ui.models.User.List();
       BeanUtils.copyProperties(user, person);
       result.add(person);
     }

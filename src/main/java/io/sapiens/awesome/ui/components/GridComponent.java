@@ -42,13 +42,7 @@ public class GridComponent<L> extends Grid<L> implements IEventListener, ISelect
     setSelectionMode(Grid.SelectionMode.SINGLE);
     setItems(dataProvider);
     addSelectionListener(
-        e ->
-            e.getFirstSelectedItem()
-                .ifPresent(
-                    t -> {
-                      log.debug(String.valueOf(t));
-                      this.selectCallback.trigger(t);
-                    }));
+        e -> e.getFirstSelectedItem().ifPresent(t -> this.selectCallback.trigger(t)));
 
     for (Field field : beanType.getDeclaredFields()) {
       if (field.isAnnotationPresent(GridColumn.class)) {

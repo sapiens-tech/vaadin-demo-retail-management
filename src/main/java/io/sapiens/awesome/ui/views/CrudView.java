@@ -54,6 +54,8 @@ public abstract class CrudView<L, E, M extends CrudMapper<L, E>> extends SplitVi
         new SelectCallback<L>() {
           @Override
           public void trigger(L entity) {
+
+            // we can query the entity again here
             showDetails(mapper.fromListToEdit(entity));
           }
         });
@@ -114,7 +116,17 @@ public abstract class CrudView<L, E, M extends CrudMapper<L, E>> extends SplitVi
 
   private FormLayout createEditor(E entity) {
     binder.setBean(entity);
-    return new Form<>(this.editEntity, entity, binder, null, null, null, null);
+    return new Form<>(
+        this.editEntity,
+        entity,
+        binder,
+        e -> onValidate((E) e),
+        e -> onSave((E) e),
+        e -> onDelete((E) e),
+        e -> {
+          onCancel();
+          detailsDrawer.hide();
+        });
   }
 
   public abstract void onInit();
