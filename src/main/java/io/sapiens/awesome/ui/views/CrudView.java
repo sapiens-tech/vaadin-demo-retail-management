@@ -11,6 +11,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
@@ -18,6 +19,7 @@ import com.vaadin.flow.server.*;
 import com.vaadin.flow.shared.Registration;
 import io.sapiens.awesome.ui.annotations.GridColumn;
 import io.sapiens.awesome.ui.components.FlexBoxLayout;
+import io.sapiens.awesome.ui.components.Form;
 import io.sapiens.awesome.ui.components.detailsdrawer.DetailsDrawer;
 import io.sapiens.awesome.ui.components.detailsdrawer.DetailsDrawerHeader;
 import io.sapiens.awesome.ui.layout.size.Bottom;
@@ -36,56 +38,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Consumer;
-
-class DemoComponentRegistry extends Registry<DemoComponentRegistry.ValueEvent> {
-
-  public static class ValueEvent extends Pair<String, String> {
-
-    public ValueEvent(String id, String value) {
-      super(id, value);
-    }
-
-    public String id() {
-      return getT1();
-    }
-
-    public String value() {
-      return getT2();
-    }
-  }
-}
-
-class RegistryServiceInitListener implements VaadinServiceInitListener, UIInitListener {
-
-  @Override
-  public void serviceInit(ServiceInitEvent serviceInitEvent) {
-    serviceInitEvent.getSource().addUIInitListener(this);
-  }
-
-  @Override
-  public void uiInit(UIInitEvent uiInitEvent) {
-    final VaadinSession session = uiInitEvent.getUI().getSession();
-    session.setAttribute(DemoComponentRegistry.class, null);
-    session.setAttribute(DemoComponentRegistry.class, new DemoComponentRegistry());
-  }
-}
-
-class Registry<VALUE> {
-
-  private final Set<Consumer<VALUE>> listeners = ConcurrentHashMap.newKeySet();
-
-  public Registration register(Consumer<VALUE> listener) {
-    listeners.add(listener);
-    return () -> listeners.remove(listener);
-  }
-
-  public void sentEvent(VALUE event) {
-    listeners.forEach(listener -> listener.accept(event));
-  }
-}
 
 class GridView<L> extends Grid<L> {
   private static final Logger logger = LoggerFactory.getLogger(GridView.class);
@@ -145,7 +97,8 @@ class Toolbar<E> extends FlexBoxLayout {
   private Registration registration;
   private Callback callback;
 
-  public Registration addChangeListener(ComponentEventListener<ToolbarEvent> listener, Callback callback) {
+  public Registration addChangeListener(
+      ComponentEventListener<ToolbarEvent> listener, Callback callback) {
     this.registration = addListener(ToolbarEvent.class, listener);
     this.callback = callback;
     return registration;
@@ -186,12 +139,14 @@ public abstract class CrudView<L, E, M extends CrudMapper<L, E>> extends SplitVi
   private final M mapper;
 
   private GridView<L> grid;
+  private Binder<E> binder;
 
   public CrudView(Class<L> listEntity, Class<E> editEntity, M mapper) {
     this.mapper = mapper;
     this.listEntity = listEntity;
     this.editEntity = editEntity;
     this.grid = new GridView<>(listEntity);
+    this.binder = new Binder<>();
   }
 
   protected void setGridData(Collection<L> data) {
@@ -221,12 +176,15 @@ public abstract class CrudView<L, E, M extends CrudMapper<L, E>> extends SplitVi
     Toolbar<E> toolbar = new Toolbar<>();
     Registration reg =
         toolbar.addChangeListener(
-                e -> {
-                  System.out.println("event on toolbar" + e.getSource());
-                }, new Callback() {
-                  @Override
-                  void trigger() { detailsDrawer.show(); }
-                });
+            e -> {
+              System.out.println("event on toolbar" + e.getSource());
+            },
+            new Callback() {
+              @Override
+              void trigger() {
+                showDetails(null);
+              }
+            });
 
     System.out.println();
     return toolbar;
@@ -250,9 +208,8 @@ public abstract class CrudView<L, E, M extends CrudMapper<L, E>> extends SplitVi
   }
 
   private FormLayout createEditor(E entity) {
-    // binder.setBean(entity);
-    // return new Form<>(clazz, entity, binder, setupButtons(entity));
-    return new FormLayout();
+    binder.setBean(entity);
+    return new Form<>(this.editEntity, entity, binder, null, null, null, null);
   }
 
   public abstract void onInit();

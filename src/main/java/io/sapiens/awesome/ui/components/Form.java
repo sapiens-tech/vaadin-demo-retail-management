@@ -47,7 +47,6 @@ public class Form<T> extends FormLayout {
       Class<T> clazz,
       T entity,
       Binder<T> binder,
-      Component buttons,
       IFormAction onValidate,
       IFormAction onSave,
       IFormAction onDelete,
@@ -68,7 +67,7 @@ public class Form<T> extends FormLayout {
         new FormLayout.ResponsiveStep("21em", 2, FormLayout.ResponsiveStep.LabelsPosition.TOP));
 
     setupForm(entity);
-    add(buttons);
+    add(setupButtons(this.entity));
   }
 
   private void setupForm(T entity) {
