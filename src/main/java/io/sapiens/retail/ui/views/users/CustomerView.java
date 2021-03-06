@@ -19,6 +19,7 @@ public class CustomerView
 
   public CustomerView(@Autowired UserService userService) {
     super(Customer.ListCustomer.class, Customer.EditCustomer.class, new Customer.Mapper());
+    setDetailTitle("Customer Information");
     this.userService = userService;
   }
 
