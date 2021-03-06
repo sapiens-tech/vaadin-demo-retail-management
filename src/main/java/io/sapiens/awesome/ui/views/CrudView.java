@@ -15,7 +15,6 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
-import com.vaadin.flow.server.*;
 import com.vaadin.flow.shared.Registration;
 import io.sapiens.awesome.ui.annotations.GridColumn;
 import io.sapiens.awesome.ui.components.FlexBoxLayout;
@@ -30,7 +29,6 @@ import io.sapiens.awesome.ui.util.css.BoxSizing;
 import io.sapiens.awesome.util.SystemUtil;
 import lombok.Getter;
 import lombok.Setter;
-import org.rapidpm.frp.model.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -174,19 +172,18 @@ public abstract class CrudView<L, E, M extends CrudMapper<L, E>> extends SplitVi
 
   private Component createToolbar() {
     Toolbar<E> toolbar = new Toolbar<>();
-    Registration reg =
-        toolbar.addChangeListener(
-            e -> {
-              System.out.println("event on toolbar" + e.getSource());
-            },
-            new Callback() {
-              @Override
-              void trigger() {
-                showDetails(null);
-              }
-            });
 
-    System.out.println();
+    toolbar.addChangeListener(
+        e -> {
+          System.out.println("event on toolbar" + e.getSource());
+        },
+        new Callback() {
+          @Override
+          void trigger() {
+            showDetails(null);
+          }
+        });
+
     return toolbar;
   }
 
