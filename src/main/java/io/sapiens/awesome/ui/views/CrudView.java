@@ -1,6 +1,9 @@
 package io.sapiens.awesome.ui.views;
 
-import com.vaadin.flow.component.*;
+import com.vaadin.flow.component.AttachEvent;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.ComponentEvent;
+import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -26,11 +29,9 @@ import io.sapiens.awesome.util.SystemUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.rapidpm.frp.model.Pair;
-import org.rapidpm.frp.model.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.tools.Tool;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,8 +39,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
-
-import static java.util.Objects.nonNull;
 
 class DemoComponentRegistry extends Registry<DemoComponentRegistry.ValueEvent> {
 
@@ -136,19 +135,29 @@ class GridView<L> extends Grid<L> {
   }
 }
 
+abstract class Callback {
+  abstract void trigger();
+}
+
 class Toolbar<E> extends FlexBoxLayout {
   @Setter @Getter private E entity;
   private static final Logger logger = LoggerFactory.getLogger(Toolbar.class);
+  private Registration registration;
+  private Callback callback;
 
-  public Registration addChangeListener(
-          ComponentEventListener<ToolbarEvent> listener) {
-    return addListener(ToolbarEvent.class, listener);
+  public Registration addChangeListener(ComponentEventListener<ToolbarEvent> listener, Callback callback) {
+    this.registration = addListener(ToolbarEvent.class, listener);
+    this.callback = callback;
+    return registration;
   }
 
   public Toolbar() {
     Button newButton = new Button("New");
-    newButton.addClickListener(event -> {
-    });
+    newButton.addClickListener(
+        event -> {
+          System.out.println("new button is clicked");
+          this.callback.trigger();
+        });
 
     add(newButton);
     setBoxSizing(BoxSizing.BORDER_BOX);
@@ -161,7 +170,6 @@ class Toolbar<E> extends FlexBoxLayout {
 }
 
 class ToolbarEvent extends ComponentEvent<Component> {
-
   public ToolbarEvent(Component source, boolean fromClient) {
     super(source, fromClient);
   }
@@ -211,9 +219,14 @@ public abstract class CrudView<L, E, M extends CrudMapper<L, E>> extends SplitVi
 
   private Component createToolbar() {
     Toolbar<E> toolbar = new Toolbar<>();
-    Registration reg = toolbar.addChangeListener(e -> {
-      System.out.println("event on toolbar" + e.getSource());
-    });
+    Registration reg =
+        toolbar.addChangeListener(
+                e -> {
+                  System.out.println("event on toolbar" + e.getSource());
+                }, new Callback() {
+                  @Override
+                  void trigger() { detailsDrawer.show(); }
+                });
 
     System.out.println();
     return toolbar;
