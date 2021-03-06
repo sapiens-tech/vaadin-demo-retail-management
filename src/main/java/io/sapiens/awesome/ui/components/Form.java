@@ -26,15 +26,16 @@ import io.sapiens.awesome.util.SystemUtil;
 import io.sapiens.retail.backend.dummy.DummyData;
 import lombok.Getter;
 import lombok.Setter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class Form<T> extends FormLayout {
-  private static final Logger logger = LoggerFactory.getLogger(Form.class);
   @Getter @Setter private T entity;
   @Getter @Setter private Class<T> beanType;
   @Getter private final Binder<T> binder;
@@ -173,7 +174,7 @@ public class Form<T> extends FormLayout {
             binder.writeBean(entity);
             onSave.execute(entity);
           } catch (ValidationException e) {
-            logger.error(e.getMessage());
+            log.error(e.getMessage());
           }
         });
 
@@ -218,13 +219,26 @@ public class Form<T> extends FormLayout {
   }
 
   private Component setupButtons(T entity) {
+
+    if (entity == null) {
+      try {
+        Constructor<T> cons = beanType.getDeclaredConstructor();
+        entity = cons.newInstance();
+      } catch (NoSuchMethodException
+          | IllegalAccessException
+          | InstantiationException
+          | InvocationTargetException e) {
+        log.error(e.getMessage());
+        e.printStackTrace();
+      }
+    }
+
     Button save = createSaveButton(entity);
     Button cancel = createCancelButton(entity);
     HorizontalLayout actionButtons = new HorizontalLayout(save, cancel);
     actionButtons.setWidth("50%");
 
     HorizontalLayout buttons = new HorizontalLayout(actionButtons);
-
     if (entity != null) {
       Button delete = createDeleteButton(entity);
       FlexLayout layout = new FlexLayout(delete);
