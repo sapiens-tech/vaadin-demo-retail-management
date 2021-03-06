@@ -3,6 +3,7 @@ package io.sapiens.awesome.ui.views;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.data.binder.Binder;
@@ -39,12 +40,24 @@ public abstract class CrudView<L, E, M extends CrudMapper<L, E>> extends SplitVi
     this.mapper = mapper;
     this.listEntity = listEntity;
     this.editEntity = editEntity;
-    this.grid = new GridComponent<>(listEntity);
+    this.grid = createGrid(listEntity);
     this.binder = new Binder<>();
   }
 
   protected void setGridData(Collection<L> data) {
     grid.setData(data);
+  }
+
+  private GridComponent<L> createGrid(Class<L> listEntity) {
+    GridComponent<L> grid = new GridComponent<>(listEntity);
+    grid.addSelectListener(
+        new SelectCallback<L>() {
+          @Override
+          public void trigger(L entity) {
+            showDetails(mapper.fromListToEdit(entity));
+          }
+        });
+    return grid;
   }
 
   @Override
@@ -72,8 +85,10 @@ public abstract class CrudView<L, E, M extends CrudMapper<L, E>> extends SplitVi
     toolbar.addEventListener(
         new Callback() {
           @Override
-          public void trigger(ComponentEvent event) {
-            showDetails(null);
+          public void trigger(ComponentEvent<?> event) {
+            if (event.getSource() instanceof Button) {
+              showDetails(null);
+            }
           }
         });
 
