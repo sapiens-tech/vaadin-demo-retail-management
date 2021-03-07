@@ -1,5 +1,7 @@
 package io.sapiens.retail.ui.models;
 
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.html.Span;
 import io.sapiens.awesome.ui.annotations.FormField;
 import io.sapiens.awesome.ui.annotations.GridColumn;
 import io.sapiens.awesome.ui.enums.FormFieldType;
@@ -16,15 +18,12 @@ public class ProductCategory {
   @Setter
   public static class List {
     @GridColumn(header = "Code")
-    @FormField(type = FormFieldType.TextField, label = "Code")
     private String code;
 
     @GridColumn(header = "Name")
-    @FormField(type = FormFieldType.TextField, label = "Name")
     private String name;
 
     @GridColumn(header = "Description", flexGrow = 1)
-    @FormField(type = FormFieldType.TextField, label = "Description")
     private String description;
   }
 
@@ -39,6 +38,15 @@ public class ProductCategory {
 
     @FormField(type = FormFieldType.TextField, label = "Description")
     private String description;
+
+    @FormField(type = FormFieldType.Widget)
+    private Component productList;
+
+    private Component getProductList() {
+      Span span = new Span();
+      span.setText("Product List");
+      return span;
+    }
   }
 
   public static class Mapper extends CrudMapper<List, Edit> {

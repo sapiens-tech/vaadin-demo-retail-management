@@ -120,9 +120,9 @@ public abstract class CrudView<L, E, M extends CrudMapper<L, E>> extends SplitVi
         this.editEntity,
         entity,
         binder,
-        e -> onValidate((E) e),
-        e -> onSave((E) e),
-        e -> onDelete((E) e),
+        this::onValidate,
+        this::onSave,
+        this::onDelete,
         e -> {
           onCancel();
           detailsDrawer.hide();

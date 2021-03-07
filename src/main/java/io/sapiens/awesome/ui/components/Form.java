@@ -39,19 +39,19 @@ public class Form<T> extends FormLayout {
   @Getter @Setter private T entity;
   @Getter @Setter private Class<T> beanType;
   @Getter private final Binder<T> binder;
-  private IFormAction onValidate;
-  private IFormAction onSave;
-  private IFormAction onCancel;
-  private IFormAction onDelete;
+  private final IFormAction<T> onValidate;
+  private final IFormAction<T> onSave;
+  private final IFormAction<T> onCancel;
+  private final IFormAction<T> onDelete;
 
   public Form(
       Class<T> clazz,
       T entity,
       Binder<T> binder,
-      IFormAction onValidate,
-      IFormAction onSave,
-      IFormAction onDelete,
-      IFormAction onCancel) {
+      IFormAction<T> onValidate,
+      IFormAction<T> onSave,
+      IFormAction<T> onDelete,
+      IFormAction<T> onCancel) {
     super();
     this.entity = entity;
     this.beanType = clazz;
@@ -90,6 +90,9 @@ public class Form<T> extends FormLayout {
             var uploadItem = addFormItem(new Upload(), annotation.label());
             items.add(uploadItem);
             break;
+          case Widget:
+            setupWidgetField(items, annotation, fieldName, util);
+            break;
           case PasswordField:
           default:
             setupTextField(items, annotation, fieldName, util);
@@ -97,6 +100,12 @@ public class Form<T> extends FormLayout {
       }
     }
     UIUtil.setColSpan(2, items.toArray(new Component[0]));
+  }
+
+  private void setupWidgetField(
+      List<FormItem> items, FormField annotation, String fieldName, SystemUtil util) {
+
+
   }
 
   private void setupDateField(
