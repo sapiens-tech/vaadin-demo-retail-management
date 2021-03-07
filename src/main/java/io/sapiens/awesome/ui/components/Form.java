@@ -91,7 +91,7 @@ public class Form<T> extends FormLayout {
             items.add(uploadItem);
             break;
           case Widget:
-            setupWidgetField(items, annotation, fieldName, util);
+            setupWidgetField(entity, items, annotation, fieldName, util);
             break;
           case PasswordField:
           default:
@@ -103,9 +103,16 @@ public class Form<T> extends FormLayout {
   }
 
   private void setupWidgetField(
-      List<FormItem> items, FormField annotation, String fieldName, SystemUtil util) {
-
-
+      T entity, List<FormItem> items, FormField annotation, String fieldName, SystemUtil util) {
+    Component field = (Component) util.invokeGetter(entity, fieldName);
+    FormItem item = addFormItem(field, annotation.label());
+    items.add(item);
+    //    binder
+    //        .forField(field)
+    //        .bind(
+    //            (ValueProvider<T, LocalDate>) t -> (LocalDate) util.invokeGetter(t, fieldName),
+    //            (com.vaadin.flow.data.binder.Setter<T, LocalDate>)
+    //                (t, localDate) -> util.invokeSetter(t, fieldName, localDate));
   }
 
   private void setupDateField(

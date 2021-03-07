@@ -18,7 +18,9 @@ public class ProductCategoryView
   }
 
   @Override
-  public void onInit() {}
+  public void onInit() {
+    setDetailTitle("Category Information");
+  }
 
   @Override
   public void onSave(ProductCategory.Edit entity) {}

@@ -20,6 +20,8 @@ import io.sapiens.awesome.ui.util.css.BoxSizing;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.List;
 
@@ -89,7 +91,15 @@ public abstract class CrudView<L, E, M extends CrudMapper<L, E>> extends SplitVi
           @Override
           public void trigger(ComponentEvent<?> event) {
             if (event.getSource() instanceof Button) {
-              showDetails(null);
+              try {
+                Constructor<E> entity = editEntity.getDeclaredConstructor();
+                showDetails(entity.newInstance());
+              } catch (NoSuchMethodException
+                  | IllegalAccessException
+                  | InstantiationException
+                  | InvocationTargetException e) {
+                e.printStackTrace();
+              }
             }
           }
         });

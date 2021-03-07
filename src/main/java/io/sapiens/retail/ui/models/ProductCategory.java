@@ -42,7 +42,7 @@ public class ProductCategory {
     @FormField(type = FormFieldType.Widget)
     private Component productList;
 
-    private Component getProductList() {
+    public Component getProductList() {
       Span span = new Span();
       span.setText("Product List");
       return span;
