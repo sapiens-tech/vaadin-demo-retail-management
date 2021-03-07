@@ -12,6 +12,8 @@ public class StaticPage {
   @Getter
   @Setter
   public static class List {
+    private String id;
+
     @GridColumn(header = "Title")
     private String title;
 
@@ -22,6 +24,8 @@ public class StaticPage {
   @Getter
   @Setter
   public static class Edit {
+    private String id;
+
     @FormField(type = FormFieldType.TextField, label = "Title")
     private String title;
 

@@ -2,7 +2,7 @@
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`
 (
-    `id`                        VARCHAR(32)  NOT NULL,
+    `id`                        VARCHAR(32) NOT NULL,
 
     `user_name`                 VARCHAR(100),
     `password`                  VARCHAR(256),
@@ -26,4 +26,20 @@ CREATE TABLE `user`
     PRIMARY KEY (`id`),
     UNIQUE (`email_address`),
     UNIQUE (`user_name`)
+) Engine = InnoDB;
+
+DROP TABLE IF EXISTS `static_page`;
+CREATE TABLE `static_page`
+(
+    `id`         VARCHAR(32) NOT NULL,
+
+    `title`      VARCHAR(500),
+    `content`    VARCHAR(2000),
+
+    `version`    INT(11) NOT NULL,
+    `created_by` VARCHAR(32),
+    `updated_by` VARCHAR(32),
+    `created_on` DATETIME,
+    `updated_on` DATETIME,
+    PRIMARY KEY (`id`)
 ) Engine = InnoDB;

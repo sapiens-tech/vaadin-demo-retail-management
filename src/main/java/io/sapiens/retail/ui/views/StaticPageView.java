@@ -3,8 +3,10 @@ package io.sapiens.retail.ui.views;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import io.sapiens.awesome.ui.views.CrudView;
+import io.sapiens.retail.backend.service.StaticPageService;
 import io.sapiens.retail.ui.BaseLayout;
 import io.sapiens.retail.ui.models.StaticPage;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -12,18 +14,29 @@ import java.util.List;
 @Route(value = "static-page", layout = BaseLayout.class)
 public class StaticPageView extends CrudView<StaticPage.List, StaticPage.Edit, StaticPage.Mapper> {
 
-  public StaticPageView() {
+  private final StaticPageService staticPageService;
+
+  public StaticPageView(@Autowired StaticPageService staticPageService) {
     super(StaticPage.List.class, StaticPage.Edit.class, new StaticPage.Mapper());
+
+    this.staticPageService = staticPageService;
   }
 
   @Override
-  public void onInit() {}
+  public void onInit() {
+    setGridData(staticPageService.retrieveAllPages());
+    setDetailTitle("Static Page Information");
+  }
 
   @Override
-  public void onSave(StaticPage.Edit entity) {}
+  public void onSave(StaticPage.Edit entity) {
+    staticPageService.save(entity);
+  }
 
   @Override
-  public void onDelete(StaticPage.Edit entity) {}
+  public void onDelete(StaticPage.Edit entity) {
+    staticPageService.delete(entity);
+  }
 
   @Override
   public void onCancel() {}
