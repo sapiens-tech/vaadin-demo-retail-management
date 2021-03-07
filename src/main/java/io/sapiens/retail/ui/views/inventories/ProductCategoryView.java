@@ -6,6 +6,9 @@ import io.sapiens.awesome.ui.views.CrudView;
 import io.sapiens.retail.ui.BaseLayout;
 import io.sapiens.retail.ui.models.ProductCategory;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Route(value = "product-categories", layout = BaseLayout.class)
@@ -35,7 +38,15 @@ public class ProductCategoryView
   public void filter() {}
 
   @Override
-  public List<String> onValidate(ProductCategory.Edit entity) {
-    return null;
+  public void onValidate(ProductCategory.Edit entity) {}
+
+  @Override
+  public void onPreEditPageRendering(ProductCategory.Edit editEntity) {
+    ProductCategory.Product p1 = new ProductCategory.Product();
+    p1.setId("1");
+    p1.setName("1");
+
+    List<ProductCategory.Product> productList = Collections.singletonList(p1);
+    editEntity.setProductCollection(productList);
   }
 }

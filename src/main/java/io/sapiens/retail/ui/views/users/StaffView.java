@@ -9,8 +9,6 @@ import io.sapiens.retail.ui.BaseLayout;
 import io.sapiens.retail.ui.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-
 @Route(value = "staffs", layout = BaseLayout.class)
 @PageTitle("Staffs")
 public class StaffView extends CrudView<User.List, User.Edit, User.Mapper> {
@@ -46,7 +44,6 @@ public class StaffView extends CrudView<User.List, User.Edit, User.Mapper> {
   public void filter() {}
 
   @Override
-  public List<String> onValidate(User.Edit entity) {
-    return null;
+  public void onValidate(User.Edit entity) {
   }
 }

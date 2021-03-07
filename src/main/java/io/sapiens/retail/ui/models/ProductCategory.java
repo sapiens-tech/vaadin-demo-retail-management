@@ -1,6 +1,7 @@
 package io.sapiens.retail.ui.models;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
 import io.sapiens.awesome.ui.annotations.FormField;
 import io.sapiens.awesome.ui.annotations.GridColumn;
@@ -9,6 +10,8 @@ import io.sapiens.awesome.ui.views.CrudMapper;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
+
+import java.util.Collection;
 
 @Getter
 @Setter
@@ -39,14 +42,30 @@ public class ProductCategory {
     @FormField(type = FormFieldType.TextField, label = "Description")
     private String description;
 
-    @FormField(type = FormFieldType.Widget)
-    private Component productList;
+    private Collection<Product> productCollection;
 
-    public Component getProductList() {
-      Span span = new Span();
-      span.setText("Product List");
-      return span;
+    @FormField(type = FormFieldType.Widget)
+    private Component productListComponent;
+
+    public Component getProductListComponent() {
+      Span head = new Span();
+      head.setText("Product List");
+      Div div = new Div();
+      div.add(head);
+      for (Product product : getProductCollection()) {
+        Span span = new Span(product.getName());
+        div.add(span);
+      }
+
+      return div;
     }
+  }
+
+  @Getter
+  @Setter
+  public static class Product {
+    private String id;
+    private String name;
   }
 
   public static class Mapper extends CrudMapper<List, Edit> {

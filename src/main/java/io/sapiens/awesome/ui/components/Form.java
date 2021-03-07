@@ -107,12 +107,15 @@ public class Form<T> extends FormLayout {
     Component field = (Component) util.invokeGetter(entity, fieldName);
     FormItem item = addFormItem(field, annotation.label());
     items.add(item);
-    //    binder
-    //        .forField(field)
-    //        .bind(
-    //            (ValueProvider<T, LocalDate>) t -> (LocalDate) util.invokeGetter(t, fieldName),
-    //            (com.vaadin.flow.data.binder.Setter<T, LocalDate>)
-    //                (t, localDate) -> util.invokeSetter(t, fieldName, localDate));
+
+    if (field instanceof HasValue) {
+      //    binder
+      //        .forField(field)
+      //        .bind(
+      //            (ValueProvider<T, LocalDate>) t -> (LocalDate) util.invokeGetter(t, fieldName),
+      //            (com.vaadin.flow.data.binder.Setter<T, LocalDate>)
+      //                (t, localDate) -> util.invokeSetter(t, fieldName, localDate));
+    }
   }
 
   private void setupDateField(

@@ -8,8 +8,6 @@ import io.sapiens.retail.ui.BaseLayout;
 import io.sapiens.retail.ui.models.StaticPage;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-
 @PageTitle("Static Page")
 @Route(value = "static-page", layout = BaseLayout.class)
 public class StaticPageView extends CrudView<StaticPage.List, StaticPage.Edit, StaticPage.Mapper> {
@@ -45,7 +43,6 @@ public class StaticPageView extends CrudView<StaticPage.List, StaticPage.Edit, S
   public void filter() {}
 
   @Override
-  public List<String> onValidate(StaticPage.Edit entity) {
-    return null;
+  public void onValidate(StaticPage.Edit entity) {
   }
 }
