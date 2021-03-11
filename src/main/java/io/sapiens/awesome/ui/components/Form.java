@@ -7,6 +7,7 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
@@ -27,6 +28,7 @@ import io.sapiens.retail.backend.dummy.DummyData;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.w3c.dom.html.HTMLFieldSetElement;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -62,11 +64,12 @@ public class Form<T> extends FormLayout {
     this.onCancel = onCancel;
 
     addClassNames(
-        LumoStyles.Padding.Bottom.L, LumoStyles.Padding.Horizontal.L, LumoStyles.Padding.Top.S);
+        LumoStyles.Padding.Bottom.L,  LumoStyles.Padding.Top.S);
     setResponsiveSteps(
         new FormLayout.ResponsiveStep("0", 1, FormLayout.ResponsiveStep.LabelsPosition.TOP),
         new FormLayout.ResponsiveStep("21em", 2, FormLayout.ResponsiveStep.LabelsPosition.TOP));
 
+    add(UIUtil.createFormSectionTitle("User Infromation"));
     setupForm(entity);
     add(setupButtons(this.entity));
   }
