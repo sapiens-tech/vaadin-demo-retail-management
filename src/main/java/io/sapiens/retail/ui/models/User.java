@@ -2,10 +2,10 @@ package io.sapiens.retail.ui.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vaadin.flow.component.Component;
-import io.sapiens.awesome.ui.annotations.FormField;
+import io.sapiens.awesome.ui.annotations.FormElement;
 import io.sapiens.awesome.ui.annotations.GridColumn;
 import io.sapiens.awesome.ui.components.Badge;
-import io.sapiens.awesome.ui.enums.FormFieldType;
+import io.sapiens.awesome.ui.enums.FormElementType;
 import io.sapiens.awesome.ui.util.UIUtil;
 import io.sapiens.awesome.ui.views.CrudMapper;
 import io.sapiens.retail.backend.enums.Role;
@@ -17,27 +17,43 @@ public class User {
 
   @Setter
   @Getter
+  public static class Authentication {
+    @FormElement(type = FormElementType.TextField, label = "Username")
+    private String userName;
+
+    @FormElement(type = FormElementType.PasswordField, label = "Password")
+    private String password;
+
+    @FormElement(type = FormElementType.SelectField, label = "Role")
+    private Role role;
+  }
+
+  @Getter
+  @Setter
+  public static class BasicInformation {
+    @FormElement(type = FormElementType.TextField, label = "First name")
+    private String firstName;
+
+    @FormElement(type = FormElementType.TextField, label = "Last name")
+    private String lastName;
+
+    @FormElement(type = FormElementType.TextField, label = "Email")
+    private String emailAddress;
+
+    @FormElement(type = FormElementType.TextField, label = "Phone")
+    private String phone;
+  }
+
+  @Setter
+  @Getter
   public static class Edit {
     private String id;
 
-    @FormField(type = FormFieldType.TextField, label = "Username")
-    private String userName;
+    @FormElement(type = FormElementType.FormGroup, label = "Authentication")
+    private Authentication authentication;
 
-    @FormField(type = FormFieldType.PasswordField, label = "Password")
-    @JsonIgnore
-    private String password;
-
-    @FormField(type = FormFieldType.TextField, label = "First name")
-    private String firstName;
-
-    @FormField(type = FormFieldType.TextField, label = "Last name")
-    private String lastName;
-
-    @FormField(type = FormFieldType.TextField, label = "Email")
-    private String emailAddress;
-
-    @FormField(type = FormFieldType.TextField, label = "Phone")
-    private String phone;
+    @FormElement(type = FormElementType.FormGroup, label = "Basic Information")
+    private BasicInformation basicInformation;
   }
 
   @Setter

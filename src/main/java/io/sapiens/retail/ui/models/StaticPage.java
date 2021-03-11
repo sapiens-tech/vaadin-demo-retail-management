@@ -1,8 +1,8 @@
 package io.sapiens.retail.ui.models;
 
-import io.sapiens.awesome.ui.annotations.FormField;
+import io.sapiens.awesome.ui.annotations.FormElement;
 import io.sapiens.awesome.ui.annotations.GridColumn;
-import io.sapiens.awesome.ui.enums.FormFieldType;
+import io.sapiens.awesome.ui.enums.FormElementType;
 import io.sapiens.awesome.ui.views.CrudMapper;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,10 +26,10 @@ public class StaticPage {
   public static class Edit {
     private String id;
 
-    @FormField(type = FormFieldType.TextField, label = "Title")
+    @FormElement(type = FormElementType.TextField, label = "Title")
     private String title;
 
-    @FormField(type = FormFieldType.TextAreaField, label = "Content")
+    @FormElement(type = FormElementType.TextAreaField, label = "Content")
     private String content;
   }
 

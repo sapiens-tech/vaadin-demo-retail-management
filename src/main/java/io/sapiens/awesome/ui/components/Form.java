@@ -7,7 +7,6 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
@@ -19,7 +18,7 @@ import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.function.ValueProvider;
-import io.sapiens.awesome.ui.annotations.FormField;
+import io.sapiens.awesome.ui.annotations.FormElement;
 import io.sapiens.awesome.ui.layout.size.Right;
 import io.sapiens.awesome.ui.util.LumoStyles;
 import io.sapiens.awesome.ui.util.UIUtil;
@@ -28,9 +27,9 @@ import io.sapiens.retail.backend.dummy.DummyData;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.w3c.dom.html.HTMLFieldSetElement;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -77,12 +76,17 @@ public class Form<T> extends FormLayout {
   private void setupForm(T entity) {
     List<FormItem> items = new ArrayList<>();
     for (var field : getBeanType().getDeclaredFields()) {
-      if (field.isAnnotationPresent(FormField.class)) {
-        var annotation = field.getAnnotation(FormField.class);
+      if (field.isAnnotationPresent(FormElement.class)) {
+        var annotation = field.getAnnotation(FormElement.class);
         var fieldName = field.getName();
         var util = SystemUtil.getInstance();
 
         switch (annotation.type()) {
+          case FormGroup:
+            setupFormGroupField(entity, items, annotation, fieldName, util);
+            break;
+          case SelectField:
+            break;
           case DateField:
             setupDateField(items, annotation, fieldName, util);
             break;
@@ -104,9 +108,19 @@ public class Form<T> extends FormLayout {
     }
     UIUtil.setColSpan(2, items.toArray(new Component[0]));
   }
+  private void setupFormGroupField(
+          T entity, List<FormItem> items, FormElement annotation, String fieldName, SystemUtil util) {
+    try {
+      Field field = entity.getClass().getField(fieldName);
+      Class<?> type = field.getType();
+      String label = annotation.label();
 
+    } catch (NoSuchFieldException e) {
+      e.printStackTrace();
+    }
+  }
   private void setupWidgetField(
-      T entity, List<FormItem> items, FormField annotation, String fieldName, SystemUtil util) {
+          T entity, List<FormItem> items, FormElement annotation, String fieldName, SystemUtil util) {
     Component field = (Component) util.invokeGetter(entity, fieldName);
     FormItem item = addFormItem(field, annotation.label());
     items.add(item);
@@ -122,7 +136,7 @@ public class Form<T> extends FormLayout {
   }
 
   private void setupDateField(
-      List<FormItem> items, FormField annotation, String fieldName, SystemUtil util) {
+          List<FormItem> items, FormElement annotation, String fieldName, SystemUtil util) {
     var dateField = new DatePicker();
     dateField.setWidthFull();
     FormItem dateFieldItem = addFormItem(dateField, annotation.label());
@@ -136,7 +150,7 @@ public class Form<T> extends FormLayout {
   }
 
   private void setupPhoneField(
-      List<FormItem> items, FormField annotation, String fieldName, SystemUtil util) {
+          List<FormItem> items, FormElement annotation, String fieldName, SystemUtil util) {
     var phonePrefix = new TextField();
     phonePrefix.setValue("+358");
     phonePrefix.setWidth("80px");
@@ -156,7 +170,7 @@ public class Form<T> extends FormLayout {
                 (t, s) -> util.invokeSetter(t, fieldName, s));
   }
 
-  private HasValue getTextComponent(FormField annotation) {
+  private HasValue getTextComponent(FormElement annotation) {
     switch (annotation.type()) {
       case PasswordField:
         PasswordField passwordField = new PasswordField();
@@ -174,7 +188,7 @@ public class Form<T> extends FormLayout {
   }
 
   private void setupTextField(
-      List<FormItem> items, FormField annotation, String fieldName, SystemUtil util) {
+          List<FormItem> items, FormElement annotation, String fieldName, SystemUtil util) {
 
     HasValue formComponent = getTextComponent(annotation);
     var formItem = addFormItem((Component) formComponent, annotation.label());

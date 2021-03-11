@@ -1,8 +1,8 @@
 package io.sapiens.retail.ui.models;
 
-import io.sapiens.awesome.ui.annotations.FormField;
+import io.sapiens.awesome.ui.annotations.FormElement;
 import io.sapiens.awesome.ui.annotations.GridColumn;
-import io.sapiens.awesome.ui.enums.FormFieldType;
+import io.sapiens.awesome.ui.enums.FormElementType;
 import io.sapiens.awesome.ui.views.CrudMapper;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,13 +25,13 @@ public class ProductSize {
   @Setter
   @Getter
   public static class Edit {
-    @FormField(type = FormFieldType.TextField, label = "Code")
+    @FormElement(type = FormElementType.TextField, label = "Code")
     private String code;
 
-    @FormField(type = FormFieldType.TextField, label = "Name")
+    @FormElement(type = FormElementType.TextField, label = "Name")
     private String name;
 
-    @FormField(type = FormFieldType.TextField, label = "Description")
+    @FormElement(type = FormElementType.TextField, label = "Description")
     private String description;
   }
 

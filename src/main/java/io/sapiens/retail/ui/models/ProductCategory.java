@@ -3,9 +3,9 @@ package io.sapiens.retail.ui.models;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
-import io.sapiens.awesome.ui.annotations.FormField;
+import io.sapiens.awesome.ui.annotations.FormElement;
 import io.sapiens.awesome.ui.annotations.GridColumn;
-import io.sapiens.awesome.ui.enums.FormFieldType;
+import io.sapiens.awesome.ui.enums.FormElementType;
 import io.sapiens.awesome.ui.views.CrudMapper;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,18 +33,18 @@ public class ProductCategory {
   @Getter
   @Setter
   public static class Edit {
-    @FormField(type = FormFieldType.TextField, label = "Code")
+    @FormElement(type = FormElementType.TextField, label = "Code")
     private String code;
 
-    @FormField(type = FormFieldType.TextField, label = "Name")
+    @FormElement(type = FormElementType.TextField, label = "Name")
     private String name;
 
-    @FormField(type = FormFieldType.TextField, label = "Description")
+    @FormElement(type = FormElementType.TextField, label = "Description")
     private String description;
 
     private Collection<Product> productCollection;
 
-    @FormField(type = FormFieldType.Widget)
+    @FormElement(type = FormElementType.Widget)
     private Component productListComponent;
 
     public Component getProductListComponent() {

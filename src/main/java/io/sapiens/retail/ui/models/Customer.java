@@ -2,11 +2,11 @@ package io.sapiens.retail.ui.models;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Span;
-import io.sapiens.awesome.ui.annotations.FormField;
+import io.sapiens.awesome.ui.annotations.FormElement;
 import io.sapiens.awesome.ui.annotations.GridColumn;
 import io.sapiens.awesome.ui.components.Initials;
 import io.sapiens.awesome.ui.components.ListItem;
-import io.sapiens.awesome.ui.enums.FormFieldType;
+import io.sapiens.awesome.ui.enums.FormElementType;
 import io.sapiens.awesome.ui.layout.size.Right;
 import io.sapiens.awesome.ui.layout.size.Vertical;
 import io.sapiens.awesome.ui.views.CrudMapper;
@@ -66,22 +66,22 @@ public class Customer {
   public static class Edit {
     private String id;
 
-    @FormField(type = FormFieldType.TextField, label = "First name")
+    @FormElement(type = FormElementType.TextField, label = "First name")
     private String firstName;
 
-    @FormField(type = FormFieldType.TextField, label = "Last name")
+    @FormElement(type = FormElementType.TextField, label = "Last name")
     private String lastName;
 
-    @FormField(type = FormFieldType.TextField, label = "Email")
+    @FormElement(type = FormElementType.TextField, label = "Email")
     private String emailAddress;
 
-    @FormField(type = FormFieldType.PhoneField, label = "Phone")
+    @FormElement(type = FormElementType.PhoneField, label = "Phone")
     private String phone;
 
-    @FormField(type = FormFieldType.DateField, label = "Date of birth")
+    @FormElement(type = FormElementType.DateField, label = "Date of birth")
     private LocalDate dateOfBirth;
 
-    @FormField(type = FormFieldType.FileField, label = "Avatar")
+    @FormElement(type = FormElementType.FileField, label = "Avatar")
     private String avatar;
   }
 
