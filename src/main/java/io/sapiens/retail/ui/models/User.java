@@ -14,11 +14,15 @@ import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 
 public class User {
-
   @Setter
   @Getter
-  public static class Authentication {
-    @FormElement(type = FormElementType.TextField, label = "Username")
+  public static class Edit {
+    private String id;
+
+    @FormElement(
+        type = FormElementType.TextField,
+        label = "Username",
+        formSectionHeader = "Authentication")
     private String userName;
 
     @FormElement(type = FormElementType.PasswordField, label = "Password")
@@ -26,12 +30,11 @@ public class User {
 
     @FormElement(type = FormElementType.SelectField, label = "Role")
     private Role role;
-  }
 
-  @Getter
-  @Setter
-  public static class BasicInformation {
-    @FormElement(type = FormElementType.TextField, label = "First name")
+    @FormElement(
+        type = FormElementType.TextField,
+        label = "First name",
+        formSectionHeader = "Basic Information")
     private String firstName;
 
     @FormElement(type = FormElementType.TextField, label = "Last name")
@@ -42,18 +45,6 @@ public class User {
 
     @FormElement(type = FormElementType.TextField, label = "Phone")
     private String phone;
-  }
-
-  @Setter
-  @Getter
-  public static class Edit {
-    private String id;
-
-    @FormElement(type = FormElementType.FormGroup, label = "Authentication")
-    private Authentication authentication;
-
-    @FormElement(type = FormElementType.FormGroup, label = "Basic Information")
-    private BasicInformation basicInformation;
   }
 
   @Setter

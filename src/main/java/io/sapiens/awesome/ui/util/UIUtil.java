@@ -561,14 +561,8 @@ public class UIUtil {
 
   public static HorizontalLayout createFormSectionTitle(String text) {
     HorizontalLayout layout = new HorizontalLayout();
-    layout.setWidth("100%");
     Span span  = new Span();
     span.setText(text);
-    layout.getElement().getStyle().set("background", "cornflowerblue");
-    layout.getElement().getStyle().set("color", "white");
-    layout.getElement().getStyle().set("padding", "10px");
-    layout.getElement().getStyle().set("margin-left", "-25px");
-
     layout.add(span);
     return layout;
   }

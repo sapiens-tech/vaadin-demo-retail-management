@@ -1,10 +1,12 @@
 package io.sapiens.awesome.ui.components;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Span;
@@ -29,13 +31,13 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
+@CssImport("./styles/components/form.css")
 public class Form<T> extends FormLayout {
   @Getter @Setter private T entity;
   @Getter @Setter private Class<T> beanType;
@@ -62,13 +64,11 @@ public class Form<T> extends FormLayout {
     this.onSave = onSave;
     this.onCancel = onCancel;
 
-    addClassNames(
-        LumoStyles.Padding.Bottom.L,  LumoStyles.Padding.Top.S);
+    addClassNames(LumoStyles.Padding.Horizontal.M);
     setResponsiveSteps(
         new FormLayout.ResponsiveStep("0", 1, FormLayout.ResponsiveStep.LabelsPosition.TOP),
         new FormLayout.ResponsiveStep("21em", 2, FormLayout.ResponsiveStep.LabelsPosition.TOP));
 
-    add(UIUtil.createFormSectionTitle("User Infromation"));
     setupForm(entity);
     add(setupButtons(this.entity));
   }
@@ -80,11 +80,13 @@ public class Form<T> extends FormLayout {
         var annotation = field.getAnnotation(FormElement.class);
         var fieldName = field.getName();
         var util = SystemUtil.getInstance();
+        if (!annotation.formSectionHeader().isEmpty()) {
+          HorizontalLayout head = UIUtil.createFormSectionTitle(annotation.formSectionHeader());
+          head.addClassNames("form-header");
+          add(head);
+        }
 
         switch (annotation.type()) {
-          case FormGroup:
-            setupFormGroupField(entity, items, annotation, fieldName, util);
-            break;
           case SelectField:
             break;
           case DateField:
@@ -106,37 +108,25 @@ public class Form<T> extends FormLayout {
         }
       }
     }
+
     UIUtil.setColSpan(2, items.toArray(new Component[0]));
   }
-  private void setupFormGroupField(
-          T entity, List<FormItem> items, FormElement annotation, String fieldName, SystemUtil util) {
-    try {
-      Field field = entity.getClass().getField(fieldName);
-      Class<?> type = field.getType();
-      String label = annotation.label();
 
-    } catch (NoSuchFieldException e) {
-      e.printStackTrace();
-    }
-  }
-  private void setupWidgetField(
-          T entity, List<FormItem> items, FormElement annotation, String fieldName, SystemUtil util) {
+  private Component setupWidgetField(
+      T entity, List<FormItem> items, FormElement annotation, String fieldName, SystemUtil util) {
     Component field = (Component) util.invokeGetter(entity, fieldName);
     FormItem item = addFormItem(field, annotation.label());
     items.add(item);
 
     if (field instanceof HasValue) {
-      //    binder
-      //        .forField(field)
-      //        .bind(
-      //            (ValueProvider<T, LocalDate>) t -> (LocalDate) util.invokeGetter(t, fieldName),
-      //            (com.vaadin.flow.data.binder.Setter<T, LocalDate>)
-      //                (t, localDate) -> util.invokeSetter(t, fieldName, localDate));
+      log.info("rendering has value");
     }
+
+    return field;
   }
 
   private void setupDateField(
-          List<FormItem> items, FormElement annotation, String fieldName, SystemUtil util) {
+      List<FormItem> items, FormElement annotation, String fieldName, SystemUtil util) {
     var dateField = new DatePicker();
     dateField.setWidthFull();
     FormItem dateFieldItem = addFormItem(dateField, annotation.label());
@@ -150,7 +140,7 @@ public class Form<T> extends FormLayout {
   }
 
   private void setupPhoneField(
-          List<FormItem> items, FormElement annotation, String fieldName, SystemUtil util) {
+      List<FormItem> items, FormElement annotation, String fieldName, SystemUtil util) {
     var phonePrefix = new TextField();
     phonePrefix.setValue("+358");
     phonePrefix.setWidth("80px");
@@ -161,7 +151,6 @@ public class Form<T> extends FormLayout {
     layout.setSpacing(Right.S);
 
     var phoneItem = addFormItem(layout, annotation.label());
-    items.add(phoneItem);
     binder
         .forField(phonePrefix)
         .bind(
@@ -188,7 +177,7 @@ public class Form<T> extends FormLayout {
   }
 
   private void setupTextField(
-          List<FormItem> items, FormElement annotation, String fieldName, SystemUtil util) {
+      List<FormItem> items, FormElement annotation, String fieldName, SystemUtil util) {
 
     HasValue formComponent = getTextComponent(annotation);
     var formItem = addFormItem((Component) formComponent, annotation.label());
@@ -255,7 +244,6 @@ public class Form<T> extends FormLayout {
   }
 
   private Component setupButtons(T entity) {
-
     if (entity == null) {
       try {
         Constructor<T> cons = beanType.getDeclaredConstructor();

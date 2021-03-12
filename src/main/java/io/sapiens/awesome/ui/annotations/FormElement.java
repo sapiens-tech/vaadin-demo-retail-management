@@ -14,10 +14,5 @@ public @interface FormElement {
 
   String label() default "";
 
-}
-
-@interface FormGroup {
-  String name() default "";
-
-  int order() default 0;
+  String formSectionHeader() default "";
 }
