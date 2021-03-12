@@ -1,7 +1,6 @@
 package io.sapiens.awesome.ui.components;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -13,6 +12,7 @@ import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
@@ -88,6 +88,7 @@ public class Form<T> extends FormLayout {
 
         switch (annotation.type()) {
           case SelectField:
+            setupSelectField(items, annotation, fieldName, util);
             break;
           case DateField:
             setupDateField(items, annotation, fieldName, util);
@@ -123,6 +124,20 @@ public class Form<T> extends FormLayout {
     }
 
     return field;
+  }
+
+  private void setupSelectField(
+      List<FormItem> items, FormElement annotation, String fieldName, SystemUtil util) {
+    Select<ISelectable> select = new Select<>();
+    binder
+        .forField(select)
+        .bind(
+            (ValueProvider<T, ISelectable>) t -> (ISelectable) util.invokeGetter(t, fieldName),
+            (com.vaadin.flow.data.binder.Setter<T, ISelectable>)
+                (t, s) -> util.invokeSetter(t, fieldName, s));
+    select.setItemLabelGenerator(ISelectable::getLabel);
+    FormItem selectItem = addFormItem(select, annotation.label());
+    items.add(selectItem);
   }
 
   private void setupDateField(

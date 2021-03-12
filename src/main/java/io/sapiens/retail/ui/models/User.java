@@ -5,6 +5,7 @@ import com.vaadin.flow.component.Component;
 import io.sapiens.awesome.ui.annotations.FormElement;
 import io.sapiens.awesome.ui.annotations.GridColumn;
 import io.sapiens.awesome.ui.components.Badge;
+import io.sapiens.awesome.ui.components.SelectDto;
 import io.sapiens.awesome.ui.enums.FormElementType;
 import io.sapiens.awesome.ui.util.UIUtil;
 import io.sapiens.awesome.ui.views.CrudMapper;
@@ -12,6 +13,8 @@ import io.sapiens.retail.backend.enums.Role;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
+
+import java.util.List;
 
 public class User {
   @Setter
@@ -29,7 +32,7 @@ public class User {
     private String password;
 
     @FormElement(type = FormElementType.SelectField, label = "Role")
-    private Role role;
+    private java.util.List<SelectDto> roles;
 
     @FormElement(
         type = FormElementType.TextField,
