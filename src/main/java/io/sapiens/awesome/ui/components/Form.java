@@ -39,6 +39,7 @@ import java.util.List;
 @Slf4j
 @CssImport("./styles/components/form.css")
 public class Form<T> extends FormLayout {
+  public static final String FORM_HEADER = "form-header";
   @Getter @Setter private T entity;
   @Getter @Setter private Class<T> beanType;
   @Getter private final Binder<T> binder;
@@ -82,7 +83,7 @@ public class Form<T> extends FormLayout {
         var util = SystemUtil.getInstance();
         if (!annotation.formSectionHeader().isEmpty()) {
           HorizontalLayout head = UIUtil.createFormSectionTitle(annotation.formSectionHeader());
-          head.addClassNames("form-header");
+          head.addClassNames(FORM_HEADER);
           add(head);
         }
 
@@ -113,7 +114,7 @@ public class Form<T> extends FormLayout {
     UIUtil.setColSpan(2, items.toArray(new Component[0]));
   }
 
-  private Component setupWidgetField(
+  private void setupWidgetField(
       T entity, List<FormItem> items, FormElement annotation, String fieldName, SystemUtil util) {
     Component field = (Component) util.invokeGetter(entity, fieldName);
     FormItem item = addFormItem(field, annotation.label());
@@ -122,19 +123,18 @@ public class Form<T> extends FormLayout {
     if (field instanceof HasValue) {
       log.info("rendering has value");
     }
-
-    return field;
   }
 
   private void setupSelectField(
       List<FormItem> items, FormElement annotation, String fieldName, SystemUtil util) {
     Select<ISelectable> select = new Select<>();
-    binder
-        .forField(select)
-        .bind(
-            (ValueProvider<T, ISelectable>) t -> (ISelectable) util.invokeGetter(t, fieldName),
-            (com.vaadin.flow.data.binder.Setter<T, ISelectable>)
-                (t, s) -> util.invokeSetter(t, fieldName, s));
+    select.setWidthFull();
+//    binder
+//        .forField(select)
+//        .bind(
+//            (ValueProvider<T, ISelectable>) t -> (ISelectable) util.invokeGetter(t, fieldName),
+//            (com.vaadin.flow.data.binder.Setter<T, ISelectable>)
+//                (t, s) -> util.invokeSetter(t, fieldName, s));
     select.setItemLabelGenerator(ISelectable::getLabel);
     FormItem selectItem = addFormItem(select, annotation.label());
     items.add(selectItem);
@@ -166,6 +166,7 @@ public class Form<T> extends FormLayout {
     layout.setSpacing(Right.S);
 
     var phoneItem = addFormItem(layout, annotation.label());
+    items.add(phoneItem);
     binder
         .forField(phonePrefix)
         .bind(
