@@ -4,4 +4,7 @@ public interface ISelectable {
   Object getValue();
 
   String getLabel();
+
+  Boolean getSelected();
 }
+

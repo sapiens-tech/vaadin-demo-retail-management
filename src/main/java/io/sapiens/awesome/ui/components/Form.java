@@ -89,7 +89,7 @@ public class Form<T> extends FormLayout {
 
         switch (annotation.type()) {
           case SelectField:
-            setupSelectField(items, annotation, fieldName, util);
+            setupSelectField(entity, items, annotation, fieldName, util);
             break;
           case DateField:
             setupDateField(items, annotation, fieldName, util);
@@ -126,16 +126,22 @@ public class Form<T> extends FormLayout {
   }
 
   private void setupSelectField(
-      List<FormItem> items, FormElement annotation, String fieldName, SystemUtil util) {
-    Select<ISelectable> select = new Select<>();
+      T editEntity,
+      List<FormItem> items,
+      FormElement annotation,
+      String fieldName,
+      SystemUtil util) {
+    Select<SelectDto.SelectItem> select = new Select<>();
     select.setWidthFull();
-//    binder
-//        .forField(select)
-//        .bind(
-//            (ValueProvider<T, ISelectable>) t -> (ISelectable) util.invokeGetter(t, fieldName),
-//            (com.vaadin.flow.data.binder.Setter<T, ISelectable>)
-//                (t, s) -> util.invokeSetter(t, fieldName, s));
-    select.setItemLabelGenerator(ISelectable::getLabel);
+
+    binder
+        .forField(select)
+        .bind(
+            (ValueProvider<T, SelectDto>) t -> {return null;},
+            (com.vaadin.flow.data.binder.Setter<T, SelectDto>) (t, a) -> {});
+
+    select.setItems(((SelectDto) util.invokeGetter(editEntity, fieldName)).getItems());
+    select.setItemLabelGenerator(SelectDto.SelectItem::getLabel);
     FormItem selectItem = addFormItem(select, annotation.label());
     items.add(selectItem);
   }

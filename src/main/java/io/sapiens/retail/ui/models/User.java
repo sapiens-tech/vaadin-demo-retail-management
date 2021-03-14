@@ -32,7 +32,7 @@ public class User {
     private String password;
 
     @FormElement(type = FormElementType.SelectField, label = "Role")
-    private java.util.List<SelectDto> roles;
+    private SelectDto roles;
 
     @FormElement(
         type = FormElementType.TextField,
