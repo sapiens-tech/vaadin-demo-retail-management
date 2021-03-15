@@ -11,6 +11,7 @@ import io.sapiens.retail.ui.BaseLayout;
 import io.sapiens.retail.ui.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -54,9 +55,13 @@ public class StaffView extends CrudView<User.List, User.Edit, User.Mapper> {
   @Override
   protected void onPreEditPageRendering(User.Edit editEntity) {
     super.onPreEditPageRendering(editEntity);
-    editEntity.setRoles(
-        Arrays.stream(Role.values())
-            .map(r -> new SelectDto(r, r.name(), false))
-            .collect(Collectors.toList()));
+    SelectDto roles =
+        new SelectDto(
+            Arrays.stream(Role.values())
+                .map(r -> new SelectDto.SelectItem(r, r.name()))
+                .collect(Collectors.toList()),
+            new ArrayList<>());
+
+    editEntity.setRoles(roles);
   }
 }

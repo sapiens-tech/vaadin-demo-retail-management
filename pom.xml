@@ -135,6 +135,11 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.vaadin.gatanaso</groupId>
+            <artifactId>multiselect-combo-box-flow</artifactId>
+            <version>3.0.2</version> <!-- use appropriate version -->
+        </dependency>
 
     </dependencies>
 

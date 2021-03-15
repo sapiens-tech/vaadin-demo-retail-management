@@ -33,6 +33,11 @@ public class UserService extends AbstractService<User> {
 
   public void saveUser(io.sapiens.retail.ui.models.User.Edit user) {
     User u = new User();
+    if (user.getRoles().getSelected() != null && !user.getRoles().getSelected().isEmpty())  {
+      String role = String.valueOf(user.getRoles().getSelected().get(0).getValue());
+      u.setRole(Role.valueOf(role));
+    }
+
     BeanUtils.copyProperties(user, u);
     u.setRole(Role.STAFF);
     saveOrUpdate(u);

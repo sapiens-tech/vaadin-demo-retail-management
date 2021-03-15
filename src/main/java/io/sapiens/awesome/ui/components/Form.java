@@ -133,12 +133,23 @@ public class Form<T> extends FormLayout {
       SystemUtil util) {
     Select<SelectDto.SelectItem> select = new Select<>();
     select.setWidthFull();
-
+    SelectDto dto = (SelectDto) util.invokeGetter(editEntity, fieldName);
+    List<SelectDto.SelectItem> selected = dto.getSelected();
     binder
         .forField(select)
         .bind(
-            (ValueProvider<T, SelectDto>) t -> {return null;},
-            (com.vaadin.flow.data.binder.Setter<T, SelectDto>) (t, a) -> {});
+            (ValueProvider<T, SelectDto.SelectItem>)
+                t -> {
+                  if (selected != null && !selected.isEmpty()) return selected.get(0);
+                  return null;
+                },
+            (com.vaadin.flow.data.binder.Setter<T, SelectDto.SelectItem>)
+                (t, a) -> {
+                  selected.clear();
+                  selected.add(a);
+                  dto.setSelected(selected);
+                  util.invokeSetter(editEntity, fieldName, dto);
+                });
 
     select.setItems(((SelectDto) util.invokeGetter(editEntity, fieldName)).getItems());
     select.setItemLabelGenerator(SelectDto.SelectItem::getLabel);

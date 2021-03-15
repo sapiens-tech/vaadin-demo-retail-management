@@ -14,7 +14,7 @@ public class SelectDto {
   private List<SelectItem> selected;
 
   @AllArgsConstructor
-  @Getter
+  @Getter @Setter
   public static class SelectItem {
     private Object value;
     private String label;
