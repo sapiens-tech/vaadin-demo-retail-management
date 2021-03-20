@@ -5,6 +5,7 @@ import io.sapiens.retail.backend.dao.UserDao;
 import io.sapiens.retail.backend.enums.Role;
 import io.sapiens.retail.backend.model.User;
 import io.sapiens.retail.ui.models.Customer;
+import io.sapiens.retail.ui.models.Mechanic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -33,7 +34,7 @@ public class UserService extends AbstractService<User> {
 
   public void saveUser(io.sapiens.retail.ui.models.User.Edit user) {
     User u = new User();
-    if (user.getRoles().getSelected() != null && !user.getRoles().getSelected().isEmpty())  {
+    if (user.getRoles().getSelected() != null && !user.getRoles().getSelected().isEmpty()) {
       String role = String.valueOf(user.getRoles().getSelected().get(0).getValue());
       u.setRole(Role.valueOf(role));
     }
@@ -41,6 +42,19 @@ public class UserService extends AbstractService<User> {
     BeanUtils.copyProperties(user, u);
     u.setRole(Role.STAFF);
     saveOrUpdate(u);
+  }
+
+  public Collection<Mechanic.List> retrieveMechanic() {
+    java.util.List<User> users = ((UserDao) dao).retrieveByRole(Role.CUSTOMER);
+    java.util.List<Mechanic.List> result = new ArrayList<>();
+
+    for (User user : users) {
+      var person = new Mechanic.List();
+      BeanUtils.copyProperties(user, person);
+      result.add(person);
+    }
+
+    return result;
   }
 
   public Collection<Customer.List> retrieveCustomer() {

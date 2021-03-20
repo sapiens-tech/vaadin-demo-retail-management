@@ -9,36 +9,25 @@ import io.sapiens.retail.ui.models.Product;
 @PageTitle("Products")
 @Route(value = "products", layout = BaseLayout.class)
 public class ProductView extends CrudView<Product.List, Product.Edit, Product.Mapper> {
-    public ProductView() {
-        super(Product.List.class, Product.Edit.class, new Product.Mapper());
-    }
+  public ProductView() {
+    super(Product.List.class, Product.Edit.class, new Product.Mapper());
+  }
 
-    @Override
-    public void onInit() {
+  @Override
+  public void onInit() {}
 
-    }
+  @Override
+  public void onSave(Product.Edit entity) {}
 
-    @Override
-    public void onSave(Product.Edit entity) {
+  @Override
+  public void onDelete(Product.Edit entity) {}
 
-    }
+  @Override
+  public void onCancel() {}
 
-    @Override
-    public void onDelete(Product.Edit entity) {
+  @Override
+  public void filter() {}
 
-    }
-
-    @Override
-    public void onCancel() {
-
-    }
-
-    @Override
-    public void filter() {
-
-    }
-
-    @Override
-    public void onValidate(Product.Edit entity) {
-    }
+  @Override
+  public void onValidate(Product.Edit entity) {}
 }
