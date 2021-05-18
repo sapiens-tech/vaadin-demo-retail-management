@@ -13,16 +13,20 @@ import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import io.sapiens.retail.backend.service.SecurityService;
+import io.sapiens.retail.config.PropertyHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @PageTitle("Login")
 @Route(value = "login")
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
-  private SecurityService securityService;
+  private final SecurityService securityService;
+  private final PropertyHelper propertyHelper;
   private final LoginOverlay loginForm = new LoginOverlay();
 
-  public LoginView(@Autowired SecurityService securityService) {
+  public LoginView(
+      @Autowired SecurityService securityService, @Autowired PropertyHelper propertyHelper) {
     this.securityService = securityService;
+    this.propertyHelper = propertyHelper;
     addClassName("login-view");
     setSizeFull();
     setAlignItems(Alignment.CENTER);
@@ -37,8 +41,8 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     icon.setSize("30px");
     icon.getStyle().set("top", "-4px");
     title.add(icon);
-    title.add(new Text(" Retail App"));
-    loginForm.setDescription("Welcome to our system, my lord !");
+    title.add(new Text(propertyHelper.loginTitle));
+    loginForm.setDescription(propertyHelper.loginDescription);
     loginForm.setTitle(title);
     loginForm.addLoginListener(e -> loginForm.close());
 

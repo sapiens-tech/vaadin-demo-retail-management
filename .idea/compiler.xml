@@ -7,16 +7,19 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="vaadin-demo-retail-management" />
         <module name="vaadin-demo-business-app" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="vaadin-demo-business-app" target="11" />
+      <module name="vaadin-demo-retail-management" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="vaadin-demo-business-app" options="-parameters" />
+      <module name="vaadin-demo-retail-management" options="-parameters" />
     </option>
   </component>
 </project>
