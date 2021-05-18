@@ -7,7 +7,7 @@ import io.sapiens.awesome.ui.components.navigation.tab.NaviTab;
 import io.sapiens.awesome.ui.components.navigation.tab.NaviTabs;
 import io.sapiens.awesome.ui.util.LumoStyles;
 import io.sapiens.awesome.ui.util.UIUtil;
-import io.sapiens.retail.ui.views.Home;
+import io.sapiens.app.ui.views.Home;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.HasValue;

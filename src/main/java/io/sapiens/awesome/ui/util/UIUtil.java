@@ -1,10 +1,9 @@
 package io.sapiens.awesome.ui.util;
 
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import io.sapiens.retail.backend.dummy.Address;
-import io.sapiens.retail.backend.dummy.DummyData;
+import io.sapiens.app.backend.dummy.Address;
+import io.sapiens.app.backend.dummy.DummyData;
 import io.sapiens.awesome.ui.components.FlexBoxLayout;
 import io.sapiens.awesome.ui.layout.size.Right;
 import com.vaadin.flow.component.Component;

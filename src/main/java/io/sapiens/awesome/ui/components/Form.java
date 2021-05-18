@@ -25,7 +25,7 @@ import io.sapiens.awesome.ui.layout.size.Right;
 import io.sapiens.awesome.ui.util.LumoStyles;
 import io.sapiens.awesome.ui.util.UIUtil;
 import io.sapiens.awesome.util.SystemUtil;
-import io.sapiens.retail.backend.dummy.DummyData;
+import io.sapiens.app.backend.dummy.DummyData;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;

@@ -22,7 +22,7 @@ import io.sapiens.awesome.ui.components.navigation.drawer.NaviItem;
 import io.sapiens.awesome.ui.util.UIUtil;
 import io.sapiens.awesome.ui.util.css.Display;
 import io.sapiens.awesome.ui.util.css.Overflow;
-import io.sapiens.retail.ui.views.Home;
+import io.sapiens.app.ui.views.Home;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
