@@ -39,7 +39,6 @@ public class CustomerView
   public void filter() {}
 
   @Override
-  public java.util.List onValidate(Customer.Edit entity) {
-    return null;
+  public void onValidate(Customer.Edit entity) {
   }
 }

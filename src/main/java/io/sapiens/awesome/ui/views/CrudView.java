@@ -20,8 +20,9 @@ import io.sapiens.awesome.ui.util.css.BoxSizing;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
-import java.util.List;
 
 public abstract class CrudView<L, E, M extends CrudMapper<L, E>> extends SplitViewFrame {
   private DetailsDrawer detailsDrawer;
@@ -54,9 +55,10 @@ public abstract class CrudView<L, E, M extends CrudMapper<L, E>> extends SplitVi
         new SelectCallback<L>() {
           @Override
           public void trigger(L entity) {
-
             // we can query the entity again here
-            showDetails(mapper.fromListToEdit(entity));
+            E e = mapper.fromListToEdit(entity);
+            onPreEditPageRendering(e);
+            showDetails(e);
           }
         });
     return grid;
@@ -89,7 +91,17 @@ public abstract class CrudView<L, E, M extends CrudMapper<L, E>> extends SplitVi
           @Override
           public void trigger(ComponentEvent<?> event) {
             if (event.getSource() instanceof Button) {
-              showDetails(null);
+              try {
+                Constructor<E> entity = editEntity.getDeclaredConstructor();
+                E obj = entity.newInstance();
+                onPreEditPageRendering(obj);
+                showDetails(obj);
+              } catch (NoSuchMethodException
+                  | IllegalAccessException
+                  | InstantiationException
+                  | InvocationTargetException e) {
+                e.printStackTrace();
+              }
             }
           }
         });
@@ -120,9 +132,9 @@ public abstract class CrudView<L, E, M extends CrudMapper<L, E>> extends SplitVi
         this.editEntity,
         entity,
         binder,
-        e -> onValidate((E) e),
-        e -> onSave((E) e),
-        e -> onDelete((E) e),
+        this::onValidate,
+        this::onSave,
+        this::onDelete,
         e -> {
           onCancel();
           detailsDrawer.hide();
@@ -137,7 +149,10 @@ public abstract class CrudView<L, E, M extends CrudMapper<L, E>> extends SplitVi
 
   public abstract void onCancel();
 
+  public abstract void onValidate(E entity);
+
   public abstract void filter();
 
-  public abstract List<String> onValidate(E entity);
+  // Override methods
+  protected void onPreEditPageRendering(E editEntity) {}
 }

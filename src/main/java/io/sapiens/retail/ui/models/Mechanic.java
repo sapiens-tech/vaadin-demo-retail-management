@@ -14,9 +14,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 
-import java.util.List;
-
-public class User {
+public class Mechanic {
   @Setter
   @Getter
   public static class Edit {
@@ -89,7 +87,7 @@ public class User {
 
   public static class Mapper extends CrudMapper<List, Edit> {
     @Override
-    public User.Edit fromListToEdit(List l) {
+    public Edit fromListToEdit(List l) {
       Edit edit = new Edit();
       BeanUtils.copyProperties(l, edit);
       return edit;

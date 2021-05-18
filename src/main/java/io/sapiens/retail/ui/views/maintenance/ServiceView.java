@@ -1,4 +1,4 @@
-package io.sapiens.retail.ui.views.inventories;
+package io.sapiens.retail.ui.views.maintenance;
 
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -9,18 +9,18 @@ import io.sapiens.retail.ui.models.ProductCategory;
 import java.util.Collections;
 import java.util.List;
 
-@Route(value = "product-categories", layout = BaseLayout.class)
-@PageTitle("Product Categories")
-public class ProductCategoryView
+@Route(value = "services", layout = BaseLayout.class)
+@PageTitle("Services")
+public class ServiceView
     extends CrudView<ProductCategory.List, ProductCategory.Edit, ProductCategory.Mapper> {
 
-  public ProductCategoryView() {
+  public ServiceView() {
     super(ProductCategory.List.class, ProductCategory.Edit.class, new ProductCategory.Mapper());
   }
 
   @Override
   public void onInit() {
-    setDetailTitle("Category Information");
+    setDetailTitle("Service Information");
   }
 
   @Override

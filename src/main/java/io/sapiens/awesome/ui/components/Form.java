@@ -5,12 +5,14 @@ import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
@@ -18,7 +20,7 @@ import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.function.ValueProvider;
-import io.sapiens.awesome.ui.annotations.FormField;
+import io.sapiens.awesome.ui.annotations.FormElement;
 import io.sapiens.awesome.ui.layout.size.Right;
 import io.sapiens.awesome.ui.util.LumoStyles;
 import io.sapiens.awesome.ui.util.UIUtil;
@@ -35,23 +37,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
+@CssImport("./styles/components/form.css")
 public class Form<T> extends FormLayout {
+  public static final String FORM_HEADER = "form-header";
   @Getter @Setter private T entity;
   @Getter @Setter private Class<T> beanType;
   @Getter private final Binder<T> binder;
-  private IFormAction onValidate;
-  private IFormAction onSave;
-  private IFormAction onCancel;
-  private IFormAction onDelete;
+  private final IFormAction<T> onValidate;
+  private final IFormAction<T> onSave;
+  private final IFormAction<T> onCancel;
+  private final IFormAction<T> onDelete;
 
   public Form(
       Class<T> clazz,
       T entity,
       Binder<T> binder,
-      IFormAction onValidate,
-      IFormAction onSave,
-      IFormAction onDelete,
-      IFormAction onCancel) {
+      IFormAction<T> onValidate,
+      IFormAction<T> onSave,
+      IFormAction<T> onDelete,
+      IFormAction<T> onCancel) {
     super();
     this.entity = entity;
     this.beanType = clazz;
@@ -61,8 +65,7 @@ public class Form<T> extends FormLayout {
     this.onSave = onSave;
     this.onCancel = onCancel;
 
-    addClassNames(
-        LumoStyles.Padding.Bottom.L, LumoStyles.Padding.Horizontal.L, LumoStyles.Padding.Top.S);
+    addClassNames(LumoStyles.Padding.Horizontal.M);
     setResponsiveSteps(
         new FormLayout.ResponsiveStep("0", 1, FormLayout.ResponsiveStep.LabelsPosition.TOP),
         new FormLayout.ResponsiveStep("21em", 2, FormLayout.ResponsiveStep.LabelsPosition.TOP));
@@ -74,12 +77,20 @@ public class Form<T> extends FormLayout {
   private void setupForm(T entity) {
     List<FormItem> items = new ArrayList<>();
     for (var field : getBeanType().getDeclaredFields()) {
-      if (field.isAnnotationPresent(FormField.class)) {
-        var annotation = field.getAnnotation(FormField.class);
+      if (field.isAnnotationPresent(FormElement.class)) {
+        var annotation = field.getAnnotation(FormElement.class);
         var fieldName = field.getName();
         var util = SystemUtil.getInstance();
+        if (!annotation.formSectionHeader().isEmpty()) {
+          HorizontalLayout head = UIUtil.createFormSectionTitle(annotation.formSectionHeader());
+          head.addClassNames(FORM_HEADER);
+          add(head);
+        }
 
         switch (annotation.type()) {
+          case SelectField:
+            setupSelectField(entity, items, annotation, fieldName, util);
+            break;
           case DateField:
             setupDateField(items, annotation, fieldName, util);
             break;
@@ -90,17 +101,64 @@ public class Form<T> extends FormLayout {
             var uploadItem = addFormItem(new Upload(), annotation.label());
             items.add(uploadItem);
             break;
+          case Widget:
+            setupWidgetField(entity, items, annotation, fieldName, util);
+            break;
           case PasswordField:
           default:
             setupTextField(items, annotation, fieldName, util);
         }
       }
     }
+
     UIUtil.setColSpan(2, items.toArray(new Component[0]));
   }
 
+  private void setupWidgetField(
+      T entity, List<FormItem> items, FormElement annotation, String fieldName, SystemUtil util) {
+    Component field = (Component) util.invokeGetter(entity, fieldName);
+    FormItem item = addFormItem(field, annotation.label());
+    items.add(item);
+
+    if (field instanceof HasValue) {
+      log.info("rendering has value");
+    }
+  }
+
+  private void setupSelectField(
+      T editEntity,
+      List<FormItem> items,
+      FormElement annotation,
+      String fieldName,
+      SystemUtil util) {
+    Select<SelectDto.SelectItem> select = new Select<>();
+    select.setWidthFull();
+    SelectDto dto = (SelectDto) util.invokeGetter(editEntity, fieldName);
+    List<SelectDto.SelectItem> selected = dto.getSelected();
+    binder
+        .forField(select)
+        .bind(
+            (ValueProvider<T, SelectDto.SelectItem>)
+                t -> {
+                  if (selected != null && !selected.isEmpty()) return selected.get(0);
+                  return null;
+                },
+            (com.vaadin.flow.data.binder.Setter<T, SelectDto.SelectItem>)
+                (t, a) -> {
+                  selected.clear();
+                  selected.add(a);
+                  dto.setSelected(selected);
+                  util.invokeSetter(editEntity, fieldName, dto);
+                });
+
+    select.setItems(((SelectDto) util.invokeGetter(editEntity, fieldName)).getItems());
+    select.setItemLabelGenerator(SelectDto.SelectItem::getLabel);
+    FormItem selectItem = addFormItem(select, annotation.label());
+    items.add(selectItem);
+  }
+
   private void setupDateField(
-      List<FormItem> items, FormField annotation, String fieldName, SystemUtil util) {
+      List<FormItem> items, FormElement annotation, String fieldName, SystemUtil util) {
     var dateField = new DatePicker();
     dateField.setWidthFull();
     FormItem dateFieldItem = addFormItem(dateField, annotation.label());
@@ -114,7 +172,7 @@ public class Form<T> extends FormLayout {
   }
 
   private void setupPhoneField(
-      List<FormItem> items, FormField annotation, String fieldName, SystemUtil util) {
+      List<FormItem> items, FormElement annotation, String fieldName, SystemUtil util) {
     var phonePrefix = new TextField();
     phonePrefix.setValue("+358");
     phonePrefix.setWidth("80px");
@@ -134,7 +192,7 @@ public class Form<T> extends FormLayout {
                 (t, s) -> util.invokeSetter(t, fieldName, s));
   }
 
-  private HasValue getTextComponent(FormField annotation) {
+  private HasValue getTextComponent(FormElement annotation) {
     switch (annotation.type()) {
       case PasswordField:
         PasswordField passwordField = new PasswordField();
@@ -152,7 +210,7 @@ public class Form<T> extends FormLayout {
   }
 
   private void setupTextField(
-      List<FormItem> items, FormField annotation, String fieldName, SystemUtil util) {
+      List<FormItem> items, FormElement annotation, String fieldName, SystemUtil util) {
 
     HasValue formComponent = getTextComponent(annotation);
     var formItem = addFormItem((Component) formComponent, annotation.label());
@@ -219,7 +277,6 @@ public class Form<T> extends FormLayout {
   }
 
   private Component setupButtons(T entity) {
-
     if (entity == null) {
       try {
         Constructor<T> cons = beanType.getDeclaredConstructor();

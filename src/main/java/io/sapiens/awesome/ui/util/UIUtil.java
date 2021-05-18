@@ -1,5 +1,8 @@
 package io.sapiens.awesome.ui.util;
 
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import io.sapiens.retail.backend.dummy.Address;
 import io.sapiens.retail.backend.dummy.DummyData;
 import io.sapiens.awesome.ui.components.FlexBoxLayout;
@@ -554,5 +557,13 @@ public class UIUtil {
     for (Component component : components) {
       component.getElement().setAttribute("aria-label", value);
     }
+  }
+
+  public static HorizontalLayout createFormSectionTitle(String text) {
+    HorizontalLayout layout = new HorizontalLayout();
+    Span span  = new Span();
+    span.setText(text);
+    layout.add(span);
+    return layout;
   }
 }

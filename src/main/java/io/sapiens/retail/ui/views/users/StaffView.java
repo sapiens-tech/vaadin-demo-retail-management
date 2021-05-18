@@ -3,13 +3,17 @@ package io.sapiens.retail.ui.views.users;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import io.sapiens.awesome.ui.components.SelectDto;
 import io.sapiens.awesome.ui.views.CrudView;
+import io.sapiens.retail.backend.enums.Role;
 import io.sapiens.retail.backend.service.UserService;
 import io.sapiens.retail.ui.BaseLayout;
 import io.sapiens.retail.ui.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @Route(value = "staffs", layout = BaseLayout.class)
 @PageTitle("Staffs")
@@ -36,7 +40,7 @@ public class StaffView extends CrudView<User.List, User.Edit, User.Mapper> {
 
   @Override
   public void onDelete(User.Edit entity) {
-     userService.delete(entity.getId());
+    userService.delete(entity.getId());
   }
 
   @Override
@@ -46,7 +50,18 @@ public class StaffView extends CrudView<User.List, User.Edit, User.Mapper> {
   public void filter() {}
 
   @Override
-  public List<String> onValidate(User.Edit entity) {
-    return null;
+  public void onValidate(User.Edit entity) {}
+
+  @Override
+  protected void onPreEditPageRendering(User.Edit editEntity) {
+    super.onPreEditPageRendering(editEntity);
+    SelectDto roles =
+        new SelectDto(
+            Arrays.stream(Role.values())
+                .map(r -> new SelectDto.SelectItem(r, r.name()))
+                .collect(Collectors.toList()),
+            new ArrayList<>());
+
+    editEntity.setRoles(roles);
   }
 }
